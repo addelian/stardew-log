@@ -4,6 +4,12 @@ import { CROPS } from "../data/crops";
 
 const KegTimer = ({timers, setTimers, day, timerError}) => {
 
+    // I should probably do it in its own component, but here's an idea for harvest timers.
+    // when you select a crop, you could have an optional checkbox for initial harvest
+    // or repeat harvest. Eh, it's against the spirit of the simplicity.
+    // Likely better to have a second step in there for regrows, maybe have it be a 
+    // unique function that pulls from the same list. 
+
     const [selected, setSelected] = useState(undefined);
 
     const { Option } = Select;
@@ -52,7 +58,7 @@ const KegTimer = ({timers, setTimers, day, timerError}) => {
     }
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
-        return <li key={`${index}-${timer.id}-day-${day}`}>{timer.name} {timer.timerFor}{timer.countdown > 0 ? `: ${timer.countdown} ${timer.countdown > 1 ? "days" : "day"} left`: " is ready today"}</li>
+        return <li key={`${index}-${timer.id}-day-${day}`}>{timer.name} {timer.timerFor}{timer.countdown > 0 ? `: ${timer.countdown} ${timer.countdown > 1 ? "days" : "day"} left`: `${timer.timerFor === "pickles" ? ` are` : ` is`} ready today`}</li>
     });
 
     return(
