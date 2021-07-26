@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Select, Alert, Button, message, List } from "antd";
+import { Select, Alert, Button, List } from "antd";
 import { CROPS } from "../data/crops";
 
-const KegTimer = ({timers, setTimers, day, timerError}) => {
+const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
 
     // I should probably do it in its own component, but here's an idea for harvest timers.
     // when you select a crop, you could have an optional checkbox for initial harvest
@@ -22,24 +22,16 @@ const KegTimer = ({timers, setTimers, day, timerError}) => {
     }
 
     const createKegTimer = selectedOption => {
-        if (selectedOption !== undefined) {
-            setTimers([ ...timers, {...selectedOption, countdown: selectedOption.kegDuration, timerFor: selectedOption.kegProduct, timerType: "keg"} ])
-            setSelected(undefined);
-            return;
-        }
-        message.error("Select a crop first, doofus!");
+        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.kegDuration, timerFor: selectedOption.kegProduct, timerType: "keg"} ])
+        setSelected(undefined);
     }
 
     const createJarTimer = selectedOption => {
-        if (selectedOption !== undefined) {
-            setTimers([ ...timers, {...selectedOption, countdown: 3, timerFor: selectedOption.jarProduct, timerType: "jar"} ])
-            setSelected(undefined);
-            return;
-        }
-        message.error("Select a crop first, doofus!");
+        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.name === "Caviar" ? 3 : 4, timerFor: selectedOption.jarProduct, timerType: "jar"} ])
+        setSelected(undefined);
     }
 
-    const createErrorList = fullError => fullError.triggers.map(error => `${error.name} ${error.timerFor}`);
+    const createErrorList = fullError => fullError.triggers.map(error => renderProductName(error));
 
     const renderTimerErrorBlock = fullError => 
             <List
@@ -51,14 +43,33 @@ const KegTimer = ({timers, setTimers, day, timerError}) => {
                 />
 
     const renderOptions = crops => {
+
+        const cropsToSort = crops.filter(crop => crop.kegProduct !== undefined || crop.jarProduct !== undefined);
+
+        // ES6 alphabetical order
+        const cropsEligibleForArtisanProducts = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));
         
-        return crops.map(crop => 
+        return cropsEligibleForArtisanProducts.map(crop => 
             <Option key={crop.id} value={crop.id}>{crop.name}</Option>
         )
     }
 
+    const renderProductName = productInTimer => {
+
+        if (productInTimer.timerType === "keg" && !["wine", "juice"].includes(productInTimer.timerFor)) {
+            return `${productInTimer.timerFor}`;
+        }
+        if (productInTimer.timerType === "jar" && !["jelly", "pickles"].includes(productInTimer.timerFor)) {
+            if (productInTimer.timerFor === "Aged Roe") {
+                return `${productInTimer.timerFor}`;
+            }
+            return "Caviar";
+        }
+        return `${productInTimer.name} ${productInTimer.timerFor}`;
+    }
+
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
-        return <li key={`${index}-${timer.id}-day-${day}`}>{timer.name} {timer.timerFor}{timer.countdown > 0 ? `: ${timer.countdown} ${timer.countdown > 1 ? "days" : "day"} left`: `${timer.timerFor === "pickles" ? ` are` : ` is`} ready today`}</li>
+        return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{timer.countdown > 0 ? `: ${timer.countdown} ${timer.countdown > 1 ? "days" : "day"} left`: `${timer.timerFor === "pickles" ? ` are` : ` is`} ready today`}</li>
     });
 
     return(
@@ -66,8 +77,8 @@ const KegTimer = ({timers, setTimers, day, timerError}) => {
             <Select style={{ width:120 }} value={selected !== undefined ? selected.id : undefined} placeholder="Choose..." allowClear onChange={handleChange}>
                 {renderOptions(CROPS)}
             </Select>
-            <Button type="default" onClick={() => createKegTimer(selected)}>Keg it</Button>
-            <Button type="default" onClick={() => createJarTimer(selected)}>Jar it</Button>
+            <Button type="default" disabled={selected === undefined || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)} onClick={() => createKegTimer(selected)}>Keg it</Button>
+            <Button type="default" disabled={selected === undefined || ["Coffee Bean", "Honey"].includes(selected.name)} onClick={() => createJarTimer(selected)}>Jar it</Button>
 
             <div>
                 Current timers:
@@ -89,4 +100,4 @@ const KegTimer = ({timers, setTimers, day, timerError}) => {
     )
 }
 
-export default KegTimer;
+export default ArtisanTimer;

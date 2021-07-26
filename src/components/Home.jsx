@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Row, Col } from "antd";
 import Counter from "./Counter";
-import KegTimer from "./Timer";
+import KegTimer from "./Artisan-Timer";
 
 const Home = () => {
 
@@ -9,10 +10,12 @@ const Home = () => {
     const [timerError, setTimerError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
 
     return (
-        <div>
-            <Counter day={day} setDay={setDay} timers={timers} setTimers={setTimers} setTimerError={setTimerError}/>
+        <>
             <KegTimer day={day} timers={timers} setTimers={setTimers} timerError={timerError} setTimerError={setTimerError}/>
-        </div>
+            <Row>
+                <Counter day={day} setDay={setDay} timers={timers} setTimers={setTimers} setTimerError={setTimerError}/>
+            </Row>
+        </>
     )
 }
 
