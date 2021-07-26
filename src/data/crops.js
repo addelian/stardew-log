@@ -17,6 +17,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 12,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "03-coffee-bean",
@@ -39,6 +40,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 4,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "05-green-bean",
@@ -51,6 +53,7 @@ export const CROPS = [
         growTime: 10,
         regrow: true,
         regrowTime: 3,
+        preferred: "jar",
     },
     {
         id: "06-kale",
@@ -62,6 +65,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 6,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "07-parsnip",
@@ -73,6 +77,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 4,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "08-potato",
@@ -84,6 +89,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 6,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "09-rhubarb",
@@ -95,6 +101,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 13,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "10-strawberry",
@@ -107,6 +114,7 @@ export const CROPS = [
         growTime: 8,
         regrow: true,
         regrowTime: 4,
+        preferred: "keg",
     },
     {
         id: "11-tulip",
@@ -126,6 +134,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 8,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "13-blueberry",
@@ -138,6 +147,7 @@ export const CROPS = [
         growTime: 13,
         regrow: true,
         regrowTime: 4,
+        preferred: "jar",
     },
     {
         id: "14-corn",
@@ -150,6 +160,7 @@ export const CROPS = [
         growTime: 14,
         regrow: true,
         regrowTime: 4,
+        preferred: "jar",
     },
     {
         id: "15-hops",
@@ -162,6 +173,7 @@ export const CROPS = [
         growTime: 11,
         regrow: true,
         regrowTime: 1,
+        preferred: "keg",
     },
     {
         id: "16-hot-pepper",
@@ -174,6 +186,7 @@ export const CROPS = [
         growTime: 5,
         regrow: true,
         regrowTime: 3,
+        preferred: "jar",
     },
     {
         id: "17-melon",
@@ -185,6 +198,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 12,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "18-poppy",
@@ -204,6 +218,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 6,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "20-red-cabbage",
@@ -215,6 +230,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 9,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "21-starfruit",
@@ -226,6 +242,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 13,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "22-summer-spangle",
@@ -254,6 +271,7 @@ export const CROPS = [
         growTime: 11,
         regrow: true,
         regrowTime: 4,
+        preferred: "jar",
     },
     {
         id: "25-wheat",
@@ -265,6 +283,7 @@ export const CROPS = [
         kegDuration: 1,
         growTime: 4,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "26-amaranth",
@@ -276,6 +295,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 7,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "27-artichoke",
@@ -287,6 +307,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 8,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "28-beet",
@@ -298,6 +319,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 6,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "29-bok-choy",
@@ -309,6 +331,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 4,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "30-cranberry",
@@ -321,6 +344,7 @@ export const CROPS = [
         growTime: 7,
         regrow: true,
         regrowTime: 5,
+        preferred: "keg",
     },
     {
         id: "31-eggplant",
@@ -333,6 +357,7 @@ export const CROPS = [
         growTime: 5,
         regrow: true,
         regrowTime: 5,
+        preferred: "jar",
     },
     {
         id: "32-fairy-rose",
@@ -353,6 +378,7 @@ export const CROPS = [
         growTime: 10,
         regrow: true,
         regrowTime: 3,
+        preferred: "keg",
     },
     {
         id: "34-pumpkin",
@@ -364,6 +390,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 13,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "35-yam",
@@ -375,6 +402,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 10,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "36-ancient-fruit",
@@ -387,6 +415,7 @@ export const CROPS = [
         growTime: 28,
         regrow: true,
         regrowTime: 7,
+        preferred: "keg",
     },
     {
         id: "37-cactus-fruit",
@@ -399,6 +428,7 @@ export const CROPS = [
         growTime: 12,
         regrow: true,
         regrowTime: 3,
+        preferred: "keg",
     },
     {
         id: "38-pineapple",
@@ -411,6 +441,7 @@ export const CROPS = [
         growTime: 14,
         regrow: true,
         regrowTime: 7,
+        preferred: "keg",
     },
     {
         id: "39-taro-root",
@@ -422,6 +453,7 @@ export const CROPS = [
         kegDuration: 4,
         growTime: 10,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "40-sweet-gem-berry",
@@ -442,6 +474,7 @@ export const CROPS = [
         growTime: 20,
         regrow: true,
         regrowTime: 1,
+        preferred: "jar",
     },
     {
         id: "42-wild-horseradish",
@@ -503,6 +536,7 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["spring"],
         kegDuration: 6,
+        preferred: "jar",
     },
     {
         id: "50-spice-berry",
@@ -514,6 +548,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 7,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "51-sweet-pea",
@@ -537,6 +572,7 @@ export const CROPS = [
         jarProduct: "pickles",
         season: ["summer"],
         kegDuration: 4,
+        preferred: "jar",
     },
     {
         id: "54-wild-plum",
@@ -548,6 +584,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 7,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "55-hazelnut",
@@ -567,6 +604,7 @@ export const CROPS = [
         kegDuration: 6,
         growTime: 7,
         regrow: false,
+        preferred: "jar",
     },
     {
         id: "57-chanterelle",
@@ -597,6 +635,7 @@ export const CROPS = [
         season: ["winter"],
         growTime: 7,
         regrow: false,
+        preferred: "keg",
     },
     {
         id: "61-snow-yam",
@@ -634,6 +673,7 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["spring", "summer", "fall", "winter"],
         kegDuration: 6,
+        preferred: "keg",
     },
     {
         id: "66-ginger",
@@ -670,4 +710,127 @@ export const CROPS = [
         jarProduct: "Caviar",
         season: ["spring", "summer", "fall", "winter"],
     },
+    {
+        id: "71-wild-seeds",
+        name: "Wild Seeds",
+        type: "other",
+        jarProduct: "Caviar",
+        season: ["spring", "summer", "fall", "winter"],
+    },
+    {
+        id: "72-apricot",
+        name: "Apricot",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["spring"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "jar",
+    },
+    {
+        id: "73-cherry",
+        name: "Cherry",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["spring"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "74-banana",
+        name: "Banana",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["summer"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "75-mango",
+        name: "Mango",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["summer"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "76-orange",
+        name: "Orange",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["summer"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "77-peach",
+        name: "Peach",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["summer"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "78-apple",
+        name: "Apple",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["fall"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "79-pomegranate",
+        name: "Pomegranate",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["fall"],
+        kegDuration: 6,
+        growTime: 28,
+        regrow: true,
+        regrowTime: 1,
+        preferred: "keg",
+    },
+    {
+        id: "80-qi-fruit",
+        name: "Qi Fruit",
+        type: "fruit",
+        kegProduct: "wine",
+        jarProduct: "jelly",
+        season: ["spring", "summer", "fall", "winter"],
+        kegDuration: 6,
+        growTime: 4,
+        regrow: false,
+        preferred: "jar",
+    }
 ]

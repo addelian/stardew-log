@@ -1,5 +1,7 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Row, Col } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
 
 const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
@@ -15,7 +17,15 @@ const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
 
     const advanceDay = activeTimers => {
         day < 111 ? setDay(day + 1) : setDay(0);
-        const timersCountingDown = activeTimers.map(timer => timer = {...timer, countdown: timer.countdown - 1})
+        const timersCountingDown = activeTimers.map(timer => {
+            // TODO: add conditional for winter
+            if (timer.name === "Honey") {
+                if (timer.countdown - 1 === 0) {
+                    return {...timer, countdown: 4}
+                }
+            }
+            return {...timer, countdown: timer.countdown - 1}
+        })
         setTimers(timersCountingDown);
         const timersToRemove = timersCountingDown.filter(timer => timer.countdown < 0);
         const timersToKeep = timersCountingDown.filter(timer => timer.countdown >= 0);
@@ -46,13 +56,17 @@ const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
     const date = readDate(day);
 
     return (
-        <>
-            <div>Today is {date}</div>
-            <div>
-            <Button type="default" onClick={() => revertDay(timers)}>{'<'}</Button>
-            <Button type="primary" onClick={() => advanceDay(timers)}>Advance day</Button>
-            </div>
-        </>
+        <Row>
+            <Col flex="auto">
+                <h1 style={{color: "white"}}>{date}</h1>
+            </Col>
+            <Col>
+                <Button type="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+            </Col>
+            <Col>
+                <Button type="primary" onClick={() => advanceDay(timers)}>Advance day</Button>
+            </Col>
+        </Row>
     )
 }
 

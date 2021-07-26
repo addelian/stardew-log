@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { Row, Col } from "antd";
+import { Layout, Row, Col } from "antd";
 import Counter from "./Counter";
-import KegTimer from "./Artisan-Timer";
+import ArtisanTimer from "./Artisan-Timer";
+import FooterComponent from "./FooterComponent";
 
 const Home = () => {
+
+    const { Header, Footer, Content } = Layout;
 
     const [day, setDay] = useState(0);
     const [timers, setTimers] = useState([]);
     const [timerError, setTimerError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
 
     return (
-        <>
-            <KegTimer day={day} timers={timers} setTimers={setTimers} timerError={timerError} setTimerError={setTimerError}/>
-            <Row>
+        <Layout>
+            <Header>
                 <Counter day={day} setDay={setDay} timers={timers} setTimers={setTimers} setTimerError={setTimerError}/>
-            </Row>
-        </>
+            </Header>
+            <Content style={{padding: "30px 30px"}}>
+                <ArtisanTimer day={day} timers={timers} setTimers={setTimers} timerError={timerError} setTimerError={setTimerError}/>
+            </Content>
+            <Footer>
+                <FooterComponent />
+            </Footer>
+        </Layout>
     )
 }
 
