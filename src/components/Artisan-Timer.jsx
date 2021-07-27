@@ -122,7 +122,13 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
             return `: ${productInTimer.countdown} days`;
         }
         if (productInTimer.name === "Fruit Trees") {
-
+            if ([3,0].includes(productInTimer.countdown)) {
+                return ` are full (3 fruit each). Pick them today!`;
+            }
+            if (productInTimer.countdown === 2) {
+                return `: 1 fruit each`;
+            }
+            return `: 2 fruit each`;
         }
         return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${productInTimer.timerFor === "pickles" ? ` are` : ` is`} ready today`}`;
     }
