@@ -22,18 +22,28 @@ const FooterComponent = () => {
     }
 
     return (
-        <Row justify="space-between">
-            <Col>
-                <Space>
-                    Stardew Log created by Nic Addelia
-                    <FontAwesomeIcon icon={faGithub} />
-                    <a href="https://github.com/addelian" >@addelian</a>
-                </Space>
-            </Col>
-            <Col>
-                <em>{quote}</em>
-            </Col>
-        </Row>
+        <>
+            <Row justify="space-between">
+                <Col>
+                    <Space>
+                        Stardew Log created by Nic Addelia
+                        <FontAwesomeIcon icon={faGithub} />
+                        <a href="https://github.com/addelian" >@addelian</a>
+                    </Space>
+                </Col>
+            </Row>
+            <br />
+            <Row justify="space-between">
+                <Col>
+                    <Space>
+                        Stardew Valley © ConcernedApe LLC.
+                    </Space>
+                </Col>
+                <Col>
+                    <span><em>{quote}</em></span>
+                </Col>
+            </Row>
+        </>
     )
 }
 

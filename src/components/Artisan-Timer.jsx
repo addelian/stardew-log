@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Select, Alert, Button, List, Row, Col, Space, Checkbox, Typography } from "antd";
+import { Select, Alert, Button, List, Row, Col, Space, Typography } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faAppleAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
-const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
+const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
 
     // I should probably do it in its own component, but here's an idea for harvest timers.
     // when you select a crop, you could have an optional checkbox for initial harvest
@@ -12,12 +12,7 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
     // Likely better to have a second step in there for regrows, maybe have it be a 
     // unique function that pulls from the same list. 
 
-    // TODO: add honey timer. just a checkbox that user checks
-    // either when they build house or when they harvest it.
-    // just a repeated counter that says it's ready every 4 days
-
     const [selected, setSelected] = useState(undefined);
-    const [hasHoney, setHasHoney] = useState(false);
 
     const { Option } = Select;
     const { Paragraph } = Typography;
@@ -29,13 +24,18 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
         }
     }
 
-    const handleHoneyChange = () => {
-        if (day <= 83) {
-            const honey = CROPS.find(crop => crop.name === "Honey");
-            setHasHoney(true);
-            setTimers([ ...timers, {...honey, countdown: 4, timerFor: "Honey", timerType: "beehouse" }]);
+    const handleBeesAndTrees = (hasProduct, setHasProduct, selectedProduct, productCountdown, productTimerFor) => {
+        if (!hasProduct) {
+            const product = CROPS.find(crop => crop.name === selectedProduct);
+            setHasProduct(true);
+            setTimers([ ...timers, { ...product, countdown: productCountdown, timerFor: productTimerFor }]);
+            return;
         }
-        setHasHoney(false);
+        setHasProduct(false);
+        const productTimer = timers.findIndex(timer => timer.name === selectedProduct);
+        const reducedTimers = timers.splice(productTimer, 1);
+        setTimers(timers);
+        return reducedTimers;
     }
 
     const createKegTimer = selectedOption => {
@@ -57,17 +57,22 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
     const buttonStyling = (selectedOption, parentButton) => {
         if (selectedOption !== undefined && selectedOption.preferred !== undefined) {
             if (parentButton === "keg" && selectedOption.preferred === "keg") {
-                return {"background-color": "green", "color" : "white"};
+                return {"backgroundColor": "green", "color" : "white"};
             }
             if (parentButton === "jar" && selectedOption.preferred === "jar") {
-                return {"background-color": "green", "color" : "white"};
+                return {"backgroundColor": "green", "color" : "white"};
             }
-            return {"background-color": "red", "color" : "white"};
+            return {"backgroundColor": "red", "color" : "white"};
         }
         return {};
     }
 
-    const createErrorList = fullError => fullError.triggers.map(error => renderProductName(error));
+    const createErrorList = fullError => fullError.triggers.map(error => {
+        if (error.name === "Fruit Trees") {
+            return "Fruit from fruit trees";
+        }
+        return renderProductName(error);
+    });
 
     const renderTimerErrorBlock = fullError => 
             <List
@@ -92,7 +97,9 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
 
     const renderProductName = productInTimer => {
 
-        if ((productInTimer.timerType === "keg" && !["wine", "juice"].includes(productInTimer.timerFor)) || productInTimer.timerType === "beehouse") {
+        if ((productInTimer.timerType === "keg" && !["wine", "juice"].includes(productInTimer.timerFor))
+            || ["Honey", "Fruit Trees"].includes(productInTimer.timerFor)
+        ) {
             return `${productInTimer.timerFor}`;
         }
         if (productInTimer.timerType === "jar" && !["jelly", "pickles"].includes(productInTimer.timerFor)) {
@@ -114,15 +121,11 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
             }
             return `: ${productInTimer.countdown} days`;
         }
+        if (productInTimer.name === "Fruit Trees") {
+
+        }
         return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${productInTimer.timerFor === "pickles" ? ` are` : ` is`} ready today`}`;
     }
-
-    const renderFruitTreeTimer = () => {
-        // AW NUTS, I FORGOT ABOUT FRUIT TREES
-        // similar to above, user needs to click checkbox either on (Season) 1 or after picking fruits.
-        // will also need to kill this at winter 1, but ALSO need to reset it at Summer & Fall 1
-    }
-
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
         return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
@@ -130,84 +133,96 @@ const ArtisanTimer = ({timers, setTimers, day, timerError}) => {
 
     return(
         <>
-            <Row>
-                <Col>
+            <Space direction="vertical">
+                <Row>
+                    <Col>
+                        <Space>
+                            <Select 
+                                style={{ width:'120px' }}
+                                value={selected !== undefined ? selected.id : undefined}
+                                placeholder="Choose..."
+                                onChange={handleChange}
+                                >
+                                {renderOptions(CROPS)}
+                            </Select>
+                            <Button 
+                                type="default"
+                                style={buttonStyling(selected, "keg")}
+                                disabled={selected === undefined || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
+                                onClick={() => createKegTimer(selected)}
+                                >
+                                <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
+                            </Button>
+                            <Button 
+                                type="default"
+                                style={buttonStyling(selected, "jar")}
+                                disabled={selected === undefined || ["Coffee Bean", "Honey"].includes(selected.name)}
+                                onClick={() => createJarTimer(selected)}
+                                >
+                                <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
+                            </Button>
+                            <Button 
+                                type="default"
+                                style={selected !== undefined? {color: "red"} : {}}
+                                disabled={selected === undefined}
+                                onClick={() => clearTimer(selected)}
+                                >
+                                <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
+                            </Button>
+                        </Space>
+                    </Col>
+                </Row>
+
+                <Row >
                     <Space>
-                        <Select 
-                            style={{ width:'120px' }}
-                            value={selected !== undefined ? selected.id : undefined}
-                            placeholder="Choose..."
-                            onChange={handleChange}
-                            >
-                            {renderOptions(CROPS)}
-                        </Select>
-                        <Button 
-                            type="default"
-                            style={buttonStyling(selected, "keg")}
-                            disabled={selected === undefined || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
-                            onClick={() => createKegTimer(selected)}
-                            >
-                            <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
-                        </Button>
-                        <Button 
-                            type="default"
-                            style={buttonStyling(selected, "jar")}
-                            disabled={selected === undefined || ["Coffee Bean", "Honey"].includes(selected.name)}
-                            onClick={() => createJarTimer(selected)}
-                            >
-                            <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
-                        </Button>
-                        <Button 
-                            type="default"
-                            style={selected !== undefined? {color: "red"} : {}}
-                            disabled={selected === undefined}
-                            onClick={() => clearTimer(selected)}
-                            >
-                            <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
-                        </Button>
+                        <Col>
+                            <Button 
+                                type="default"
+                                disabled={day > 83} 
+                                onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
+                                {hasHoney ? "Remove honey timer" : "Add honey timer"}
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button 
+                                type="default"
+                                disabled={day > 83} 
+                                onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
+                                {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
+                            </Button>
+                        </Col>
                     </Space>
-                </Col>
-            </Row>
+                </Row>
 
-            <Row>
-                <Col>
-                    <Button 
-                        type="default"
-                        disabled={day > 83} 
-                        onClick={() => handleHoneyChange()}>
-                        Add a honey timer
-                    </Button>
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    Current timers:
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    {timerError.exists && (
-                        <Alert
-                        message={timerError.message}
-                        description={renderTimerErrorBlock(timerError)}
-                        type="error"
-                        />
-                    )}
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Paragraph>
-                        <ul>
-                            {timers.length > 0 && renderTimers(timers)}
-                            {timers.length === 0 && !hasHoney && (
-                                <p>None. Enjoy yer day</p>
+                <Row>
+                    <Col>
+                        Current timers:
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        {error.exists && (
+                            <Alert
+                            message={error.message}
+                            description={renderTimerErrorBlock(error)}
+                            type="error"
+                            />
                             )}
-                        </ul>
-                    </Paragraph>
-                </Col>
-            </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Paragraph>
+                            <ul>
+                                {timers.length > 0 && renderTimers(timers)}
+                                {timers.length === 0 && (!hasHoney && !hasFruitTrees) && (
+                                    <p>None. Enjoy yer day</p>
+                                    )}
+                            </ul>
+                        </Paragraph>
+                    </Col>
+                </Row>
+            </Space>
         </>
     )
 }

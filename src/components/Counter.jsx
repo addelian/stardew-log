@@ -4,24 +4,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
 
-const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
+const Counter = ({ day, setDay, timers, setTimers, setError, setHasHoney, setHasFruitTrees }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
 
     const handleError = () => {
         const removeError = () => {
-        setTimerError({exists: false});
+        setError({exists: false});
         };
         setTimeout(removeError, 5000);
     }   
 
+    const handleWinter1 = (remainingTimers, productName, setHasProduct) => {
+        const i = remainingTimers.findIndex(timer => timer.name === productName);
+        if (i !== -1) {
+            const removedProduct = remainingTimers.splice(i, 1)[0];
+            setTimers(remainingTimers);
+            setHasProduct(false);
+            return removedProduct;
+        }
+        return;
+    }
+
     const advanceDay = activeTimers => {
         day < 111 ? setDay(day + 1) : setDay(0);
         const timersCountingDown = activeTimers.map(timer => {
-            // TODO: add conditional for winter
-            if (timer.name === "Honey") {
+            if (timer.name === "Honey" || timer.name === "Fruit Trees") {
                 if (timer.countdown - 1 === 0) {
-                    return {...timer, countdown: 4}
+                    return {...timer, countdown: (timer.name === "Honey" ? 4 : 3)}
                 }
             }
             return {...timer, countdown: timer.countdown - 1}
@@ -33,6 +43,19 @@ const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
             setTimers(timersToKeep);
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
+        // Winter 1
+        if (day === 83) {
+            const winter1Removals = [];
+            winter1Removals.push(handleWinter1(timersToKeep, "Honey", setHasHoney));
+            winter1Removals.push(handleWinter1(timersToKeep, "Fruit Trees", setHasFruitTrees));
+            setError({
+                exists: true,
+                message: "Welcome to Winter!",
+                description: "The following items cannot be harvested during winter, and thus, their timers were removed:",
+                triggers: winter1Removals
+            });
+            handleError();
+        }
     }
 
     const revertDay = activeTimers => {
@@ -43,12 +66,19 @@ const Counter = ({ day, setDay, timers, setTimers, setTimerError }) => {
         const timersToKeep = timersCountingUp.filter(timer => timer.timerType === "keg" ? timer.countdown <= timer.kegDuration : timer.countdown <= 3);
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
-            setTimerError({
+            setError({
                 exists: true, 
                 message: "Invalid Timer", 
                 description: "The timers for the following items were removed:",
-                triggers: timersToRemove});
+                triggers: timersToRemove
+            });
             console.log("Invalid timer(s) removed: ", timersToRemove);
+            if (timersToRemove.some(timer => timer.name === "Honey")) {
+                setHasHoney(false);
+            }
+            if (timersToRemove.some(timer => timer.name === "Fruit Trees")) {
+                setHasFruitTrees(false);
+            }
             handleError();
         }
     }

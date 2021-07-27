@@ -11,7 +11,6 @@ export const QUOTES = [
     "Only I have the brains to rule Lylat",
     "Location confirmed. Sending supplies",
     "Don't give up, skeleton",
-    "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
     "Oh hi doggy",
     "You're my favorite customer",
     "Bear seek seek lest",
@@ -23,4 +22,6 @@ export const QUOTES = [
     "Tonight, Gehrman joins the hunt",
     "Hesitation is defeat",
     "A hunter must hunt",
+    "Don't you dare go hollow",
+    "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
 ]

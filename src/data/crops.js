@@ -832,5 +832,11 @@ export const CROPS = [
         growTime: 4,
         regrow: false,
         preferred: "jar",
+    },
+    {
+        id: "81-fruit-trees",
+        name: "Fruit Trees",
+        type: "other",
+        season: ["spring", "summer", "fall"],
     }
 ]
