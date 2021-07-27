@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Layout } from "antd";
+import { Layout, Row, Col } from "antd";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
+import HarvestTimer from "./Harvest-Timer";
 
 const Home = () => {
 
@@ -28,17 +29,27 @@ const Home = () => {
                 />
             </Header>
             <Content style={{padding: "30px 30px"}}>
-                <ArtisanTimer 
-                    day={day}
-                    timers={timers}
-                    setTimers={setTimers}
-                    error={error}
-                    setError={setError}
-                    hasHoney={hasHoney}
-                    setHasHoney={setHasHoney}
-                    hasFruitTrees={hasFruitTrees}
-                    setHasFruitTrees={setHasFruitTrees}
-                />
+                <Row>
+                    <Col>
+                        <ArtisanTimer 
+                            day={day}
+                            timers={timers}
+                            setTimers={setTimers}
+                            error={error}
+                            setError={setError}
+                            hasHoney={hasHoney}
+                            setHasHoney={setHasHoney}
+                            hasFruitTrees={hasFruitTrees}
+                            setHasFruitTrees={setHasFruitTrees}
+                            />
+                    </Col>
+                    <Col>
+                        <HarvestTimer
+                            timers={timers}
+                            setTimers={setTimers}
+                        />
+                    </Col>
+                </Row>
             </Content>
             <Footer>
                 <FooterComponent />
