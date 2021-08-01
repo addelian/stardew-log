@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import { Select, Alert, Button, List, Row, Col, Space, Typography } from "antd";
+import { Select, Button, Row, Col, Space } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faAppleAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
 const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
 
-    // I should probably do it in its own component, but here's an idea for harvest timers.
-    // when you select a crop, you could have an optional checkbox for initial harvest
-    // or repeat harvest. Eh, it's against the spirit of the simplicity.
-    // Likely better to have a second step in there for regrows, maybe have it be a 
-    // unique function that pulls from the same list. 
-
     const [selected, setSelected] = useState(undefined);
 
     const { Option } = Select;
-    const { Paragraph } = Typography;
 
     const handleChange = value => {
         if (value !== undefined) {
@@ -67,22 +60,6 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
         return {};
     }
 
-    const createErrorList = fullError => fullError.triggers.map(error => {
-        if (error.name === "Fruit Trees") {
-            return "Fruit from fruit trees";
-        }
-        return renderProductName(error);
-    });
-
-    const renderTimerErrorBlock = fullError => 
-            <List
-                    size="small"
-                    header={<div>{fullError.description}</div>}
-                    bordered
-                    dataSource={createErrorList(fullError)}
-                    renderItem={item => <List.Item>{item}</List.Item>}
-                />
-
     const renderOptions = crops => {
 
         const cropsToSort = crops.filter(crop => crop.kegProduct !== undefined || crop.jarProduct !== undefined);
@@ -91,51 +68,9 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
         const cropsEligibleForArtisanProducts = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));
         
         return cropsEligibleForArtisanProducts.map(crop => 
-            <Option key={crop.id} value={crop.id}>{crop.name}</Option>
+            <Option key={`${crop.id}-artisan-option`} value={crop.id}>{crop.name}</Option>
         )
     }
-
-    const renderProductName = productInTimer => {
-
-        if ((productInTimer.timerType === "keg" && !["wine", "juice"].includes(productInTimer.timerFor))
-            || ["Honey", "Fruit Trees"].includes(productInTimer.timerFor)
-        ) {
-            return `${productInTimer.timerFor}`;
-        }
-        if (productInTimer.timerType === "jar" && !["jelly", "pickles"].includes(productInTimer.timerFor)) {
-            if (productInTimer.timerFor === "Aged Roe") {
-                return `${productInTimer.timerFor}`;
-            }
-            return "Caviar";
-        }
-        return `${productInTimer.name} ${productInTimer.timerFor}`;
-    }
-
-    const renderCountdown = productInTimer => {
-        if (productInTimer.name === "Honey") {
-            if ([4, 0].includes(productInTimer.countdown)) {
-                return ` is ready. Next harvest ready in 4 days`;
-            }
-            if (productInTimer.countdown === 1) {
-                return `: 1 day`;
-            }
-            return `: ${productInTimer.countdown} days`;
-        }
-        if (productInTimer.name === "Fruit Trees") {
-            if ([3,0].includes(productInTimer.countdown)) {
-                return ` are full (3 fruit each). Pick them today!`;
-            }
-            if (productInTimer.countdown === 2) {
-                return `: 1 fruit each`;
-            }
-            return `: 2 fruit each`;
-        }
-        return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${productInTimer.timerFor === "pickles" ? ` are` : ` is`} ready today`}`;
-    }
-
-    const renderTimers = activeTimers => activeTimers.map((timer, index) => {
-        return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
-    });
 
     return(
         <>
@@ -198,35 +133,6 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                             </Button>
                         </Col>
                     </Space>
-                </Row>
-
-                <Row>
-                    <Col>
-                        Current timers:
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {error.exists && (
-                            <Alert
-                            message={error.message}
-                            description={renderTimerErrorBlock(error)}
-                            type="error"
-                            />
-                            )}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Paragraph>
-                            <ul>
-                                {timers.length > 0 && renderTimers(timers)}
-                                {timers.length === 0 && (!hasHoney && !hasFruitTrees) && (
-                                    <p>None. Enjoy yer day</p>
-                                    )}
-                            </ul>
-                        </Paragraph>
-                    </Col>
                 </Row>
             </Space>
         </>

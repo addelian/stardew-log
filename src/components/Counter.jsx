@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
 
-const Counter = ({ day, setDay, timers, setTimers, setError, setHasHoney, setHasFruitTrees }) => {
+const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
 
@@ -44,10 +44,10 @@ const Counter = ({ day, setDay, timers, setTimers, setError, setHasHoney, setHas
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
         // Winter 1
-        if (day === 83) {
+        if (day === 83 && (hasHoney || hasFruitTrees)) {
             const winter1Removals = [];
-            winter1Removals.push(handleWinter1(timersToKeep, "Honey", setHasHoney));
-            winter1Removals.push(handleWinter1(timersToKeep, "Fruit Trees", setHasFruitTrees));
+            hasHoney && winter1Removals.push(handleWinter1(timersToKeep, "Honey", setHasHoney));
+            hasFruitTrees && winter1Removals.push(handleWinter1(timersToKeep, "Fruit Trees", setHasFruitTrees));
             setError({
                 exists: true,
                 message: "Welcome to Winter!",

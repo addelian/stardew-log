@@ -481,32 +481,24 @@ export const CROPS = [
         name: "Wild Horseradish",
         type: "forage",
         season: ["spring"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "43-daffodil",
         name: "Daffodil",
         type: "forage",
         season: ["spring"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "44-leek",
         name: "Leek",
         type: "forage",
         season: ["spring"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "45-dandelion",
         name: "Dandelion",
         type: "forage",
         season: ["spring"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "46-spring-onion",
@@ -525,8 +517,6 @@ export const CROPS = [
         name: "Common Mushroom",
         type: "forage",
         season: ["spring", "summer", "fall"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "49-salmonberry",
@@ -546,8 +536,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["summer"],
         kegDuration: 6,
-        growTime: 7,
-        regrow: false,
         preferred: "keg",
     },
     {
@@ -555,8 +543,6 @@ export const CROPS = [
         name: "Sweet Pea",
         type: "flower",
         season: ["summer"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "52-red-mushroom",
@@ -582,8 +568,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["fall"],
         kegDuration: 6,
-        growTime: 7,
-        regrow: false,
         preferred: "keg",
     },
     {
@@ -591,7 +575,6 @@ export const CROPS = [
         name: "Hazelnut",
         type: "forage",
         season: ["fall"],
-        growTime: 7,
         regrow: false,
     },
     {
@@ -602,8 +585,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["fall"],
         kegDuration: 6,
-        growTime: 7,
-        regrow: false,
         preferred: "jar",
     },
     {
@@ -623,8 +604,6 @@ export const CROPS = [
         name: "Winter Root",
         type: "forage",
         season: ["winter"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "60-crystal-fruit",
@@ -633,8 +612,7 @@ export const CROPS = [
         kegProduct: "wine",
         jarProduct: "jelly",
         season: ["winter"],
-        growTime: 7,
-        regrow: false,
+        kegDuration: 6,
         preferred: "keg",
     },
     {
@@ -642,16 +620,12 @@ export const CROPS = [
         name: "Snow Yam",
         type: "forage",
         season: ["winter"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "62-crocus",
         name: "Crocus",
         type: "flower",
         season: ["winter"],
-        growTime: 7,
-        regrow: false,
     },
     {
         id: "63-holly",
@@ -714,7 +688,8 @@ export const CROPS = [
         id: "71-wild-seeds",
         name: "Wild Seeds",
         type: "other",
-        jarProduct: "Caviar",
+        growTime: 7,
+        regrow: false,
         season: ["spring", "summer", "fall", "winter"],
     },
     {
@@ -725,9 +700,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["spring"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "jar",
     },
     {
@@ -738,9 +710,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["spring"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -751,9 +720,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["summer"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -764,9 +730,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["summer"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -777,9 +740,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["summer"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -790,9 +750,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["summer"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -803,9 +760,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["fall"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {
@@ -816,9 +770,6 @@ export const CROPS = [
         jarProduct: "jelly",
         season: ["fall"],
         kegDuration: 6,
-        growTime: 28,
-        regrow: true,
-        regrowTime: 1,
         preferred: "keg",
     },
     {

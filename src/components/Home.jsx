@@ -4,8 +4,19 @@ import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
 import HarvestTimer from "./Harvest-Timer";
+import CurrentTimers from "./Current-Timers";
 
 const Home = () => {
+
+    // TODO: Moving "current timers" and all accompanying logic over to Current-Timers.jsx
+
+    // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
+    // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
+    // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
+    // will contribute to a ton of clutter down the road if not
+
+    // TODO: Handle saving. Might need to rebuild in Redux or something. :(
+    // More research needed
 
     const { Header, Footer, Content } = Layout;
 
@@ -24,12 +35,14 @@ const Home = () => {
                     timers={timers}
                     setTimers={setTimers}
                     setError={setError}
+                    hasHoney={hasHoney}
                     setHasHoney={setHasHoney}
+                    hasFruitTrees={hasFruitTrees}
                     setHasFruitTrees={setHasFruitTrees}
                 />
             </Header>
             <Content style={{padding: "30px 30px"}}>
-                <Row>
+                <Row justify="space-around">
                     <Col>
                         <ArtisanTimer 
                             day={day}
@@ -45,8 +58,25 @@ const Home = () => {
                     </Col>
                     <Col>
                         <HarvestTimer
+                            day={day}
                             timers={timers}
                             setTimers={setTimers}
+                        />
+                    </Col>
+                </Row>
+                <Row justify="center">
+                    <Col>
+                        <h2>Current timers:</h2>
+                    </Col>
+                </Row>
+                <Row justify="center">
+                    <Col>
+                        <CurrentTimers
+                            day={day}
+                            error={error}
+                            timers={timers}
+                            hasHoney={hasHoney}
+                            hasFruitTrees={hasFruitTrees}
                         />
                     </Col>
                 </Row>
