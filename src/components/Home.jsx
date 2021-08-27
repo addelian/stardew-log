@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Row, Col } from "antd";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
@@ -8,15 +8,10 @@ import CurrentTimers from "./Current-Timers";
 
 const Home = () => {
 
-    // TODO: Moving "current timers" and all accompanying logic over to Current-Timers.jsx
-
     // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
     // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
     // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
     // will contribute to a ton of clutter down the road if not
-
-    // TODO: Handle saving. Might need to rebuild in Redux or something. :(
-    // More research needed
 
     const { Header, Footer, Content } = Layout;
 
@@ -25,6 +20,28 @@ const Home = () => {
     const [error, setError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
     const [hasHoney, setHasHoney] = useState(false);
     const [hasFruitTrees, setHasFruitTrees] = useState(false);
+
+    // Loads local storage on componentDidMount
+    useEffect(() => {
+        setDay(JSON.parse(window.localStorage.getItem('day')));
+        setTimers(JSON.parse(window.localStorage.getItem('timers')));
+        setHasHoney(JSON.parse(window.localStorage.getItem('hasHoney')));
+        setHasFruitTrees(JSON.parse(window.localStorage.getItem('hasFruitTrees')));
+    }, []);
+
+    // Basic save functionality
+    useEffect(() => {
+        window.localStorage.setItem('day', day);
+    }, [day]);
+    useEffect(() => {
+        window.localStorage.setItem('timers', JSON.stringify(timers));
+    }, [timers]);
+    useEffect(() => {
+        window.localStorage.setItem('hasHoney', hasHoney);
+    }, [hasHoney]);
+    useEffect(() => {
+        window.localStorage.setItem('hasFruitTrees', hasFruitTrees);
+    }, [hasFruitTrees]);
 
     return (
         <Layout>

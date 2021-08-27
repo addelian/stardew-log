@@ -7,8 +7,10 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
 
     const renderProductName = productInTimer => {
 
-        // TODO: Wild seeds => "Wild crops ({season}) are ready"
         if (productInTimer.timerType === "harvest") {
+            if (productInTimer.name.includes("Seeds")) {
+                return productInTimer.product;
+            }
             return productInTimer.name;
         }
         if ((productInTimer.timerType === "keg" && !["wine", "juice"].includes(productInTimer.timerFor))
@@ -60,7 +62,7 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
             }
             return `: 2 fruit each`;
         }
-        return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${productInTimer.timerFor === "pickles" ? ` are` : ` is`} ready today`}`;
+        return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${(productInTimer.timerFor === "pickles" || productInTimer.name.includes("Seeds")) ? ` are` : ` is`} ready today`}`;
     }
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
