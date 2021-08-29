@@ -13,6 +13,11 @@ const Home = () => {
     // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
     // will contribute to a ton of clutter down the road if not
 
+    // TODO: Just a notepad of some sort, some sort of always-visible bulletin board
+    // to remind myself of things. Especially nice for how many seeds are planted.
+
+    // TODO: make page responsive. V strongly considering switch to Material-UI, which ought to be a new feature branch
+    
     const { Header, Footer, Content } = Layout;
 
     const [day, setDay] = useState(0);
@@ -44,7 +49,7 @@ const Home = () => {
     }, [hasFruitTrees]);
 
     return (
-        <Layout>
+        <Layout className="layout">
             <Header>
                 <Counter 
                     day={day}
@@ -58,9 +63,9 @@ const Home = () => {
                     setHasFruitTrees={setHasFruitTrees}
                 />
             </Header>
-            <Content style={{padding: "30px 30px"}}>
+            <Content className="site-layout-content" style={{padding: "30px 30px"}}>
                 <Row justify="space-around">
-                    <Col>
+                    <Col xs={24} xl={12} style={{paddingTop: "7px"}}>
                         <ArtisanTimer 
                             day={day}
                             timers={timers}
@@ -73,7 +78,7 @@ const Home = () => {
                             setHasFruitTrees={setHasFruitTrees}
                             />
                     </Col>
-                    <Col>
+                    <Col xs={24} xl={12} style={{paddingTop: "7px"}}>
                         <HarvestTimer
                             day={day}
                             timers={timers}

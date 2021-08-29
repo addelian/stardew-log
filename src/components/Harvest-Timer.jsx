@@ -7,15 +7,6 @@ import { CROPS } from "../data/crops";
 import readDate from "../helpers/Read-Date";
 
 const HarvestTimer = ({ day, timers, setTimers }) => {
-
-    // this timer will hopefully be a lot less complicated.
-    // should really just need a dropdown of all crops that can be planted
-    // and then have a "Plant it" button.
-    // biggest difference will be addition of regrow logic,
-    // but I should be able to handle that in Counter page
-    // if I pass the whole object over there in the timers array.
-
-    // I think I can continue to use the same timers state??
     
     const [selected, setSelected] = useState(undefined);
 
@@ -49,8 +40,14 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
     }
 
     const createHarvestTimer = selectedOption => {
-        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.growTime, timerType: "harvest"}]);
+        if (selectedOption.regrow) {
+            setTimers([ ...timers, {...selectedOption, countdown: selectedOption.growTime, timerType: "harvest", firstHarvest: true }]);
+            setSelected(undefined);
+            return;
+        }
+        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.growTime, timerType: "harvest" }]);
         setSelected(undefined);
+        return;
     }
     
     return(

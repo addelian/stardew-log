@@ -40,12 +40,20 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
             return {...timer, countdown: timer.countdown - 1}
         })
         setTimers(timersCountingDown);
-        const timersToRemove = timersCountingDown.filter(timer => timer.countdown < 0);
-        const timersToKeep = timersCountingDown.filter(timer => timer.countdown >= 0);
+        const timersToRemove = timersCountingDown.filter(timer => timer.countdown < 0 && !timer.regrow);
+        const timersToKeep = timersCountingDown.filter(timer => timer.countdown >= 0 || timer.regrow);
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
+        timersToKeep.forEach(timer => {
+            if (timer.countdown === 0 && timer.regrow) {
+                if (timer.firstHarvest) {
+                    timer.firstHarvest = false;
+                }
+                timer.countdown = timer.regrowTime;
+            }
+        })
         // Winter 1
         if (day === 83 && (hasHoney || hasFruitTrees)) {
             const winter1Removals = [];

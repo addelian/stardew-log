@@ -62,6 +62,9 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
             }
             return `: 2 fruit each`;
         }
+        if (productInTimer.regrow && productInTimer.firstHarvest === false && productInTimer.countdown === productInTimer.regrowTime) {
+            return ` is ready today. Next harvest in ${productInTimer.countdown} days`;
+        }
         return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${(productInTimer.timerFor === "pickles" || productInTimer.name.includes("Seeds")) ? ` are` : ` is`} ready today`}`;
     }
 
