@@ -1,5 +1,7 @@
 import React from "react";
-import { Row, Alert, Col, Typography, List } from "antd";
+import { Row, Col, Typography } from "antd";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
 
@@ -29,19 +31,19 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
 
     const createErrorList = fullError => fullError.triggers.map(error => {
         if (error.name === "Fruit Trees") {
-            return "Fruit from fruit trees";
+            return (<ListItem><ListItemText primary="Fruit from fruit trees" /></ListItem>);
         }
-        return renderProductName(error);
+        return (
+            <ListItem>
+                <ListItemText primary={renderProductName(error)} />
+            </ListItem>
+        );
     });
 
     const renderTimerErrorBlock = fullError => 
-            <List
-                    size="small"
-                    header={<div>{fullError.description}</div>}
-                    bordered
-                    dataSource={createErrorList(fullError)}
-                    renderItem={item => <List.Item>{item}</List.Item>}
-                />
+            <List dense>
+                {createErrorList(fullError)}
+            </List>
     
     const renderCountdown = productInTimer => {
         if (productInTimer.name === "Honey") {
@@ -72,16 +74,18 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
         return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
     });
 
+    console.log(error);
+
     return (
         <>
             <Row>
                 <Col>
                     {error.exists && (
-                        <Alert
-                        message={error.message}
-                        description={renderTimerErrorBlock(error)}
-                        type="error"
-                        />
+                        <Alert severity="error">
+                            <AlertTitle>{error.message}</AlertTitle>
+                            <em>{error.description}</em>
+                            {renderTimerErrorBlock(error)}
+                        </Alert>
                         )}
                 </Col>
             </Row>

@@ -1,15 +1,23 @@
-import React from "react";
-import { Modal, Button, Row, Col } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Row, Col } from "antd";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
 
 const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
 
-    const { confirm } = Modal;
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
 
     const handleError = () => {
         const removeError = () => {
@@ -95,27 +103,13 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
     }
 
     const resetAll = () => {
-        // TODO: Put this behind a menu / settings screen and add a confirmation modal on top of it
-        // As it exists, it's really only good for dev purposes and way too easy to trigger accidentally
+        // TODO: Put this behind a menu at some point, don't leave it out in the open.
+        // As it exists, it's really only good for dev purposes
         setDay(0);
         setTimers([]);
         setHasHoney(false);
         setHasFruitTrees(false);
-    }
-
-    const confirmReset = () => {
-        confirm({
-            title: "Are you sure you wish to reset?",
-            icon: <ExclamationCircleOutlined />,
-            content: "You will lose all of your timers and be sent back to Spring 1",
-            onOk() {
-                console.log("resetting everything");
-                resetAll();
-            },
-            onCancel() {
-                console.log("reset cancelled");
-            },
-        });
+        setOpen(false);
     }
 
     const date = readDate(day);
@@ -126,13 +120,35 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
                 <h1 style={{color: "white"}}>{date}</h1>
             </Col>
             <Col>
-                <Button type="default" onClick={() => confirmReset()}>Reset all</Button>
+                <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>Reset all</Button>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="dialog-title"
+                >
+                    <DialogTitle id="dialog-title">
+                        Are you sure you wish to reset?
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            You will lose all of your timers and be sent back to Spring 1
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={() => handleClose()} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => resetAll()} color="primary">
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Col>
             <Col>
-                <Button type="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+                <Button variant="contained" color="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
             </Col>
             <Col>
-                <Button type="primary" onClick={() => advanceDay(timers)}>Advance day</Button>
+                <Button variant="contained" color="primary" onClick={() => advanceDay(timers)}>Advance day&nbsp;&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
             </Col>
         </Row>
     )
