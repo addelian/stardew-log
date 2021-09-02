@@ -74,8 +74,6 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
         return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
     });
 
-    console.log(error);
-
     return (
         <>
             <Row>
