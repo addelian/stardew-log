@@ -23,6 +23,6 @@ export const QUOTES = [
     "Hesitation is defeat",
     "A hunter must hunt",
     "Don't you dare go hollow",
-    "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
-    "I pass the test. I will diminish, and go into the West, and remain Galadriel"
+    "I pass the test. I will diminish, and go into the West, and remain Galadriel",
+    "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve"
 ]

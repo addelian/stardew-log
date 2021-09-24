@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Row, Col } from "antd";
+import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
@@ -18,8 +18,6 @@ const Home = () => {
 
     // TODO: make page responsive. V strongly considering switch to Material-UI, which ought to be a new feature branch
     
-    const { Header, Footer, Content } = Layout;
-
     const [day, setDay] = useState(0);
     const [timers, setTimers] = useState([]);
     const [error, setError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
@@ -49,64 +47,72 @@ const Home = () => {
     }, [hasFruitTrees]);
 
     return (
-        <Layout className="layout">
-            <Header>
-                <Counter 
-                    day={day}
-                    setDay={setDay}
-                    timers={timers}
-                    setTimers={setTimers}
-                    setError={setError}
-                    hasHoney={hasHoney}
-                    setHasHoney={setHasHoney}
-                    hasFruitTrees={hasFruitTrees}
-                    setHasFruitTrees={setHasFruitTrees}
-                />
-            </Header>
-            <Content className="site-layout-content" style={{padding: "30px 30px"}}>
-                <Row justify="space-around">
-                    <Col xs={24} xl={12} style={{paddingTop: "7px"}}>
-                        <ArtisanTimer 
+        <Grid container spacing={4} direction="column" justifyContent="space-between" alignItems="space-between">
+            <Grid item>
+                <AppBar color="default" position="static">
+                    <Toolbar>
+                        <Counter 
                             day={day}
+                            setDay={setDay}
                             timers={timers}
                             setTimers={setTimers}
-                            error={error}
                             setError={setError}
                             hasHoney={hasHoney}
                             setHasHoney={setHasHoney}
                             hasFruitTrees={hasFruitTrees}
                             setHasFruitTrees={setHasFruitTrees}
                             />
-                    </Col>
-                    <Col xs={24} xl={12} style={{paddingTop: "7px"}}>
-                        <HarvestTimer
-                            day={day}
-                            timers={timers}
-                            setTimers={setTimers}
-                        />
-                    </Col>
-                </Row>
-                <Row justify="center">
-                    <Col>
-                        <h2>Current timers:</h2>
-                    </Col>
-                </Row>
-                <Row justify="center">
-                    <Col>
+                    </Toolbar>
+                </AppBar>
+            </Grid>
+            <Grid item>
+                <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
+                    <Grid item>
+                        <Grid container direction="row" spacing={4} justifyContent="space-around" alignItems="center">
+                            <Grid item md={6} style={{marginTop: 50, marginBottom: 25}}>
+                                <ArtisanTimer 
+                                    day={day}
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                    error={error}
+                                    setError={setError}
+                                    hasHoney={hasHoney}
+                                    setHasHoney={setHasHoney}
+                                    hasFruitTrees={hasFruitTrees}
+                                    setHasFruitTrees={setHasFruitTrees}
+                                    />
+                            </Grid>
+                            <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
+                                <HarvestTimer
+                                    day={day}
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                    />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 50}}>
+                        <Typography variant="h4">
+                            Current timers:
+                        </Typography>
                         <CurrentTimers
                             day={day}
                             error={error}
                             timers={timers}
                             hasHoney={hasHoney}
                             hasFruitTrees={hasFruitTrees}
-                        />
-                    </Col>
-                </Row>
-            </Content>
-            <Footer>
-                <FooterComponent />
-            </Footer>
-        </Layout>
+                            />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid item>
+                <Grid container justifyContent="space-around">
+                    <Grid item xs={11}>
+                        <FooterComponent />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
     )
 }
 

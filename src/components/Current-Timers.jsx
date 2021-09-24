@@ -1,9 +1,8 @@
 import React from "react";
-import { Row, Alert, Col, Typography, List } from "antd";
+import { Grid, List, ListItem, ListItemText, Typography } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
-
-    const { Paragraph } = Typography;
 
     const renderProductName = productInTimer => {
 
@@ -29,19 +28,19 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
 
     const createErrorList = fullError => fullError.triggers.map(error => {
         if (error.name === "Fruit Trees") {
-            return "Fruit from fruit trees";
+            return (<ListItem><ListItemText primary="Fruit from fruit trees" /></ListItem>);
         }
-        return renderProductName(error);
+        return (
+            <ListItem>
+                <ListItemText primary={renderProductName(error)} />
+            </ListItem>
+        );
     });
 
     const renderTimerErrorBlock = fullError => 
-            <List
-                    size="small"
-                    header={<div>{fullError.description}</div>}
-                    bordered
-                    dataSource={createErrorList(fullError)}
-                    renderItem={item => <List.Item>{item}</List.Item>}
-                />
+            <List dense>
+                {createErrorList(fullError)}
+            </List>
     
     const renderCountdown = productInTimer => {
         if (productInTimer.name === "Honey") {
@@ -73,31 +72,27 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
     });
 
     return (
-        <>
-            <Row>
-                <Col>
-                    {error.exists && (
-                        <Alert
-                        message={error.message}
-                        description={renderTimerErrorBlock(error)}
-                        type="error"
-                        />
-                        )}
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Paragraph>
-                        <ul>
-                            {timers.length > 0 && renderTimers(timers)}
-                            {timers.length === 0 && (!hasHoney && !hasFruitTrees) && (
-                                <p>None. Enjoy yer day</p>
-                                )}
-                        </ul>
-                    </Paragraph>
-                </Col>
-            </Row>
-        </>
+        <Grid container direction="column" justifyContent="center" alignItems="center">
+            <Grid item>
+            {error.exists && (
+                <Alert severity="error">
+                    <AlertTitle><Typography variant="body1">{error.message}</Typography></AlertTitle>
+                    <em>{error.description}</em>
+                    <Typography variant="body2">
+                        {renderTimerErrorBlock(error)}
+                    </Typography>
+                </Alert>
+                )}
+            </Grid>
+            <Grid item>
+                <Typography variant="body1">
+                <ul style={{listStyle: "none", paddingLeft: 0}}>
+                    {timers.length > 0 && renderTimers(timers)}
+                    {timers.length === 0 && (!hasHoney && !hasFruitTrees) && "None. Enjoy yer day"}
+                </ul>
+                </Typography>
+            </Grid>
+        </Grid>
     )
 }
 

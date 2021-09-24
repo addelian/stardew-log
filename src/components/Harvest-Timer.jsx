@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Button, Row, Col, Space } from "antd";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSeedling, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -8,9 +8,7 @@ import readDate from "../helpers/Read-Date";
 
 const HarvestTimer = ({ day, timers, setTimers }) => {
     
-    const [selected, setSelected] = useState(undefined);
-
-    const { Option } = Select;
+    const [selected, setSelected] = useState('');
     
     const renderOptions = crops => {
         
@@ -22,69 +20,69 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
         const cropsEligibleForHarvestTimer = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));
         
         return cropsEligibleForHarvestTimer.map(crop => 
-            <Option key={`${crop.id}-harvest-option`} value={crop.id}>{crop.name}</Option>
+            <MenuItem key={`${crop.id}-harvest-option`} value={crop.id}>{crop.name}</MenuItem>
         )
     }
 
-    const handleChange = value => {
-        if (value !== undefined) {
-            const selectedOption = CROPS.find(crop => crop.id === value);
+    const handleChange = e => {
+        if (e.target.value !== '') {
+            const selectedOption = CROPS.find(crop => crop.id === e.target.value);
             setSelected(selectedOption);
         }
     }
 
     const clearTimer = selectedOption => {
-        if (selectedOption !== undefined) {
-            setSelected(undefined);
+        if (selectedOption !== '') {
+            setSelected('');
         }
     }
 
     const createHarvestTimer = selectedOption => {
         if (selectedOption.regrow) {
             setTimers([ ...timers, {...selectedOption, countdown: selectedOption.growTime, timerType: "harvest", firstHarvest: true }]);
-            setSelected(undefined);
+            setSelected('');
             return;
         }
         setTimers([ ...timers, {...selectedOption, countdown: selectedOption.growTime, timerType: "harvest" }]);
-        setSelected(undefined);
+        setSelected('');
         return;
     }
     
     return(
-        <>
-            <Space direction="vertical">
-                <Row>
-                    <Col>
-                        <Space>
-                            <Select 
-                                style={{ width:'120px' }}
-                                value={selected !== undefined ? selected.id : undefined}
-                                placeholder="Choose..."
-                                onChange={handleChange}
-                                >
-                                {renderOptions(CROPS)}
-                            </Select>
-                            <Button 
-                                type="default"
-                                // style={buttonStyling(selected, "keg")}
-                                disabled={selected === undefined}
-                                onClick={() => createHarvestTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faSeedling} />&nbsp;Plant it
-                            </Button>
-                            <Button 
-                                type="default"
-                                style={selected !== undefined? {color: "red"} : {}}
-                                disabled={selected === undefined}
-                                onClick={() => clearTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
-                            </Button>
-                        </Space>
-                    </Col>
-                </Row>
-            </Space>
-        </>
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item>
+                <FormControl>
+                    <InputLabel>Crop</InputLabel>
+                    <Select 
+                        style={{minWidth: 65}}
+                        value={selected !== '' ? selected.id : ''}
+                        onChange={handleChange}
+                        >
+                        {renderOptions(CROPS)}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {"background-color": "green", "color" : "white"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => createHarvestTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faSeedling} />&nbsp;Plant it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {color: "red"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => clearTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
+                </Button>
+            </Grid>
+        </Grid>
     )
 }
 

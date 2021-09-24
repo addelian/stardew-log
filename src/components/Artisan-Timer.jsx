@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Select, Button, Row, Col, Space } from "antd";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faAppleAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
 const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
 
-    const [selected, setSelected] = useState(undefined);
+    const [selected, setSelected] = useState('');
 
-    const { Option } = Select;
-
-    const handleChange = value => {
-        if (value !== undefined) {
-            const selectedOption = CROPS.find(crop => crop.id === value);
+    const handleChange = e => {
+        if (e.target.value !== '') {
+            const selectedOption = CROPS.find(crop => crop.id === e.target.value);
             setSelected(selectedOption);
         }
     }
@@ -33,22 +31,22 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
 
     const createKegTimer = selectedOption => {
         setTimers([ ...timers, {...selectedOption, countdown: selectedOption.kegDuration, timerFor: selectedOption.kegProduct, timerType: "keg"} ])
-        setSelected(undefined);
+        setSelected('')
     }
 
     const createJarTimer = selectedOption => {
         setTimers([ ...timers, {...selectedOption, countdown: selectedOption.name === "Caviar" ? 3 : 4, timerFor: selectedOption.jarProduct, timerType: "jar"} ])
-        setSelected(undefined);
+        setSelected('');
     }
 
     const clearTimer = selectedOption => {
-        if (selectedOption !== undefined) {
-            setSelected(undefined);
+        if (selectedOption !== '') {
+            setSelected('')
         }
     }
 
     const buttonStyling = (selectedOption, parentButton) => {
-        if (selectedOption !== undefined && selectedOption.preferred !== undefined) {
+        if (selectedOption !== '' && selectedOption.preferred !== undefined) {
             if (parentButton === "keg" && selectedOption.preferred === "keg") {
                 return {"backgroundColor": "green", "color" : "white"};
             }
@@ -68,74 +66,71 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
         const cropsEligibleForArtisanProducts = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));
         
         return cropsEligibleForArtisanProducts.map(crop => 
-            <Option key={`${crop.id}-artisan-option`} value={crop.id}>{crop.name}</Option>
-        )
+            <MenuItem key={`${crop.id}-artisan-option`} value={crop.id}>{crop.name}</MenuItem>
+        );
     }
 
     return(
-        <>
-            <Space direction="vertical">
-                <Row>
-                    <Col>
-                        <Space>
-                            <Select 
-                                style={{ width:'120px' }}
-                                value={selected !== undefined ? selected.id : undefined}
-                                placeholder="Choose..."
-                                onChange={handleChange}
-                                >
-                                {renderOptions(CROPS)}
-                            </Select>
-                            <Button 
-                                type="default"
-                                style={buttonStyling(selected, "keg")}
-                                disabled={selected === undefined || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
-                                onClick={() => createKegTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
-                            </Button>
-                            <Button 
-                                type="default"
-                                style={buttonStyling(selected, "jar")}
-                                disabled={selected === undefined || ["Coffee Bean", "Honey"].includes(selected.name)}
-                                onClick={() => createJarTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
-                            </Button>
-                            <Button 
-                                type="default"
-                                style={selected !== undefined? {color: "red"} : {}}
-                                disabled={selected === undefined}
-                                onClick={() => clearTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
-                            </Button>
-                        </Space>
-                    </Col>
-                </Row>
-
-                <Row >
-                    <Space>
-                        <Col>
-                            <Button 
-                                type="default"
-                                disabled={day > 83} 
-                                onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
-                                {hasHoney ? "Remove honey timer" : "Add honey timer"}
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button 
-                                type="default"
-                                disabled={day > 83} 
-                                onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
-                                {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
-                            </Button>
-                        </Col>
-                    </Space>
-                </Row>
-            </Space>
-        </>
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item>
+                <FormControl>
+                    <InputLabel>Starter</InputLabel>
+                    <Select 
+                        style={{minWidth: 80, }}
+                        value={selected !== '' ? selected.id : ''}
+                        onChange={handleChange}
+                        >
+                        {renderOptions(CROPS)}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={buttonStyling(selected, "keg")}
+                    disabled={selected === '' || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
+                    onClick={() => createKegTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={buttonStyling(selected, "jar")}
+                    disabled={selected === '' || ["Coffee Bean", "Honey"].includes(selected.name)}
+                    onClick={() => createJarTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {color: "red"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => clearTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    disabled={day > 83} 
+                    onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
+                    {hasHoney ? "Remove honey timer" : "Add honey timer"}
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    disabled={day > 83} 
+                    onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
+                    {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
+                </Button>
+            </Grid>
+        </Grid>
     )
 }
 
