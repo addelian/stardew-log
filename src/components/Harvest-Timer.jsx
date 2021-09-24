@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSeedling, faTimes } from "@fortawesome/free-solid-svg-icons";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Typography } from "@mui/material";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
@@ -7,6 +7,12 @@ import HarvestTimer from "./Harvest-Timer";
 import CurrentTimers from "./Current-Timers";
 
 const Home = () => {
+
+    // TODO: color / style update post-migration
+    // appbar stuff has changed, check out docs
+    // button stuff has changed, check out docs
+    // formControl changed too, check docs
+    // select stuff changed, check docs
 
     // TODO: Navigation overhaul - Side menu with at least three pages: Timers, Notes, and About.
     // Easiest approach is just conditional rendering and turn Home into a navigation with 

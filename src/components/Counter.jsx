@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
+import { Grid, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
@@ -158,14 +158,14 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
                     </Button>
                 </DialogActions>
             </Dialog>
-            {!mobile ? <Button variant="contained" color="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
-                : <Button variant="contained" color="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+            {!mobile ? <Button variant="contained" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
+                : <Button variant="contained" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
             }
             {!mobile ? <Button variant="contained" color="primary" onClick={() => advanceDay(timers)}>Advance day&nbsp;&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
                 : <Button variant="contained" color="primary" onClick={() => advanceDay(timers)}><FontAwesomeIcon icon={faArrowRight} /></Button>
             }
         </Grid>
-    )
+    );
 }
 
 export default Counter;

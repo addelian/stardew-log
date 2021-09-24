@@ -1,16 +1,18 @@
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 import './App.css';
 import Main from "./components/Main";
 
-const theme = createMuiTheme();
+const theme = createTheme();
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-          <Main />
-      </div>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+            <Main />
+        </div>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

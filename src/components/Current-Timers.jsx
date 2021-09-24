@@ -1,6 +1,6 @@
 import React from "react";
-import { Grid, List, ListItem, ListItemText, Typography } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Alert, AlertTitle } from '@mui/material';
 
 const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
 
