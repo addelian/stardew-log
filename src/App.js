@@ -1,13 +1,16 @@
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.css';
 import Main from "./components/Main";
 
+const theme = createMuiTheme();
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Main />
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+          <Main />
+      </div>
+    </ThemeProvider>
   );
 }
 
