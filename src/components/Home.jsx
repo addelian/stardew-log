@@ -8,6 +8,10 @@ import CurrentTimers from "./Current-Timers";
 
 const Home = () => {
 
+    // TODO: Navigation overhaul - Side menu with at least three pages: Timers, Notes, and About.
+    // Easiest approach is just conditional rendering and turn Home into a navigation with 
+    // a side drawer and that's about it.
+
     // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
     // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
     // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
@@ -15,8 +19,6 @@ const Home = () => {
 
     // TODO: Just a notepad of some sort, some sort of always-visible bulletin board
     // to remind myself of things. Especially nice for how many seeds are planted.
-
-    // TODO: make page responsive. V strongly considering switch to Material-UI, which ought to be a new feature branch
     
     const [day, setDay] = useState(0);
     const [timers, setTimers] = useState([]);
