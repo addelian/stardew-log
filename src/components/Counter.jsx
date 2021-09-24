@@ -133,9 +133,9 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
 
     return (
         <Grid container spacing={3}>
-            <Typography style={{flexGrow: 1, paddingVertical: 10}} variant="h5">{date}</Typography>
-            {!mobile && <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>Reset all</Button>}
-            {mobile && <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>R</Button>}
+            <Typography style={{flexGrow: 1, paddingVertical: 10}} variant="h4">{date}</Typography>
+            {!mobile ? <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>Reset all</Button>
+                : <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>R</Button>}
             <Dialog
                 open={open}
                 onClose={handleClose}

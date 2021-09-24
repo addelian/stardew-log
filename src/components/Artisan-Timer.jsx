@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Space } from "antd";
-import { Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faAppleAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
@@ -72,71 +71,66 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
     }
 
     return(
-        <>
-            <Space direction="vertical">
-                <Row>
-                    <Col>
-                        <Space>
-                            <FormControl>
-                                <InputLabel>Starter</InputLabel>
-                                <Select 
-                                    style={{minWidth: 80}}
-                                    value={selected !== '' ? selected.id : ''}
-                                    onChange={handleChange}
-                                    >
-                                    {renderOptions(CROPS)}
-                                </Select>
-                            </FormControl>
-                                <Button 
-                                    variant="contained"
-                                    style={buttonStyling(selected, "keg")}
-                                    disabled={selected === '' || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
-                                    onClick={() => createKegTimer(selected)}
-                                    >
-                                    <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
-                                </Button>
-                                <Button 
-                                    variant="contained"
-                                    style={buttonStyling(selected, "jar")}
-                                    disabled={selected === '' || ["Coffee Bean", "Honey"].includes(selected.name)}
-                                    onClick={() => createJarTimer(selected)}
-                                    >
-                                    <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
-                                </Button>
-                                <Button 
-                                    variant="contained"
-                                    style={selected !== '' ? {color: "red"} : {}}
-                                    disabled={selected === ''}
-                                    onClick={() => clearTimer(selected)}
-                                    >
-                                    <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
-                                </Button>
-                        </Space>
-                    </Col>
-                </Row>
-
-                <Row >
-                    <Space>
-                        <Col>
-                            <Button 
-                                variant="contained"
-                                disabled={day > 83} 
-                                onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
-                                {hasHoney ? "Remove honey timer" : "Add honey timer"}
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button 
-                                variant="contained"
-                                disabled={day > 83} 
-                                onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
-                                {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
-                            </Button>
-                        </Col>
-                    </Space>
-                </Row>
-            </Space>
-        </>
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item>
+                <FormControl>
+                    <InputLabel>Starter</InputLabel>
+                    <Select 
+                        style={{minWidth: 80, }}
+                        value={selected !== '' ? selected.id : ''}
+                        onChange={handleChange}
+                        >
+                        {renderOptions(CROPS)}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={buttonStyling(selected, "keg")}
+                    disabled={selected === '' || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
+                    onClick={() => createKegTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={buttonStyling(selected, "jar")}
+                    disabled={selected === '' || ["Coffee Bean", "Honey"].includes(selected.name)}
+                    onClick={() => createJarTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {color: "red"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => clearTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    disabled={day > 83} 
+                    onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
+                    {hasHoney ? "Remove honey timer" : "Add honey timer"}
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    disabled={day > 83} 
+                    onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
+                    {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
+                </Button>
+            </Grid>
+        </Grid>
     )
 }
 

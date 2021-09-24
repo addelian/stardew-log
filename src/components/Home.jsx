@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, AppBar, Toolbar } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
@@ -47,66 +47,72 @@ const Home = () => {
     }, [hasFruitTrees]);
 
     return (
-        // <Box maxWidth="100%">
-        <Grid container direction="column" justifyContent="space-between">
-
-        
-            <AppBar color="default" position="static">
-                <Toolbar>
-                    <Counter 
-                        day={day}
-                        setDay={setDay}
-                        timers={timers}
-                        setTimers={setTimers}
-                        setError={setError}
-                        hasHoney={hasHoney}
-                        setHasHoney={setHasHoney}
-                        hasFruitTrees={hasFruitTrees}
-                        setHasFruitTrees={setHasFruitTrees}
-                    />
-                </Toolbar>
-            </AppBar>
-            <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
-                <Grid container direction="row" spacing={4} justifyContent="space-around">
-                    <Grid item md={5} style={{paddingTop: 50, paddingLeft: 20}}>
-                        <ArtisanTimer 
+        <Grid container spacing={4} direction="column" justifyContent="space-between" alignItems="space-between">
+            <Grid item>
+                <AppBar color="default" position="static">
+                    <Toolbar>
+                        <Counter 
                             day={day}
+                            setDay={setDay}
                             timers={timers}
                             setTimers={setTimers}
-                            error={error}
                             setError={setError}
                             hasHoney={hasHoney}
                             setHasHoney={setHasHoney}
                             hasFruitTrees={hasFruitTrees}
                             setHasFruitTrees={setHasFruitTrees}
-                        />
+                            />
+                    </Toolbar>
+                </AppBar>
+            </Grid>
+            <Grid item>
+                <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
+                    <Grid item>
+                        <Grid container direction="row" spacing={4} justifyContent="space-around" alignItems="center">
+                            <Grid item md={6} style={{marginTop: 50, marginBottom: 25}}>
+                                <ArtisanTimer 
+                                    day={day}
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                    error={error}
+                                    setError={setError}
+                                    hasHoney={hasHoney}
+                                    setHasHoney={setHasHoney}
+                                    hasFruitTrees={hasFruitTrees}
+                                    setHasFruitTrees={setHasFruitTrees}
+                                    />
+                            </Grid>
+                            <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
+                                <HarvestTimer
+                                    day={day}
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                    />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item md={5} style={{paddingTop: 50, paddingRight: 20}}>
-                        <HarvestTimer
+                    <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 50}}>
+                        <Typography variant="h4">
+                            Current timers:
+                        </Typography>
+                        <CurrentTimers
                             day={day}
+                            error={error}
                             timers={timers}
-                            setTimers={setTimers}
-                        />
+                            hasHoney={hasHoney}
+                            hasFruitTrees={hasFruitTrees}
+                            />
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <h2>Current timers:</h2>
-                    <CurrentTimers
-                        day={day}
-                        error={error}
-                        timers={timers}
-                        hasHoney={hasHoney}
-                        hasFruitTrees={hasFruitTrees}
-                        />
+            </Grid>
+            <Grid item>
+                <Grid container justifyContent="space-around">
+                    <Grid item xs={11}>
+                        <FooterComponent />
+                    </Grid>
                 </Grid>
             </Grid>
-            <Grid container justifyContent="space-around">
-                <Grid item xs={11}>
-                    <FooterComponent />
-                </Grid>
-            </Grid>
-            </Grid>
-        // </Box>
+        </Grid>
     )
 }
 

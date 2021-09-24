@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Space } from "antd";
+import { Grid, Typography } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { QUOTES } from "../data/quotes";
@@ -22,28 +22,30 @@ const FooterComponent = () => {
     }
 
     return (
-        <>
-            <Row justify="space-between">
-                <Col>
-                    <Space>
-                        Stardew Log created by Nic Addelia
-                        <FontAwesomeIcon icon={faGithub} />
-                        <a href="https://github.com/addelian" >@addelian</a>
-                    </Space>
-                </Col>
-            </Row>
-            <br />
-            <Row justify="space-between">
-                <Col>
-                    <Space>
-                        Stardew Valley © ConcernedApe LLC.
-                    </Space>
-                </Col>
-                <Col>
-                    <span><em>{quote}</em></span>
-                </Col>
-            </Row>
-        </>
+        <Grid container direction="column" spacing={1}>
+            <Grid item>
+                <Typography variant="subtitle1">
+                    Stardew Log created by Nic Addelia
+                    &nbsp; <FontAwesomeIcon icon={faGithub} />
+                    &nbsp; <a href="https://github.com/addelian">@addelian</a>
+                </Typography>
+            </Grid>
+            <Grid item>
+                <Grid container spacing={1} justifyContent="space-between">
+
+                    <Grid item>
+                        <Typography variant="subtitle1">
+                            Stardew Valley © ConcernedApe LLC.
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="subtitle1">
+                            <em>{quote}</em>
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
     )
 }
 

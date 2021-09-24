@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Space } from "antd";
-import { Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSeedling, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -50,42 +49,40 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
     }
     
     return(
-        <>
-            <Space direction="vertical">
-                <Row>
-                    <Col>
-                        <Space>
-                            <FormControl>
-                                <InputLabel>Crop</InputLabel>
-                                <Select 
-                                    style={{minWidth: 65}}
-                                    value={selected !== '' ? selected.id : ''}
-                                    onChange={handleChange}
-                                    >
-                                    {renderOptions(CROPS)}
-                                </Select>
-                            </FormControl>
-                            <Button 
-                                variant="contained"
-                                style={selected !== '' ? {"background-color": "green", "color" : "white"} : {}}
-                                disabled={selected === ''}
-                                onClick={() => createHarvestTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faSeedling} />&nbsp;Plant it
-                            </Button>
-                            <Button 
-                                variant="contained"
-                                style={selected !== '' ? {color: "red"} : {}}
-                                disabled={selected === ''}
-                                onClick={() => clearTimer(selected)}
-                                >
-                                <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
-                            </Button>
-                        </Space>
-                    </Col>
-                </Row>
-            </Space>
-        </>
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item>
+                <FormControl>
+                    <InputLabel>Crop</InputLabel>
+                    <Select 
+                        style={{minWidth: 65}}
+                        value={selected !== '' ? selected.id : ''}
+                        onChange={handleChange}
+                        >
+                        {renderOptions(CROPS)}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {"background-color": "green", "color" : "white"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => createHarvestTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faSeedling} />&nbsp;Plant it
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button 
+                    variant="contained"
+                    style={selected !== '' ? {color: "red"} : {}}
+                    disabled={selected === ''}
+                    onClick={() => clearTimer(selected)}
+                    >
+                    <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
+                </Button>
+            </Grid>
+        </Grid>
     )
 }
 
