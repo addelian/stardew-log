@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Counter from "./Counter";
 import ArtisanTimer from "./Artisan-Timer";
 import FooterComponent from "./FooterComponent";
 import HarvestTimer from "./Harvest-Timer";
 import CurrentTimers from "./Current-Timers";
+import readDate from "../helpers/Read-Date";
 
 const Home = () => {
 
-    // TODO: Navigation overhaul - Side menu with at least three pages: Timers, Notes, and About.
-    // Easiest approach is just conditional rendering and turn Home into a navigation with 
-    // a side drawer and that's about it.
+    // TODO: Navigation overhaul - menu button will drop down a few checkboxes - 
+    // "show timers", "show notes", "show custom timers", etc... 
+
+    // TODO: pull completed timers up to the top of the list, maybe add bolding or something.
+    // Lack of sorting makes them hard to pick out of the list, esp with lots of crops planted
+
+    // TODO: handleSummer1, handleFall1, handleSpring1
+    // perhaps update handleWinter1 to "handleSeasonChange" and add exceptions as needed?
 
     // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
     // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
@@ -20,6 +28,7 @@ const Home = () => {
     // TODO: Just a notepad of some sort, some sort of always-visible bulletin board
     // to remind myself of things. Especially nice for how many seeds are planted.
     
+    const [mobile, setMobile] = useState(false);
     const [day, setDay] = useState(0);
     const [timers, setTimers] = useState([]);
     const [error, setError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
@@ -48,13 +57,29 @@ const Home = () => {
         window.localStorage.setItem('hasFruitTrees', hasFruitTrees);
     }, [hasFruitTrees]);
 
+    const date = readDate(day);
+
     return (
         <Grid container spacing={4} direction="column" justifyContent="space-between" alignItems="space-between">
             <Grid item>
-                <AppBar color="default" position="static">
+                <AppBar position="static">
                     <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={mobile ? {flexGrow: 1, justifyContent: "start"} : { mr: 2 }}
+                        >
+                            <FontAwesomeIcon icon={faBars} />
+                        </IconButton>
+                        {!mobile && <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+                            Stardew Log
+                        </Typography>}
                         <Counter 
                             day={day}
+                            mobile={mobile}
+                            setMobile={setMobile}
                             setDay={setDay}
                             timers={timers}
                             setTimers={setTimers}
@@ -70,8 +95,28 @@ const Home = () => {
             <Grid item>
                 <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
                     <Grid item>
+                        {mobile ? 
+                            <Typography variant="h2">{date}</Typography> 
+                            : <Typography variant="h1" component="h2">
+                                {date}
+                            </Typography>
+                        }
+                    </Grid>
+                    <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 25}}>
+                        <Typography variant="h4">
+                            Current timers:
+                        </Typography>
+                        <CurrentTimers
+                            day={day}
+                            error={error}
+                            timers={timers}
+                            hasHoney={hasHoney}
+                            hasFruitTrees={hasFruitTrees}
+                            />
+                    </Grid>
+                    <Grid item>
                         <Grid container direction="row" spacing={4} justifyContent="space-around" alignItems="center">
-                            <Grid item md={6} style={{marginTop: 50, marginBottom: 25}}>
+                            <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
                                 <ArtisanTimer 
                                     day={day}
                                     timers={timers}
@@ -92,18 +137,6 @@ const Home = () => {
                                     />
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 50}}>
-                        <Typography variant="h4">
-                            Current timers:
-                        </Typography>
-                        <CurrentTimers
-                            day={day}
-                            error={error}
-                            timers={timers}
-                            hasHoney={hasHoney}
-                            hasFruitTrees={hasFruitTrees}
-                            />
                     </Grid>
                 </Grid>
             </Grid>

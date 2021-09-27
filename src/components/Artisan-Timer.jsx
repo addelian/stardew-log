@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWineBottle, faAppleAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faWineBottle, faFan, faUtensilSpoon, faTimes, faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
 const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
@@ -73,10 +73,12 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
     return(
         <Grid container spacing={1} justifyContent="center" alignItems="center">
             <Grid item>
-                <FormControl>
-                    <InputLabel>Starter</InputLabel>
-                    <Select 
-                        style={{minWidth: 80, }}
+                <FormControl sx={{minWidth: 95}}>
+                    <InputLabel id="starter-select-label">Starter</InputLabel>
+                    <Select
+                        labelId="starter-select-label"
+                        id="starter-select"
+                        label="Starter"
                         value={selected !== '' ? selected.id : ''}
                         onChange={handleChange}
                         >
@@ -90,7 +92,7 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                     style={buttonStyling(selected, "keg")}
                     disabled={selected === '' || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
                     onClick={() => createKegTimer(selected)}
-                    >
+                >
                     <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
                 </Button>
             </Grid>
@@ -100,33 +102,39 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                     style={buttonStyling(selected, "jar")}
                     disabled={selected === '' || ["Coffee Bean", "Honey"].includes(selected.name)}
                     onClick={() => createJarTimer(selected)}
-                    >
-                    <FontAwesomeIcon icon={faAppleAlt} />&nbsp;Jar it
+                >
+                    <FontAwesomeIcon icon={faUtensilSpoon} />&nbsp;Jar it
                 </Button>
             </Grid>
             <Grid item>
                 <Button 
-                    variant="contained"
-                    style={selected !== '' ? {color: "red"} : {}}
-                    disabled={selected === ''}
+                    variant="contained" 
+                    color="warning"
+                    disabled={selected === ''} 
                     onClick={() => clearTimer(selected)}
-                    >
+                >
                     <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
                 </Button>
             </Grid>
             <Grid item>
                 <Button 
+                    color={hasHoney ? "warning" : "primary" }
                     variant="contained"
                     disabled={day > 83} 
-                    onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}>
+                    onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}
+                >   
+                    <FontAwesomeIcon icon={hasHoney ? faTimes : faFan} /> &nbsp;
                     {hasHoney ? "Remove honey timer" : "Add honey timer"}
                 </Button>
             </Grid>
             <Grid item>
                 <Button 
+                    color={hasFruitTrees ? "warning" : "primary"}
                     variant="contained"
                     disabled={day > 83} 
-                    onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}>
+                    onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}
+                >
+                    <FontAwesomeIcon icon={hasFruitTrees ? faTimes : faLeaf} /> &nbsp;
                     {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
                 </Button>
             </Grid>

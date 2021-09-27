@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
+import { Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faFire } from "@fortawesome/free-solid-svg-icons";
 import readDate from "../helpers/Read-Date";
 
-const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
+const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
 
@@ -26,7 +26,6 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
     }, [])
 
     const [open, setOpen] = useState(false);
-    const [mobile, setMobile] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -129,13 +128,10 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
         setOpen(false);
     }
 
-    const date = readDate(day);
-
     return (
-        <Grid container spacing={3}>
-            <Typography style={{flexGrow: 1, paddingVertical: 10}} variant="h4">{date}</Typography>
-            {!mobile ? <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>Reset all</Button>
-                : <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>R</Button>}
+        <>
+            {!mobile ? <Button size="small" variant="contained" color="error" onClick={() => handleClickOpen()}>Reset all</Button>
+                : <Button variant="contained" color="error" onClick={() => handleClickOpen()}><FontAwesomeIcon icon={faFire} /></Button>}
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -158,14 +154,14 @@ const Counter = ({ day, setDay, timers, setTimers, setError, hasHoney, setHasHon
                     </Button>
                 </DialogActions>
             </Dialog>
-            {!mobile ? <Button variant="contained" color="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
-                : <Button variant="contained" color="default" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+            {!mobile ? <Button size="small" variant="contained" color="secondary" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
+                : <Button variant="contained" color="secondary" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
             }
-            {!mobile ? <Button variant="contained" color="primary" onClick={() => advanceDay(timers)}>Advance day&nbsp;&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-                : <Button variant="contained" color="primary" onClick={() => advanceDay(timers)}><FontAwesomeIcon icon={faArrowRight} /></Button>
+            {!mobile ? <Button color="success" size="small" variant="contained" onClick={() => advanceDay(timers)}>Advance day&nbsp;&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                : <Button color="success" variant="contained" onClick={() => advanceDay(timers)}><FontAwesomeIcon icon={faArrowRight} /></Button>
             }
-        </Grid>
-    )
+        </>
+    );
 }
 
 export default Counter;
