@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSeedling, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCarrot, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 import readDate from "../helpers/Read-Date";
 
@@ -51,10 +51,12 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
     return(
         <Grid container spacing={1} justifyContent="center" alignItems="center">
             <Grid item>
-                <FormControl>
-                    <InputLabel>Crop</InputLabel>
+                <FormControl sx={{minWidth: 80}}>
+                    <InputLabel id="crop-select-label">Crop</InputLabel>
                     <Select 
-                        style={{minWidth: 65}}
+                        labelId="crop-select-label"
+                        id="crop-select"
+                        label="Crop"
                         value={selected !== '' ? selected.id : ''}
                         onChange={handleChange}
                         >
@@ -69,13 +71,13 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
                     disabled={selected === ''}
                     onClick={() => createHarvestTimer(selected)}
                     >
-                    <FontAwesomeIcon icon={faSeedling} />&nbsp;Plant it
+                    <FontAwesomeIcon icon={faCarrot} />&nbsp;Plant it
                 </Button>
             </Grid>
             <Grid item>
                 <Button 
                     variant="contained"
-                    style={selected !== '' ? {color: "red"} : {}}
+                    color="warning"
                     disabled={selected === ''}
                     onClick={() => clearTimer(selected)}
                     >
