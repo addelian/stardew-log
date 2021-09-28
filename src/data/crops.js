@@ -673,8 +673,11 @@ export const CROPS = [
         id: "69-honey",
         name: "Honey",
         type: "other",
+        growTime: 4,
+        regrow: true,
+        regrowTime: 4,
         kegProduct: "Mead",
-        season: ["spring", "summer", "fall", "winter"],
+        season: [],
         kegDuration: 1,
     },
     {
@@ -788,6 +791,9 @@ export const CROPS = [
         id: "81-fruit-trees",
         name: "Fruit Trees",
         type: "other",
+        growTime: 28,
+        regrow: true,
+        regrowTime: 3,
         season: ["spring", "summer", "fall"],
     },
     {

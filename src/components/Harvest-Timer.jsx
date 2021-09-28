@@ -67,7 +67,7 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
             <Grid item>
                 <Button 
                     variant="contained"
-                    style={selected !== '' ? {"background-color": "green", "color" : "white"} : {}}
+                    style={selected !== '' ? {"backgroundColor": "green", "color" : "white"} : {}}
                     disabled={selected === ''}
                     onClick={() => createHarvestTimer(selected)}
                     >

@@ -14,12 +14,10 @@ const Home = () => {
     // TODO: Navigation overhaul - menu button will drop down a few checkboxes - 
     // "show timers", "show notes", "show custom timers", etc... 
 
-    // TODO: pull completed timers up to the top of the list, maybe add bolding or something.
-    // Lack of sorting makes them hard to pick out of the list, esp with lots of crops planted
-
     // TODO: handleSummer1, handleFall1, handleSpring1
     // perhaps update handleWinter1 to "handleSeasonChange" and add exceptions as needed?
-
+    // spring 1 should pop a reminder modal to start your honey and fruit trees timer again
+    
     // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
     // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
     // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
@@ -27,6 +25,9 @@ const Home = () => {
 
     // TODO: Just a notepad of some sort, some sort of always-visible bulletin board
     // to remind myself of things. Especially nice for how many seeds are planted.
+
+    // TODO: update renderTimers to check last letter of product name. If it's an "s", 
+    // handle updated from "is" to "are". Can recycle that function in several spots
     
     const [mobile, setMobile] = useState(false);
     const [day, setDay] = useState(0);

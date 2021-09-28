@@ -43,33 +43,68 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
             </List>
     
     const renderCountdown = productInTimer => {
-        if (productInTimer.name === "Honey") {
-            if ([4, 0].includes(productInTimer.countdown)) {
-                return ` is ready. Next harvest ready in 4 days`;
-            }
-            if (productInTimer.countdown === 1) {
-                return `: 1 day`;
-            }
-            return `: ${productInTimer.countdown} days`;
-        }
         if (productInTimer.name === "Fruit Trees") {
-            if ([3,0].includes(productInTimer.countdown)) {
-                return ` are full (3 fruit each). Pick them today!`;
+            if (!productInTimer.firstHarvest) {
+                if ([3,0].includes(productInTimer.countdown) && !productInTimer.initialCycle) {
+                    return ` are full (3 fruit each). Pick them today!`;
+                }
+                if (productInTimer.initialCycle && productInTimer.countdown === 3) {
+                    return `: 0 fruit each`;
+                }
+                if (productInTimer.countdown === 2) {
+                    return `: 1 fruit each`;
+                }
+                return `: 2 fruit each`;
             }
-            if (productInTimer.countdown === 2) {
-                return `: 1 fruit each`;
+            if (productInTimer.firstHarvest && !productInTimer.initialCycle) {
+                if (productInTimer.countdown === 0) {
+                    return ` are full (3 fruit each). Pick them today!`;
+                }
+                if (productInTimer.countdown === 3) {
+                    return `: 0 fruit each`;
+                }
+                if (productInTimer.countdown === 2) {
+                    return `: 1 fruit each`;
+                }
+                return `: 2 fruit each`;
             }
-            return `: 2 fruit each`;
         }
         if (productInTimer.regrow && productInTimer.firstHarvest === false && productInTimer.countdown === productInTimer.regrowTime) {
-            return ` is ready today. Next harvest in ${productInTimer.countdown} days`;
+            return `${productInTimer.name === "Hops" ? ` are` : ` is`} ready today. Next harvest in ${productInTimer.countdown} days`;
         }
-        return `${productInTimer.countdown > 0 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"} left`: `${(productInTimer.timerFor === "pickles" || productInTimer.name.includes("Seeds")) ? ` are` : ` is`} ready today`}`;
+        return `${productInTimer.countdown > 0 ? 
+            `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? 
+            "days" : "day"} left`: `${(productInTimer.timerFor === "pickles" 
+            || productInTimer.name.includes("Seeds" || "Trees")) ? 
+            ` are` : ` is`} ready today`}`;
     }
+
+    const renderCompletedTimers = completedTimers => completedTimers.map((timer, index) => {
+        return <li key={`${index}-${timer.id}-day-${day}`}><strong>{renderProductName(timer)}{renderCountdown(timer)}</strong></li>
+    });
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
         return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
     });
+
+    const hasCompletedTimers = activeTimers => {
+        if (activeTimers.filter(timer => timer.countdown === 0 
+            || (timer.regrow 
+            && timer.firstHarvest === false 
+            && (timer.initialCycle === undefined || timer.initialCycle === false)
+            && timer.countdown === timer.regrowTime)).length > 0) { return true };
+        return false;
+    }
+
+    const hasTimers = activeTimers => {
+        if (activeTimers.filter(timer => ((timer.countdown !== 0 
+            && !(timer.regrow 
+            && timer.countdown === timer.regrowTime 
+            && timer.firstHarvest === false))
+            || timer.firstHarvest === false && timer.initialCycle === true
+            )).length > 0) { return true };
+        return false;
+    }
 
     return (
         <Grid container direction="column" justifyContent="center" alignItems="center">
@@ -84,14 +119,45 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
                 </Alert>
                 )}
             </Grid>
-            <Grid item>
-                <Typography variant="body1">
-                <ul style={{listStyle: "none", paddingLeft: 0}}>
-                    {timers.length > 0 && renderTimers(timers)}
-                    {timers.length === 0 && (!hasHoney && !hasFruitTrees) && "None. Enjoy yer day"}
-                </ul>
-                </Typography>
-            </Grid>
+            {hasCompletedTimers(timers) && (
+                <Grid item>
+                    <Typography variant="body1">
+                    <ul style={{listStyle: "none", paddingLeft: 0}}>
+                        {timers.length > 0 
+                            && renderCompletedTimers(timers.filter(timer => timer.countdown === 0 
+                            || (timer.regrow 
+                            && timer.firstHarvest === false 
+                            && (timer.initialCycle === undefined || timer.initialCycle === false)
+                            && timer.countdown === timer.regrowTime)))
+                        }
+                    </ul>
+                    </Typography>
+                </Grid>
+            )}
+            {hasTimers(timers) && (
+                <Grid item>
+                    <Typography variant="body2">
+                    <ul style={{listStyle: "none", paddingLeft: 0}}>
+                        {timers.length > 0 
+                            && renderTimers(timers.filter(timer => ((timer.countdown !== 0 
+                            && !(timer.regrow 
+                            && timer.countdown === timer.regrowTime 
+                            && timer.firstHarvest === false))
+                            || timer.firstHarvest === false && timer.initialCycle === true
+                            )))
+                        }
+                    </ul>
+                    </Typography>
+                </Grid>
+            )}
+            {timers.length === 0 && (!hasHoney && !hasFruitTrees) ?
+                <Grid item sx={{padding: 2}}>
+                    <Typography variant="body2">
+                        None. Enjoy yer day
+                    </Typography>
+                </Grid>
+                : null
+            }
         </Grid>
     )
 }

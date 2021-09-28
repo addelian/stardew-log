@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Button, Select, FormControl, InputLabel, MenuItem } from "@mui/material";
+import { Grid, Button, Select, FormControl, InputLabel, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faFan, faUtensilSpoon, faTimes, faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
@@ -7,6 +7,7 @@ import { CROPS } from "../data/crops";
 const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
 
     const [selected, setSelected] = useState('');
+    const [open, setOpen] = useState(false);
 
     const handleChange = e => {
         if (e.target.value !== '') {
@@ -15,19 +16,51 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
         }
     }
 
-    const handleBeesAndTrees = (hasProduct, setHasProduct, selectedProduct, productCountdown, productTimerFor) => {
-        if (!hasProduct) {
-            const product = CROPS.find(crop => crop.name === selectedProduct);
-            setHasProduct(true);
-            setTimers([ ...timers, { ...product, countdown: productCountdown, timerFor: productTimerFor }]);
+    const handleClickOpen = () => {
+        if (!hasFruitTrees) {
+            setOpen(true);
             return;
         }
-        setHasProduct(false);
-        const productTimer = timers.findIndex(timer => timer.name === selectedProduct);
+        setHasFruitTrees(false);
+        const productTimer = timers.findIndex(timer => timer.name === "Fruit Trees");
         const reducedTimers = timers.splice(productTimer, 1);
         setTimers(timers);
         return reducedTimers;
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleFruitTrees = sapling => {
+        if (!hasFruitTrees) {
+            const product = CROPS.find(crop => crop.name === "Fruit Trees");
+            setHasFruitTrees(true);
+            setTimers([ ...timers, { 
+                ...product, 
+                countdown: sapling ? product.growTime : 2, 
+                firstHarvest: true, 
+                initialCycle: sapling,
+                timerFor: "Fruit Trees" 
+            }]);
+            handleClose();
+            return;
+        }
+    }
+
+    const handleHoney = (() => {
+        if (!hasHoney) {
+            const product = CROPS.find(crop => crop.name === "Honey");
+            setHasHoney(true);
+            setTimers([ ...timers, { ...product, countdown: product.growTime, timerFor: "Honey", firstHarvest: true }]);
+            return;
+        }
+        setHasHoney(false);
+        const productTimer = timers.findIndex(timer => timer.name === "Honey");
+        const reducedTimers = timers.splice(productTimer, 1);
+        setTimers(timers);
+        return reducedTimers;
+    })
 
     const createKegTimer = selectedOption => {
         setTimers([ ...timers, {...selectedOption, countdown: selectedOption.kegDuration, timerFor: selectedOption.kegProduct, timerType: "keg"} ])
@@ -121,10 +154,10 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                     color={hasHoney ? "warning" : "primary" }
                     variant="contained"
                     disabled={day > 83} 
-                    onClick={() => handleBeesAndTrees(hasHoney, setHasHoney, "Honey", 4, "Honey" )}
+                    onClick={() => handleHoney()}
                 >   
                     <FontAwesomeIcon icon={hasHoney ? faTimes : faFan} /> &nbsp;
-                    {hasHoney ? "Remove honey timer" : "Add honey timer"}
+                    {hasHoney ? "Remove bee house timer" : "Add bee house timer"}
                 </Button>
             </Grid>
             <Grid item>
@@ -132,11 +165,36 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                     color={hasFruitTrees ? "warning" : "primary"}
                     variant="contained"
                     disabled={day > 83} 
-                    onClick={() => handleBeesAndTrees(hasFruitTrees, setHasFruitTrees, "Fruit Trees", 3, "Fruit Trees" )}
+                    onClick={() => handleClickOpen()}
                 >
                     <FontAwesomeIcon icon={hasFruitTrees ? faTimes : faLeaf} /> &nbsp;
                     {hasFruitTrees ? "Remove fruit tree timer" : "Add fruit tree timer"}
                 </Button>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="dialog-title"
+                >
+                    <DialogTitle id="dialog-title">
+                        Are you planting a fruit tree?
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Did you plant your fruit trees today, or are you restarting your timer on Spring 1?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={() => handleClose()} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => handleFruitTrees(true)} color="primary">
+                            Planting them
+                        </Button>
+                        <Button onClick={() => handleFruitTrees(false)}>
+                            Restarting on Spring 1
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Grid>
         </Grid>
     )

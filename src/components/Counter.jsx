@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faFire } from "@fortawesome/free-solid-svg-icons";
-import readDate from "../helpers/Read-Date";
 
 const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
@@ -56,11 +55,6 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
     const advanceDay = activeTimers => {
         day < 111 ? setDay(day + 1) : setDay(0);
         const timersCountingDown = activeTimers.map(timer => {
-            if (timer.name === "Honey" || timer.name === "Fruit Trees") {
-                if (timer.countdown - 1 === 0) {
-                    return {...timer, countdown: (timer.name === "Honey" ? 4 : 3)}
-                }
-            }
             return {...timer, countdown: timer.countdown - 1}
         })
         setTimers(timersCountingDown);
@@ -72,6 +66,11 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
         }
         timersToKeep.forEach(timer => {
             if (timer.countdown === 0 && timer.regrow) {
+                if (!timer.firstHarvest) {
+                    if (timer.initialCycle) {
+                        timer.initialCycle = false;
+                    }
+                }
                 if (timer.firstHarvest) {
                     timer.firstHarvest = false;
                 }
