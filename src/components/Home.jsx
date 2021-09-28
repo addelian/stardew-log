@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import { Button, Menu, MenuItem, Grid, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Counter from "./Counter";
@@ -11,8 +11,8 @@ import readDate from "../helpers/Read-Date";
 
 const Home = () => {
 
-    // TODO: Navigation overhaul - menu button will drop down a few checkboxes - 
-    // "show timers", "show notes", "show custom timers", etc... 
+    // TODO: be sure to update reset all function to accommodate for new hide/show options in menu.
+    // Also would be nice to hide the reset all function, or at least figure out a way to do it moving forward sooner than later.
 
     // TODO: handleSummer1, handleFall1, handleSpring1
     // perhaps update handleWinter1 to "handleSeasonChange" and add exceptions as needed?
@@ -35,6 +35,10 @@ const Home = () => {
     const [error, setError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
     const [hasHoney, setHasHoney] = useState(false);
     const [hasFruitTrees, setHasFruitTrees] = useState(false);
+    const [showDate, setShowDate] = useState(true);
+    const [showArtisanTimers, setShowArtisanTimers] = useState(true);
+    const [showHarvestTimers, setShowHarvestTimers] = useState(true);
+    const [showCurrentTimers, setShowCurrentTimers] = useState(true);
 
     // Loads local storage on componentDidMount
     useEffect(() => {
@@ -58,6 +62,15 @@ const Home = () => {
         window.localStorage.setItem('hasFruitTrees', hasFruitTrees);
     }, [hasFruitTrees]);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const date = readDate(day);
 
     return (
@@ -65,15 +78,56 @@ const Home = () => {
             <Grid item>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
+                        <Button
+                            id="basic-button"
+                            aria-controls="basic-menu"
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            <IconButton
                             size="large"
                             edge="start"
-                            color="inherit"
                             aria-label="menu"
-                            sx={mobile ? {flexGrow: 1, justifyContent: "start"} : { mr: 2 }}
-                        >
+                            sx={mobile ? {flexGrow: 1, justifyContent: "start", color: "white"} : { mr: 2, color: "white" }}
+                            >
                             <FontAwesomeIcon icon={faBars} />
                         </IconButton>
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={() => {
+                                setShowDate(!showDate);
+                                handleClose();
+                            }}>
+                                {showDate ? "Hide date" : "Show date"}
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                setShowCurrentTimers(!showCurrentTimers);
+                                handleClose();
+                            }}>
+                                {showCurrentTimers ? "Hide current timers" : "Show current timers"}
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                setShowArtisanTimers(!showArtisanTimers);
+                                handleClose();
+                            }}>
+                                {showArtisanTimers ? "Hide artisan timers" : "Show artisan timers"}
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                setShowHarvestTimers(!showHarvestTimers);
+                                handleClose();
+                            }}>
+                                {showHarvestTimers ? "Hide harvest timers" : "Show harvest timers"}
+                            </MenuItem>                          
+                        </Menu>
                         {!mobile && <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
                             Stardew Log
                         </Typography>}
@@ -95,48 +149,65 @@ const Home = () => {
             </Grid>
             <Grid item>
                 <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
-                    <Grid item>
-                        {mobile ? 
-                            <Typography variant="h2">{date}</Typography> 
-                            : <Typography variant="h1" component="h2">
-                                {date}
+                    {showDate && (
+                        <Grid item>
+                            {mobile ? 
+                                <Typography variant="h2">{date}</Typography> 
+                                : <Typography variant="h1" component="h2">
+                                    {date}
+                                </Typography>
+                            }
+                        </Grid>
+                    )}
+                    {showCurrentTimers && (
+                        <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 25}}>
+                            <Typography variant="h4">
+                                Current timers:
                             </Typography>
-                        }
-                    </Grid>
-                    <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 25}}>
-                        <Typography variant="h4">
-                            Current timers:
-                        </Typography>
-                        <CurrentTimers
-                            day={day}
-                            error={error}
-                            timers={timers}
-                            hasHoney={hasHoney}
-                            hasFruitTrees={hasFruitTrees}
+                            <CurrentTimers
+                                day={day}
+                                error={error}
+                                timers={timers}
+                                hasHoney={hasHoney}
+                                hasFruitTrees={hasFruitTrees}
                             />
-                    </Grid>
+                        </Grid>
+                    )}
                     <Grid item>
                         <Grid container direction="row" spacing={4} justifyContent="space-around" alignItems="center">
-                            <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
-                                <ArtisanTimer 
-                                    day={day}
-                                    timers={timers}
-                                    setTimers={setTimers}
-                                    error={error}
-                                    setError={setError}
-                                    hasHoney={hasHoney}
-                                    setHasHoney={setHasHoney}
-                                    hasFruitTrees={hasFruitTrees}
-                                    setHasFruitTrees={setHasFruitTrees}
-                                    />
-                            </Grid>
-                            <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
-                                <HarvestTimer
-                                    day={day}
-                                    timers={timers}
-                                    setTimers={setTimers}
-                                    />
-                            </Grid>
+                            {showArtisanTimers && (
+                                <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
+                                    <ArtisanTimer 
+                                        day={day}
+                                        timers={timers}
+                                        setTimers={setTimers}
+                                        error={error}
+                                        setError={setError}
+                                        hasHoney={hasHoney}
+                                        setHasHoney={setHasHoney}
+                                        hasFruitTrees={hasFruitTrees}
+                                        setHasFruitTrees={setHasFruitTrees}
+                                        />
+                                </Grid>
+                            )}
+                            {showHarvestTimers && (
+                                <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
+                                    <HarvestTimer
+                                        day={day}
+                                        timers={timers}
+                                        setTimers={setTimers}
+                                        />
+                                </Grid>
+                            )}
+                            {(!showDate && !showCurrentTimers && !showHarvestTimers && !showArtisanTimers) && (
+                                <Grid item md={6}>
+                                    <Typography variant="body2">
+                                        Looks like you've hidden all the juicy stuff on the page. Perhaps this was intentional.
+                                        Perhaps not! Have no fear. Visit the menu in the top left corner of the screen and select
+                                        some of those timers again, and we'll be off to the races.
+                                    </Typography>
+                                </Grid>
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>
