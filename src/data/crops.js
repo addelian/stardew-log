@@ -677,7 +677,7 @@ export const CROPS = [
         regrow: true,
         regrowTime: 4,
         kegProduct: "Mead",
-        season: [],
+        season: ["spring", "summer", "fall"],
         kegDuration: 1,
     },
     {

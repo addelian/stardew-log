@@ -1,8 +1,10 @@
 import React from "react";
-import { Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { IconButton, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { Alert, AlertTitle } from '@mui/material';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
+const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
     const renderProductName = productInTimer => {
 
@@ -80,12 +82,47 @@ const CurrentTimers = ({ day, error, timers, hasHoney, hasFruitTrees }) => {
     }
 
     const renderCompletedTimers = completedTimers => completedTimers.map((timer, index) => {
-        return <li key={`${index}-${timer.id}-day-${day}`}><strong>{renderProductName(timer)}{renderCountdown(timer)}</strong></li>
-    });
+        return (
+            <>
+                <li key={`${index}-${timer.id}-day-${day}`} style={{alignItems: "center"}}>
+                    <Typography>
+                        <strong>
+                            {renderProductName(timer)}{renderCountdown(timer)} &nbsp;
+                        </strong>
+                        <IconButton color="error" size="small" onClick={() => {
+                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name);
+                            activeTimers.splice(deleteIndex, 1);
+                            if (timer.name === "Fruit Trees") { setHasFruitTrees(false) }
+                            if (timer.name === "Honey") { setHasHoney(false) }
+                            setTimers(activeTimers);
+                        }}>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </IconButton>
+                    </Typography>
+                </li>
+            </>
+    )});
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
-        return <li key={`${index}-${timer.id}-day-${day}`}>{renderProductName(timer)}{renderCountdown(timer)}</li>
-    });
+        return (
+            <>
+                <li key={`${index}-${timer.id}-day-${day}`} id={`${index}-${timer.id}-day-${day}`} style={{alignItems: "center"}}>
+                    <Typography>
+                        {renderProductName(timer)}{renderCountdown(timer)} &nbsp;
+                        <IconButton color="error" size="small" sx={{pb: 1}} onClick={() => {
+                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name);
+                            activeTimers.splice(deleteIndex, 1);
+                            if (timer.name === "Fruit Trees") { setHasFruitTrees(false) }
+                            if (timer.name === "Honey") { setHasHoney(false) }
+                            setTimers(activeTimers);
+                        }}>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </IconButton>
+                    </Typography>
+                </li>
+                
+            </>
+    )});
 
     const hasCompletedTimers = activeTimers => {
         if (activeTimers.filter(timer => timer.countdown === 0 

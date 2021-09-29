@@ -2,8 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faFire } from "@fortawesome/free-solid-svg-icons";
+import { CROPS } from "../data/crops";
 
-const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
+const Counter = ({ 
+    day, 
+    setDay, 
+    mobile, 
+    setMobile, 
+    timers, 
+    setTimers, 
+    setError, 
+    setHasHoney, 
+    hasFruitTrees, 
+    setHasFruitTrees,
+    setShowState,
+    setJournal
+    }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
 
@@ -24,14 +38,23 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
         }
     }, [])
 
-    const [open, setOpen] = useState(false);
+    const [resetOpen, setResetOpen] = useState(false);
+    const [spring1Reminder, setSpring1Reminder] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleResetOpen = () => {
+        setResetOpen(true);
     }
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleResetClose = () => {
+        setResetOpen(false);
+    }
+
+    const handleSpring1Reminder = () => {
+        setSpring1Reminder(true);
+    }
+
+    const handleSpring1Close = () => {
+        setSpring1Reminder(false);
     }
 
     const handleError = () => {
@@ -41,13 +64,37 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
         setTimeout(removeError, 5000);
     }   
 
-    const handleWinter1 = (remainingTimers, productName, setHasProduct) => {
-        const i = remainingTimers.findIndex(timer => timer.name === productName);
-        if (i !== -1) {
-            const removedProduct = remainingTimers.splice(i, 1)[0];
-            setTimers(remainingTimers);
-            setHasProduct(false);
-            return removedProduct;
+    const handleSeasonChange = (remainingTimers, season) => {
+
+        const toRemove = remainingTimers.filter(timer => !timer.season.includes(season) && timer.timerType === "harvest");
+        const clearedTimers = remainingTimers.filter(timer => !toRemove.includes(timer));
+        if (hasFruitTrees && season !== "winter") {
+            const i = clearedTimers.findIndex(timer => timer.name === "Fruit Trees");
+            const product = CROPS.find(crop => crop.name === "Fruit Trees");
+            const newSeasonFruitTrees = { 
+                ...product, 
+                countdown: 2, 
+                firstHarvest: true, 
+                initialCycle: false,
+                timerType: "harvest",
+                timerFor: "Fruit Trees" 
+            }
+            clearedTimers.splice(i, 1, newSeasonFruitTrees);
+        }
+        setTimers(clearedTimers);
+        if (season === "winter") {
+            setHasFruitTrees(false);
+            setHasHoney(false);
+        }
+        if (toRemove.length > 0) {
+            setError({
+                exists: true,
+                message: `Welcome to ${season}!`,
+                description: `The following items cannot be harvested during ${season}, and thus, their timers were removed:`,
+                triggers: toRemove
+            });
+            handleError();
+            return;
         }
         return;
     }
@@ -77,18 +124,22 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
                 timer.countdown = timer.regrowTime;
             }
         })
-        // Winter 1
-        if (day === 83 && (hasHoney || hasFruitTrees)) {
-            const winter1Removals = [];
-            hasHoney && winter1Removals.push(handleWinter1(timersToKeep, "Honey", setHasHoney));
-            hasFruitTrees && winter1Removals.push(handleWinter1(timersToKeep, "Fruit Trees", setHasFruitTrees));
-            setError({
-                exists: true,
-                message: "Welcome to Winter!",
-                description: "The following items cannot be harvested during winter, and thus, their timers were removed:",
-                triggers: winter1Removals
-            });
-            handleError();
+        // Spring 1 is 0
+        // Summer 1 is 28
+        // Fall 1 is 56
+        // Winter 1 is 83
+        if (day === 111) {
+            handleSeasonChange(timersToKeep, "spring");
+            handleSpring1Reminder();
+        }
+        if (day === 27) {
+            handleSeasonChange(timersToKeep, "summer");
+        }
+        if (day === 55) {
+            handleSeasonChange(timersToKeep, "fall");
+        }
+        if (day === 83) {
+            handleSeasonChange(timersToKeep, "winter");
         }
     }
 
@@ -124,19 +175,28 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
         setTimers([]);
         setHasHoney(false);
         setHasFruitTrees(false);
-        setOpen(false);
+        setShowState({
+            date: true,
+            artisanTimers: true,
+            currentTimers: true,
+            harvestTimers: true
+        });
+        setJournal(
+            "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
+        );
+        setResetOpen(false);
     }
 
     return (
         <>
-            {!mobile ? <Button size="small" variant="contained" color="error" onClick={() => handleClickOpen()}>Reset all</Button>
-                : <Button variant="contained" color="error" onClick={() => handleClickOpen()}><FontAwesomeIcon icon={faFire} /></Button>}
+            {!mobile ? <Button size="small" variant="contained" color="error" onClick={() => handleResetOpen()}>Reset all</Button>
+                : <Button variant="contained" color="error" onClick={() => handleResetOpen()}><FontAwesomeIcon icon={faFire} /></Button>}
             <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="dialog-title"
+                open={resetOpen}
+                onClose={handleResetClose}
+                aria-labelledby="reset-dialog"
             >
-                <DialogTitle id="dialog-title">
+                <DialogTitle id="reset-dialog">
                     Are you sure you wish to reset?
                 </DialogTitle>
                 <DialogContent>
@@ -145,11 +205,31 @@ const Counter = ({ day, setDay, mobile, setMobile, timers, setTimers, setError, 
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={() => handleClose()} color="primary">
-                        Cancel
+                    <Button autoFocus onClick={() => handleResetClose()} color="primary">
+                        No
                     </Button>
                     <Button onClick={() => resetAll()} color="primary">
-                        OK
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={spring1Reminder}
+                onClose={handleSpring1Close}
+                aria-labelledby="spring-1-dialog"
+            >
+                <DialogTitle id="spring-1-dialog">
+                    Spring has sprung again!
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        If you have bee houses and mature fruit trees on your farm,
+                        you'll want to reactivate those timers today!
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={() => handleSpring1Close()} color="primary">
+                        Got it
                     </Button>
                 </DialogActions>
             </Dialog>

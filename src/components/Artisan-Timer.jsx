@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { Grid, Button, Select, FormControl, InputLabel, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { 
+    Grid, 
+    Button, 
+    Select, 
+    FormControl, 
+    InputLabel, 
+    MenuItem, 
+    Dialog, 
+    DialogTitle, 
+    DialogContent, 
+    DialogContentText, 
+    DialogActions 
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faFan, faUtensilSpoon, faTimes, faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
-const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
+const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
 
     const [selected, setSelected] = useState('');
     const [open, setOpen] = useState(false);
@@ -41,6 +53,7 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                 countdown: sapling ? product.growTime : 2, 
                 firstHarvest: true, 
                 initialCycle: sapling,
+                timerType: "harvest",
                 timerFor: "Fruit Trees" 
             }]);
             handleClose();
@@ -52,7 +65,13 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
         if (!hasHoney) {
             const product = CROPS.find(crop => crop.name === "Honey");
             setHasHoney(true);
-            setTimers([ ...timers, { ...product, countdown: product.growTime, timerFor: "Honey", firstHarvest: true }]);
+            setTimers([ ...timers, { 
+                ...product, 
+                countdown: product.growTime, 
+                timerFor: "Honey", 
+                timerType: "harvest", 
+                firstHarvest: true 
+            }]);
             return;
         }
         setHasHoney(false);
@@ -63,12 +82,22 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
     })
 
     const createKegTimer = selectedOption => {
-        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.kegDuration, timerFor: selectedOption.kegProduct, timerType: "keg"} ])
+        setTimers([ ...timers, {
+            ...selectedOption, 
+            countdown: selectedOption.kegDuration, 
+            timerFor: selectedOption.kegProduct, 
+            timerType: "keg" 
+        }]);
         setSelected('')
     }
 
     const createJarTimer = selectedOption => {
-        setTimers([ ...timers, {...selectedOption, countdown: selectedOption.name === "Caviar" ? 3 : 4, timerFor: selectedOption.jarProduct, timerType: "jar"} ])
+        setTimers([ ...timers, {
+            ...selectedOption, 
+            countdown: selectedOption.name === "Caviar" ? 3 : 4, 
+            timerFor: selectedOption.jarProduct, 
+            timerType: "jar" 
+        }]);
         setSelected('');
     }
 
@@ -191,7 +220,7 @@ const ArtisanTimer = ({timers, setTimers, day, error, hasHoney, setHasHoney, has
                             Planting them
                         </Button>
                         <Button onClick={() => handleFruitTrees(false)}>
-                            Restarting on Spring 1
+                            Spring 1
                         </Button>
                     </DialogActions>
                 </Dialog>
