@@ -1,15 +1,17 @@
 import React from "react";
-import { Grid, FormControl, FormGroup, FormControlLabel, Checkbox, Typography, TextField } from "@mui/material";
+import { Grid, FormControl, FormGroup, FormControlLabel, Checkbox, Typography } from "@mui/material";
 import ArtisanTimer from "./Artisan-Timer";
 import HarvestTimer from "./Harvest-Timer";
 import CurrentTimers from "./Current-Timers";
+import Journal from "./Journal";
 
-const TimersPage = ({
+const LogPage = ({
     currentDate,
     date,
     currentTimers,
     artisanTimers,
     harvestTimers,
+    journal,
     handleCheck,
     mobile,
     day,
@@ -21,13 +23,9 @@ const TimersPage = ({
     setHasHoney,
     hasFruitTrees,
     setHasFruitTrees,
-    journal,
-    setJournal
+    journalText,
+    setJournalText
 }) => {
-
-    const handleChange = e => {
-        setJournal(e.target.value);
-    }
 
     return (
         <>
@@ -58,40 +56,48 @@ const TimersPage = ({
                             }
                             label="Show artisan timer builder"
                         />
+                        <FormControlLabel
+                            control={
+                                <Checkbox size="small" checked={journal} onChange={handleCheck} name="journal" />
+                            }
+                            label="Show journal"
+                        />
                     </FormGroup>
                 </FormControl>
             </Grid>
             <Grid item>
-                <Grid container spacing={3} direction="column" justifyContent="space-around" alignItems="center">
-                    {date && (
-                        <Grid item>
-                            {mobile ? 
-                                <Typography variant="h2">{currentDate}</Typography> 
-                                : <Typography variant="h1" component="h2">
-                                    {currentDate}
-                                </Typography>
-                            }
-                        </Grid>
-                    )}
-                    {currentTimers && (
-                        <Grid item justifyContent="center" xs={12} style={{textAlign: "center", marginTop: 25, marginBottom: 25}}>
-                            <Typography variant="h4">
-                                Current timers:
-                            </Typography>
-                            <CurrentTimers
-                                day={day}
-                                error={error}
-                                timers={timers}
-                                setTimers={setTimers}
-                                hasHoney={hasHoney}
-                                setHasHoney={setHasHoney}
-                                hasFruitTrees={hasFruitTrees}
-                                setHasFruitTrees={setHasFruitTrees}
-                            />
-                        </Grid>
-                    )}
+                <Grid container spacing={3} justifyContent="space-around" sx={{py: 10}}>
                     <Grid item>
-                        <Grid container direction="row" spacing={4} justifyContent="space-around" alignItems="center">
+                        {date && (
+                            <Grid item>
+                                {mobile ? 
+                                    <Typography variant="h2">{currentDate}</Typography> 
+                                    : <Typography variant="h1" component="h2">
+                                        {currentDate}
+                                    </Typography>
+                                }
+                            </Grid>
+                        )}
+                        {currentTimers && (
+                            <Grid item justifyContent="center" xs={12} style={{textAlign: "center"}}>
+                                <Typography variant="h4">
+                                    Current timers:
+                                </Typography>
+                                <CurrentTimers
+                                    day={day}
+                                    error={error}
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                    hasHoney={hasHoney}
+                                    setHasHoney={setHasHoney}
+                                    hasFruitTrees={hasFruitTrees}
+                                    setHasFruitTrees={setHasFruitTrees}
+                                />
+                            </Grid>
+                        )}
+                    </Grid>
+                    <Grid item>
+                        <Grid container direction="column" spacing={4} justifyContent="space-around" alignItems="center">
                             {artisanTimers && (
                                 <Grid item md={6} style={{marginTop: 25, marginBottom: 50}}>
                                     <ArtisanTimer 
@@ -124,20 +130,22 @@ const TimersPage = ({
                                     </Typography>
                                 </Grid>
                             )}
-                            <TextField
-                                id="user-notepad"
-                                label="Journal"
-                                multiline
-                                rows={6}
-                                value={journal}
-                                onChange={handleChange}
-                            />
                         </Grid>
                     </Grid>
+                    {journal && (
+                        <Grid container justifyContent="center">
+                            <Grid item xs={10} sx={{mx: "auto", pt: 5}}>
+                                <Journal 
+                                    journalText={journalText} 
+                                    setJournalText={setJournalText}
+                                />
+                            </Grid>
+                        </Grid>
+                    )}
                 </Grid>
             </Grid>
         </>
     )
 }
 
-export default TimersPage;
+export default LogPage;

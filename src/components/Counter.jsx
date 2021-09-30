@@ -16,7 +16,7 @@ const Counter = ({
     hasFruitTrees, 
     setHasFruitTrees,
     setShowState,
-    setJournal
+    setJournalText
     }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
@@ -179,9 +179,10 @@ const Counter = ({
             date: true,
             artisanTimers: true,
             currentTimers: true,
-            harvestTimers: true
+            harvestTimers: true,
+            journal: true
         });
-        setJournal(
+        setJournalText(
             "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
         );
         setResetOpen(false);
@@ -201,7 +202,7 @@ const Counter = ({
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        You will lose all of your timers and be sent back to Spring 1
+                        You will lose all of your timers, as well as the contents of your journal, and be sent back to Spring 1
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

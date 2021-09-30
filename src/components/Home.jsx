@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Button, Menu, MenuItem, Grid, AppBar, Toolbar, Typography, IconButton, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
-import TimersPage from "./Timers-Page";
+import LogPage from "./Log-Page";
 import Counter from "./Counter";
 import FooterComponent from "./FooterComponent";
 import readDate from "../helpers/Read-Date";
 
 const Home = () => {
-    
+
     // TODO: Decide where I want the journal to live, and move it / update props accordingly
+    
+    // re: above, will also need to add a checkbox to show / hide it.
     
     // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
     // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
@@ -25,20 +27,21 @@ const Home = () => {
     const [error, setError] = useState({exists: false, message: "Oh no!", description: "", triggers: []});
     const [hasHoney, setHasHoney] = useState(false);
     const [hasFruitTrees, setHasFruitTrees] = useState(false);
-    const [showTimersPage, setShowTimersPage] = useState(true);
+    const [showLogPage, setShowLogPage] = useState(true);
     const [showSettingsPage, setShowSettingsPage] = useState(false);
     const [showAboutPage, setShowAboutPage] = useState(false);
-    const [journal, setJournal] = useState(
+    const [journalText, setJournalText] = useState(
         "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
     );
     const [showState, setShowState] = useState({
         date: true,
         artisanTimers: true,
         harvestTimers: true,
-        currentTimers: true
+        currentTimers: true,
+        journal: true,
     })
 
-    const { date, artisanTimers, harvestTimers, currentTimers } = showState;
+    const { date, artisanTimers, harvestTimers, currentTimers, journal } = showState;
 
     const currentDate = readDate(day);
 
@@ -49,7 +52,7 @@ const Home = () => {
         setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
         setHasFruitTrees(JSON.parse(window.localStorage.getItem("hasFruitTrees")));
         setShowState(JSON.parse(window.localStorage.getItem("showState")));
-        setJournal(JSON.parse(window.localStorage.getItem("journal")));
+        setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
     }, []);
 
     // Basic save functionality
@@ -69,8 +72,8 @@ const Home = () => {
         window.localStorage.setItem('showState', JSON.stringify(showState));
     }, [showState]);
     useEffect(() => {
-        window.localStorage.setItem('journal', JSON.stringify(journal));
-    }, [journal]);
+        window.localStorage.setItem('journalText', JSON.stringify(journalText));
+    }, [journalText]);
 
     const [menuOpen, setMenuOpen] = useState(null);
     const open = Boolean(menuOpen);
@@ -122,13 +125,13 @@ const Home = () => {
                             <MenuItem onClick={() => {
                                 setShowSettingsPage(false);
                                 setShowAboutPage(false);
-                                setShowTimersPage(true);
+                                setShowLogPage(true);
                                 handleClose();
                             }}>
-                                {showTimersPage && <><FontAwesomeIcon icon={faCheck} />&nbsp;</>}Timers
+                                {showLogPage && <><FontAwesomeIcon icon={faCheck} />&nbsp;</>}Log
                             </MenuItem>
                             <MenuItem onClick={() => {
-                                setShowTimersPage(false);
+                                setShowLogPage(false);
                                 setShowAboutPage(false);
                                 setShowSettingsPage(true);
                                 handleClose();
@@ -136,7 +139,7 @@ const Home = () => {
                                 {showSettingsPage && <><FontAwesomeIcon icon={faCheck} />&nbsp;</>}Settings
                             </MenuItem>
                             <MenuItem onClick={() => {
-                                setShowTimersPage(false);
+                                setShowLogPage(false);
                                 setShowSettingsPage(false);
                                 setShowAboutPage(true);
                                 handleClose();
@@ -160,17 +163,18 @@ const Home = () => {
                             hasFruitTrees={hasFruitTrees}
                             setHasFruitTrees={setHasFruitTrees}
                             setShowState={setShowState}
-                            setJournal={setJournal}
+                            setJournalText={setJournalText}
                             />
                     </Toolbar>
                 </AppBar>
             </Grid>
-            {showTimersPage && (
-                <TimersPage 
+            {showLogPage && (
+                <LogPage 
                     date={date}
                     currentTimers={currentTimers}
                     harvestTimers={harvestTimers}
                     artisanTimers={artisanTimers}
+                    journal={journal}
                     currentDate={currentDate}
                     mobile={mobile}
                     handleCheck={handleCheck}
@@ -183,8 +187,8 @@ const Home = () => {
                     setHasHoney={setHasHoney}
                     hasFruitTrees={hasFruitTrees}
                     setHasFruitTrees={setHasFruitTrees}
-                    journal={journal}
-                    setJournal={setJournal}
+                    journalText={journalText}
+                    setJournalText={setJournalText}
                 />
             )}
             {showSettingsPage && (
@@ -201,13 +205,13 @@ const Home = () => {
                     </Grid>
                 </Grid>
             )}
-            <Grid item>
-                <Grid container justifyContent="space-around">
-                    <Grid item xs={11}>
-                        <FooterComponent />
+                <Grid item>
+                    <Grid container justifyContent="space-around">
+                        <Grid item xs={11}>
+                            <FooterComponent />
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
         </Grid>
     )
 }

@@ -133,6 +133,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
     }
 
     return(
+        <>
         <Grid container spacing={1} justifyContent="center" alignItems="center">
             <Grid item>
                 <FormControl sx={{minWidth: 95}}>
@@ -178,6 +179,8 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
                     <FontAwesomeIcon icon={faTimes} />&nbsp;Clear it
                 </Button>
             </Grid>
+        </Grid>
+        <Grid container spacing={1} justifyContent="center" alignItems="center" sx={{pt: 1}}>
             <Grid item>
                 <Button 
                     color={hasHoney ? "warning" : "primary" }
@@ -226,6 +229,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
                 </Dialog>
             </Grid>
         </Grid>
+        </>
     )
 }
 
