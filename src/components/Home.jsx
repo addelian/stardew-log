@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { Button, Menu, MenuItem, Grid, AppBar, Toolbar, Typography, IconButton, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { Button, Menu, MenuItem, Grid, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import LogPage from "./Log-Page";
 import Counter from "./Counter";
 import FooterComponent from "./FooterComponent";
 import readDate from "../helpers/Read-Date";
 
 const Home = () => {
-
-    // TODO: Decide where I want the journal to live, and move it / update props accordingly
+   
+    // TODO: handling custom timer:
+    // - move error handling into its own function, it's getting really messy
+    // - add more error handling for maxAmount of 112 (or so, w/e)
+    // - decide where it should live
+    // - General cleanup, it's all higgledy piggledy
     
-    // re: above, will also need to add a checkbox to show / hide it.
+    // TODO: Move reset button to settings page
     
-    // TODO: "Create Custom Timer" component? Might be nice as a catch-all instead of building out 
-    // a bunch of exceptions for things like growing fruit trees for the first time. Just have to
-    // pass along all of the required parameters in inputs. Definitely want to hide this when not in use, 
-    // will contribute to a ton of clutter down the road if not
-
+    // TODO: Decide what else I want on settings page!
+    
     // TODO: update renderTimers to check last letter of product name. If it's an "s", 
     // handle updated from "is" to "are". Can recycle that function in several spots
+
+    // Stuff I should mention in an FAQ / About:
+    // - Decision to only handle mature fruit trees
+    // - Decision to not allow multiple harvest timers of same fruit at once
+    // - Decision to not allow multiple artisan timers of the same specific product (i.e. blueberry wine)
+    // - Capping custom timer length at 112 days (bc it seems reasonable I guess?)
+    
+    // TODO: Figure out why Lists aren't using key prop correctly
+
+    // TODO: Add a confirmation when moving from day to day. Probably one of the 
+    // very last things I should do before considering v1 done
     
     const [mobile, setMobile] = useState(false);
     const [day, setDay] = useState(0);
@@ -33,6 +46,7 @@ const Home = () => {
     const [journalText, setJournalText] = useState(
         "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
     );
+    const [skipTreeWarning, setSkipTreeWarning] = useState(false);
     const [showState, setShowState] = useState({
         date: true,
         artisanTimers: true,
@@ -42,7 +56,7 @@ const Home = () => {
     })
 
     const { date, artisanTimers, harvestTimers, currentTimers, journal } = showState;
-
+    
     const currentDate = readDate(day);
 
     // Loads local storage on componentDidMount
@@ -53,6 +67,7 @@ const Home = () => {
         setHasFruitTrees(JSON.parse(window.localStorage.getItem("hasFruitTrees")));
         setShowState(JSON.parse(window.localStorage.getItem("showState")));
         setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
+        setSkipTreeWarning(JSON.parse(window.localStorage.getItem("skipTreeWarning")));
     }, []);
 
     // Basic save functionality
@@ -74,6 +89,9 @@ const Home = () => {
     useEffect(() => {
         window.localStorage.setItem('journalText', JSON.stringify(journalText));
     }, [journalText]);
+    useEffect(() => {
+        window.localStorage.setItem('skipTreeWarning', skipTreeWarning);
+    }, [skipTreeWarning]);
 
     const [menuOpen, setMenuOpen] = useState(null);
     const open = Boolean(menuOpen);
@@ -86,8 +104,8 @@ const Home = () => {
             ...showState,
             [e.target.name]: e.target.checked
         });
-    };
-
+    };    
+    
     const handleClose = () => {
         setMenuOpen(null);
     };
@@ -147,12 +165,23 @@ const Home = () => {
                                 {showAboutPage && <><FontAwesomeIcon icon={faCheck} />&nbsp;</>}About
                             </MenuItem>                       
                         </Menu>
-                        {!mobile && <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
-                            Stardew Log
-                        </Typography>}
+                        {mobile ? 
+                            <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+                                S.L.
+                            </Typography> :
+                            <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+                                Stardew Log
+                            </Typography>
+                        }
                         <Counter 
                             day={day}
                             mobile={mobile}
+                            handleCheck={handleCheck}
+                            date={date}
+                            artisanTimers={artisanTimers}
+                            currentTimers={currentTimers}
+                            harvestTimers={harvestTimers}
+                            journal={journal}
                             setMobile={setMobile}
                             setDay={setDay}
                             timers={timers}
@@ -164,6 +193,7 @@ const Home = () => {
                             setHasFruitTrees={setHasFruitTrees}
                             setShowState={setShowState}
                             setJournalText={setJournalText}
+                            setSkipTreeWarning={setSkipTreeWarning}
                             />
                     </Toolbar>
                 </AppBar>
@@ -189,6 +219,8 @@ const Home = () => {
                     setHasFruitTrees={setHasFruitTrees}
                     journalText={journalText}
                     setJournalText={setJournalText}
+                    skipTreeWarning={skipTreeWarning}
+                    setSkipTreeWarning={setSkipTreeWarning}
                 />
             )}
             {showSettingsPage && (
@@ -201,7 +233,11 @@ const Home = () => {
             {showAboutPage && (
                 <Grid container justifyContent="space-around">
                     <Grid item>
-                        <Typography>This will be the about page</Typography>
+                        <Typography variant="subtitle1">
+                            Stardew Log created by Nic Addelia
+                            &nbsp; <FontAwesomeIcon icon={faGithub} />
+                            &nbsp; <a href="https://github.com/addelian">@addelian</a>
+                        </Typography>
                     </Grid>
                 </Grid>
             )}

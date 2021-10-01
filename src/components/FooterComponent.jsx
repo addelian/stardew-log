@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { QUOTES } from "../data/quotes";
 
 const FooterComponent = () => {
@@ -23,13 +21,6 @@ const FooterComponent = () => {
 
     return (
         <Grid container direction="column" spacing={1}>
-            <Grid item>
-                <Typography variant="subtitle1">
-                    Stardew Log created by Nic Addelia
-                    &nbsp; <FontAwesomeIcon icon={faGithub} />
-                    &nbsp; <a href="https://github.com/addelian">@addelian</a>
-                </Typography>
-            </Grid>
             <Grid item>
                 <Grid container spacing={1} justifyContent="space-between">
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faFire } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
@@ -16,7 +16,8 @@ const Counter = ({
     hasFruitTrees, 
     setHasFruitTrees,
     setShowState,
-    setJournalText
+    setJournalText,
+    setSkipTreeWarning
     }) => {
 
     // add a confirmation when going to switch day "Are you sure??"
@@ -75,7 +76,6 @@ const Counter = ({
                 ...product, 
                 countdown: 2, 
                 firstHarvest: true, 
-                initialCycle: false,
                 timerType: "harvest",
                 timerFor: "Fruit Trees" 
             }
@@ -105,29 +105,20 @@ const Counter = ({
             return {...timer, countdown: timer.countdown - 1}
         })
         setTimers(timersCountingDown);
-        const timersToRemove = timersCountingDown.filter(timer => timer.countdown < 0 && !timer.regrow);
-        const timersToKeep = timersCountingDown.filter(timer => timer.countdown >= 0 || timer.regrow);
+        const timersToRemove = timersCountingDown.filter(timer => timer.countdown < 0 && ((timer.timerType === "harvest" && !timer.regrow) || timer.timerType !== "harvest"));
+        const timersToKeep = timersCountingDown.filter(timer => timer.countdown >= 0 || (timer.timerType === "harvest" && timer.regrow));
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
         timersToKeep.forEach(timer => {
-            if (timer.countdown === 0 && timer.regrow) {
-                if (!timer.firstHarvest) {
-                    if (timer.initialCycle) {
-                        timer.initialCycle = false;
-                    }
-                }
+            if (timer.countdown === 0 && timer.timerType === "harvest" && timer.regrow) {
                 if (timer.firstHarvest) {
                     timer.firstHarvest = false;
                 }
                 timer.countdown = timer.regrowTime;
             }
         })
-        // Spring 1 is 0
-        // Summer 1 is 28
-        // Fall 1 is 56
-        // Winter 1 is 83
         if (day === 111) {
             handleSeasonChange(timersToKeep, "spring");
             handleSpring1Reminder();
@@ -169,8 +160,6 @@ const Counter = ({
     }
 
     const resetAll = () => {
-        // TODO: Put this behind a menu at some point, don't leave it out in the open.
-        // As it exists, it's really only good for dev purposes
         setDay(0);
         setTimers([]);
         setHasHoney(false);
@@ -185,13 +174,14 @@ const Counter = ({
         setJournalText(
             "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
         );
+        setSkipTreeWarning(false);
         setResetOpen(false);
     }
 
     return (
         <>
-            {!mobile ? <Button size="small" variant="contained" color="error" onClick={() => handleResetOpen()}>Reset all</Button>
-                : <Button variant="contained" color="error" onClick={() => handleResetOpen()}><FontAwesomeIcon icon={faFire} /></Button>}
+            {!mobile ? <Button size="small" variant="contained" color="error" onClick={() => handleResetOpen()}><FontAwesomeIcon icon={faFire} /> &nbsp; Reset all</Button>
+                : <IconButton variant="contained" sx={{pr: 2}} color="error" onClick={() => handleResetOpen()}><FontAwesomeIcon icon={faFire} /></IconButton>}
             <Dialog
                 open={resetOpen}
                 onClose={handleResetClose}
@@ -235,10 +225,10 @@ const Counter = ({
                 </DialogActions>
             </Dialog>
             {!mobile ? <Button size="small" variant="contained" color="secondary" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} />&nbsp;&nbsp;Revert Day</Button>
-                : <Button variant="contained" color="secondary" onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+                : <IconButton color="secondary" sx={{px: 2}} onClick={() => revertDay(timers)}><FontAwesomeIcon icon={faArrowLeft} /></IconButton>
             }
             {!mobile ? <Button color="success" size="small" variant="contained" onClick={() => advanceDay(timers)}>Advance day&nbsp;&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-                : <Button color="success" variant="contained" onClick={() => advanceDay(timers)}><FontAwesomeIcon icon={faArrowRight} /></Button>
+                : <IconButton sx={{color: "white", pl: 2}} onClick={() => advanceDay(timers)}><FontAwesomeIcon icon={faArrowRight} /></IconButton>
             }
         </>
     );

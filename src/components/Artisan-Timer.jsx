@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { 
     Grid, 
     Button, 
+    Checkbox,
     Select, 
-    FormControl, 
+    FormGroup,
+    FormControl,
+    FormControlLabel, 
     InputLabel, 
     MenuItem, 
     Dialog, 
@@ -16,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWineBottle, faFan, faUtensilSpoon, faTimes, faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
 
-const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees}) => {
+const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees, skipTreeWarning, setSkipTreeWarning}) => {
 
     const [selected, setSelected] = useState('');
     const [open, setOpen] = useState(false);
@@ -29,8 +32,35 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
     }
 
     const handleClickOpen = () => {
-        if (!hasFruitTrees) {
+        if (!hasFruitTrees && !skipTreeWarning) {
             setOpen(true);
+            return;
+        }
+        handleFruitTrees();
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleCheck = e => {
+        setSkipTreeWarning(e.target.checked);
+    };
+
+    const handleFruitTrees = () => {
+        if (open) {
+            handleClose();
+        }
+        if (!hasFruitTrees) {
+            const product = CROPS.find(crop => crop.name === "Fruit Trees");
+            setHasFruitTrees(true);
+            setTimers([ ...timers, { 
+                ...product, 
+                countdown: 2, 
+                firstHarvest: true,
+                timerType: "harvest",
+                timerFor: "Fruit Trees" 
+            }]);
             return;
         }
         setHasFruitTrees(false);
@@ -38,27 +68,6 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
         const reducedTimers = timers.splice(productTimer, 1);
         setTimers(timers);
         return reducedTimers;
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
-
-    const handleFruitTrees = sapling => {
-        if (!hasFruitTrees) {
-            const product = CROPS.find(crop => crop.name === "Fruit Trees");
-            setHasFruitTrees(true);
-            setTimers([ ...timers, { 
-                ...product, 
-                countdown: sapling ? product.growTime : 2, 
-                firstHarvest: true, 
-                initialCycle: sapling,
-                timerType: "harvest",
-                timerFor: "Fruit Trees" 
-            }]);
-            handleClose();
-            return;
-        }
     }
 
     const handleHoney = (() => {
@@ -108,6 +117,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
     }
 
     const buttonStyling = (selectedOption, parentButton) => {
+        if (timers.some(timer => timer.name === selected.name)) return {};
         if (selectedOption !== '' && selectedOption.preferred !== undefined) {
             if (parentButton === "keg" && selectedOption.preferred === "keg") {
                 return {"backgroundColor": "green", "color" : "white"};
@@ -122,7 +132,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
 
     const renderOptions = crops => {
 
-        const cropsToSort = crops.filter(crop => crop.kegProduct !== undefined || crop.jarProduct !== undefined);
+        const cropsToSort = crops.filter(crop => (crop.kegProduct !== undefined || crop.jarProduct !== undefined));
 
         // ES6 alphabetical order
         const cropsEligibleForArtisanProducts = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -153,7 +163,11 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
                 <Button 
                     variant="contained"
                     style={buttonStyling(selected, "keg")}
-                    disabled={selected === '' || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)}
+                    disabled={
+                        selected === '' 
+                        || ["Ginger", "Roe", "Sturgeon Roe"].includes(selected.name)
+                        || timers.some(timer => selected.name === timer.name && timer.timerType === "keg")
+                        }
                     onClick={() => createKegTimer(selected)}
                 >
                     <FontAwesomeIcon icon={faWineBottle} />&nbsp;Keg it
@@ -163,7 +177,11 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
                 <Button 
                     variant="contained"
                     style={buttonStyling(selected, "jar")}
-                    disabled={selected === '' || ["Coffee Bean", "Honey"].includes(selected.name)}
+                    disabled={
+                        selected === '' 
+                        || ["Coffee Bean", "Honey"].includes(selected.name)
+                        || timers.some(timer => selected.name === timer.name && timer.timerType === "jar")
+                        }
                     onClick={() => createJarTimer(selected)}
                 >
                     <FontAwesomeIcon icon={faUtensilSpoon} />&nbsp;Jar it
@@ -205,25 +223,34 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
                 <Dialog
                     open={open}
                     onClose={handleClose}
-                    aria-labelledby="dialog-title"
+                    aria-labelledby="tree-timer-dialog"
                 >
-                    <DialogTitle id="dialog-title">
-                        Are you planting a fruit tree?
+                    <DialogTitle id="tree-timer-dialog">
+                        Heads up!
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Did you plant your fruit trees today, or are you restarting your timer on Spring 1?
+                            This timer assumes that you already have fully matured fruit trees 
+                            and just need to keep track of their fruit growth. If you need to track
+                            a fruit tree sapling, please build a custom timer that lasts 28 days. Do you wish to proceed?
                         </DialogContentText>
+                        <FormControl component="fieldset">
+                            <FormGroup aria-label="Don't show this reminder again" row>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={skipTreeWarning} onChange={handleCheck} name="skipTreeWarning" />
+                                    }
+                                    label="Don't show this dialog again"
+                                />
+                            </FormGroup>
+                        </FormControl>
                     </DialogContent>
                     <DialogActions>
                         <Button autoFocus onClick={() => handleClose()} color="primary">
-                            Cancel
+                            No
                         </Button>
-                        <Button onClick={() => handleFruitTrees(true)} color="primary">
-                            Planting them
-                        </Button>
-                        <Button onClick={() => handleFruitTrees(false)}>
-                            Spring 1
+                        <Button onClick={() => handleFruitTrees()} color="primary">
+                            Yes
                         </Button>
                     </DialogActions>
                 </Dialog>

@@ -14,7 +14,9 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
         
         const currentSeason = (lowerCase(readDate(day).split(" ")[0]));
         const cropsInSeason = crops.filter(crop => crop.season.includes(currentSeason));
-        const cropsToSort = cropsInSeason.filter(crop => crop.growTime !== undefined && !(crop.name.includes("Honey") || crop.name.includes("Fruit Trees")));
+        const cropsToSort = cropsInSeason.filter(crop => crop.growTime !== undefined 
+            && !(crop.name.includes("Honey") || crop.name.includes("Fruit Trees"))
+            && !(timers.some(timer => timer.name === crop.name)));
 
         // ES6 alphabetical order
         const cropsEligibleForHarvestTimer = cropsToSort.sort((a, b) => a.name.localeCompare(b.name));

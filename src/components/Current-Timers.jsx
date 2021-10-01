@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, IconButton, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
 import { Alert, AlertTitle } from '@mui/material';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -25,16 +25,19 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
             }
             return "Caviar";
         }
+        if (productInTimer.timerType === "custom") {
+            return productInTimer.name;
+        }
         return `${productInTimer.name} ${productInTimer.timerFor}`;
     }
 
     const createErrorList = fullError => fullError.triggers.map(error => {
-        if (error.name === "Fruit Trees") {
-            return (<ListItem><ListItemText primary="Fruit from fruit trees" /></ListItem>);
-        }
         return (
-            <ListItem>
-                <ListItemText primary={renderProductName(error)} />
+            <ListItem key={`error-for-${error.id}`}>
+                {error.name === "Fruit Trees" ?
+                    <ListItemText primary="Fruit from fruit trees" /> :
+                    <ListItemText primary={renderProductName(error)} />
+                }
             </ListItem>
         );
     });
@@ -46,33 +49,21 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
     
     const renderCountdown = productInTimer => {
         if (productInTimer.name === "Fruit Trees") {
-            if (!productInTimer.firstHarvest) {
-                if ([3,0].includes(productInTimer.countdown) && !productInTimer.initialCycle) {
-                    return ` are full (3 fruit each). Pick them today!`;
-                }
-                if (productInTimer.initialCycle && productInTimer.countdown === 3) {
-                    return `: 0 fruit each`;
-                }
-                if (productInTimer.countdown === 2) {
-                    return `: 1 fruit each`;
-                }
-                return `: 2 fruit each`;
+            if ([3, 0].includes(productInTimer.countdown)) {
+                return ` are full (3 fruit each). Pick them today!`;
             }
-            if (productInTimer.firstHarvest && !productInTimer.initialCycle) {
-                if (productInTimer.countdown === 0) {
-                    return ` are full (3 fruit each). Pick them today!`;
-                }
-                if (productInTimer.countdown === 3) {
-                    return `: 0 fruit each`;
-                }
-                if (productInTimer.countdown === 2) {
-                    return `: 1 fruit each`;
-                }
-                return `: 2 fruit each`;
+            if (productInTimer.countdown === 2) {
+                return `: 1 fruit each`;
             }
+            return `: 2 fruit each`;
         }
         if (productInTimer.regrow && productInTimer.firstHarvest === false && productInTimer.countdown === productInTimer.regrowTime) {
             return `${productInTimer.name === "Hops" ? ` are` : ` is`} ready today. Next harvest in ${productInTimer.countdown} days`;
+        }
+        if (productInTimer.timerType === "custom") {
+            return `${productInTimer.countdown > 0 ? 
+                `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? 
+                "days" : "day"} left`: ": timer completed"}`;
         }
         return `${productInTimer.countdown > 0 ? 
             `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? 
@@ -80,17 +71,17 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
             || productInTimer.name.includes("Seeds" || "Trees")) ? 
             ` are` : ` is`} ready today`}`;
     }
-
+    
     const renderCompletedTimers = completedTimers => completedTimers.map((timer, index) => {
         return (
-            <>
-                <li key={`${index}-${timer.id}-day-${day}`} style={{alignItems: "center"}}>
+            <ListItem key={timer.id} style={{textAlign: "center"}} sx={{py: 0}}>
+                <ListItemText>
                     <Typography>
                         <strong>
                             {renderProductName(timer)}{renderCountdown(timer)} &nbsp;
                         </strong>
                         <IconButton color="error" size="small" onClick={() => {
-                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name);
+                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name && timer.timerType === toBeDeleted.timerType);
                             activeTimers.splice(deleteIndex, 1);
                             if (timer.name === "Fruit Trees") { setHasFruitTrees(false) }
                             if (timer.name === "Honey") { setHasHoney(false) }
@@ -99,18 +90,18 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
                             <FontAwesomeIcon icon={faTimes} />
                         </IconButton>
                     </Typography>
-                </li>
-            </>
+                </ListItemText>
+            </ListItem>
     )});
 
     const renderTimers = activeTimers => activeTimers.map((timer, index) => {
         return (
-            <>
-                <li key={`${index}-${timer.id}-day-${day}`} id={`${index}-${timer.id}-day-${day}`} style={{alignItems: "center"}}>
-                    <Typography>
+            <ListItem size="small" key={timer.id} style={{textAlign: "center"}} sx={{py: 0}}>
+                <ListItemText>
+                    <Typography >
                         {renderProductName(timer)}{renderCountdown(timer)} &nbsp;
                         <IconButton color="error" size="small" sx={{pb: 1}} onClick={() => {
-                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name);
+                            const deleteIndex = activeTimers.findIndex(toBeDeleted => timer.name === toBeDeleted.name && timer.timerType === toBeDeleted.timerType);
                             activeTimers.splice(deleteIndex, 1);
                             if (timer.name === "Fruit Trees") { setHasFruitTrees(false) }
                             if (timer.name === "Honey") { setHasHoney(false) }
@@ -119,28 +110,25 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
                             <FontAwesomeIcon icon={faTimes} />
                         </IconButton>
                     </Typography>
-                </li>
-                
-            </>
+                </ListItemText>
+            </ListItem>
     )});
 
     const hasCompletedTimers = activeTimers => {
         if (activeTimers.filter(timer => timer.countdown === 0 
             || (timer.regrow 
             && timer.firstHarvest === false 
-            && (timer.initialCycle === undefined || timer.initialCycle === false)
             && timer.countdown === timer.regrowTime)).length > 0) { return true };
         return false;
     }
-
+    
     const hasTimers = activeTimers => {
         if (activeTimers.filter(timer => ((timer.countdown !== 0 
             && !(timer.regrow 
-            && timer.countdown === timer.regrowTime 
-            && timer.firstHarvest === false))
-            || timer.firstHarvest === false && timer.initialCycle === true
-            )).length > 0) { return true };
-        return false;
+                && timer.countdown === timer.regrowTime 
+                && timer.firstHarvest === false))
+                )).length > 0) { return true };
+                return false;
     }
 
     return (
@@ -156,37 +144,60 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
                 </Alert>
                 )}
             </Grid>
-            {hasCompletedTimers(timers) && (
-                <Grid item>
-                    <Typography variant="body1">
-                    <ul style={{listStyle: "none", paddingLeft: 0}}>
-                        {timers.length > 0 
-                            && renderCompletedTimers(timers.filter(timer => timer.countdown === 0 
-                            || (timer.regrow 
-                            && timer.firstHarvest === false 
-                            && (timer.initialCycle === undefined || timer.initialCycle === false)
-                            && timer.countdown === timer.regrowTime)))
-                        }
-                    </ul>
-                    </Typography>
-                </Grid>
-            )}
-            {hasTimers(timers) && (
-                <Grid item>
-                    <Typography variant="body2">
-                    <ul style={{listStyle: "none", paddingLeft: 0}}>
-                        {timers.length > 0 
-                            && renderTimers(timers.filter(timer => ((timer.countdown !== 0 
-                            && !(timer.regrow 
-                            && timer.countdown === timer.regrowTime 
-                            && timer.firstHarvest === false))
-                            || timer.firstHarvest === false && timer.initialCycle === true
-                            )))
-                        }
-                    </ul>
-                    </Typography>
-                </Grid>
-            )}
+            <Grid item >
+                <Box sx={{borderRadius: 1}}>
+
+                
+                <Typography variant="body1">
+                    {hasCompletedTimers(timers) && (
+                        <List
+                            dense
+                            sx={{
+                                borderRadius: 2,
+                                px: "auto",
+                                mb: 1,
+                                width: "100%",
+                                maxWidth: 450,
+                                position: "relative",
+                                overflow: "scroll",
+                                maxHeight: 82,
+                                "& ul": { padding: 0 }
+                            }}
+                            style={{backgroundColor: "#EFF7EE"}}
+                        >
+
+                            {renderCompletedTimers(timers.filter(timer => timer.countdown === 0 
+                                || (timer.regrow 
+                                && timer.firstHarvest === false 
+                                && timer.countdown === timer.regrowTime
+                            )))}
+                        </List>
+                    )}
+                    {hasTimers(timers) && (
+                        <List 
+                            dense 
+                            sx={{
+                                borderRadius: 2,
+                                px: "auto",
+                                width: '100%',
+                                maxWidth: 450,
+                                position: 'relative',
+                                overflow: 'scroll',
+                                maxHeight: 88,
+                                '& ul': { padding: 0 }
+                            }}
+                            style={{backgroundColor: "#DCDCDC"}}
+                        >
+                                {renderTimers(timers.filter(timer => ((timer.countdown !== 0 
+                                    && !(timer.regrow 
+                                    && timer.countdown === timer.regrowTime 
+                                    && timer.firstHarvest === false))
+                                )))}
+                        </List>
+                    )}
+                </Typography>
+                </Box>
+            </Grid>
             {timers.length === 0 && (!hasHoney && !hasFruitTrees) ?
                 <Grid item sx={{padding: 2}}>
                     <Typography variant="body2">
