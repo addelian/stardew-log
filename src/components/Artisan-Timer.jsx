@@ -93,6 +93,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
     const createKegTimer = selectedOption => {
         setTimers([ ...timers, {
             ...selectedOption, 
+            id: `${selectedOption.name}-${selectedOption.kegProduct}`,
             countdown: selectedOption.kegDuration, 
             timerFor: selectedOption.kegProduct, 
             timerType: "keg" 
@@ -103,6 +104,7 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
     const createJarTimer = selectedOption => {
         setTimers([ ...timers, {
             ...selectedOption, 
+            id: `${selectedOption.name}-${selectedOption.jarProduct}`,
             countdown: selectedOption.name === "Caviar" ? 3 : 4, 
             timerFor: selectedOption.jarProduct, 
             timerType: "jar" 

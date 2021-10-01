@@ -127,6 +127,12 @@ const LogPage = ({
                                         />
                                 </Grid>
                             )}
+                            <Grid item>
+                                <CustomTimer
+                                    timers={timers}
+                                    setTimers={setTimers}
+                                />
+                            </Grid>
                             {(!date && !currentTimers && !harvestTimers && !artisanTimers) && (
                                 <Grid item md={6}>
                                     <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
@@ -143,12 +149,6 @@ const LogPage = ({
                                 <Journal 
                                     journalText={journalText} 
                                     setJournalText={setJournalText}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <CustomTimer
-                                    timers={timers}
-                                    setTimers={setTimers}
                                 />
                             </Grid>
                         </Grid>

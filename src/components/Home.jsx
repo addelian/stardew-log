@@ -9,12 +9,13 @@ import FooterComponent from "./FooterComponent";
 import readDate from "../helpers/Read-Date";
 
 const Home = () => {
+
+    // TODO: revertDay logic needs to be updated to handle harvest & custom timer timing
    
     // TODO: handling custom timer:
-    // - move error handling into its own function, it's getting really messy
-    // - add more error handling for maxAmount of 112 (or so, w/e)
-    // - decide where it should live
-    // - General cleanup, it's all higgledy piggledy
+    // - redo validation logic, it's screwy
+    // - add more error handling for maxAmount of 112 (or so, w/e) and not allowing two timers with same name to exist
+    // - add all custom timer stuff to the save / load logic as needed, including show/hide. probably should be hidden on initial load
     
     // TODO: Move reset button to settings page
     
