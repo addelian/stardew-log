@@ -133,7 +133,7 @@ const LogPage = ({
                                     setTimers={setTimers}
                                 />
                             </Grid>
-                            {(!date && !currentTimers && !harvestTimers && !artisanTimers) && (
+                            {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal) && (
                                 <Grid item md={6}>
                                     <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
                                         <em>There wasn't anybody else there, or anything.

@@ -4,7 +4,7 @@ import { Alert, AlertTitle } from '@mui/material';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const CurrentTimers = ({ error, timers, setTimers, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
+const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
     const [activeTimers, setActiveTimers] = useState([]);
     const [completedTimers, setCompletedTimers] = useState([]);
@@ -106,7 +106,7 @@ const CurrentTimers = ({ error, timers, setTimers, hasHoney, setHasHoney, hasFru
     const renderCompletedTimers = (allTimers, timersToRender) => timersToRender.map((timer) => {
 
         return (
-            <ListItem key={`${timer.id}-${timer.timerFor}`} style={{textAlign: "center"}} sx={{py: 0}}>
+            <ListItem key={`${timer.id}-${timer.timerFor}-day-${day}-completed`} style={{textAlign: "center"}} sx={{py: 0}}>
                 <ListItemText>
                     <Typography>
                         <strong>
@@ -130,7 +130,7 @@ const CurrentTimers = ({ error, timers, setTimers, hasHoney, setHasHoney, hasFru
     const renderTimers = (allTimers, timersToRender) => timersToRender.map((timer) => {
         
         return (
-            <ListItem size="small" key={`${timer.id}-${timer.timerFor}`} style={{textAlign: "center"}} sx={{py: 0}}>
+            <ListItem size="small" key={`${timer.id}-${timer.timerFor}-day-${day}`} style={{textAlign: "center"}} sx={{py: 0}}>
                 <ListItemText>
                     <Typography >
                         {renderProductName(timer)}{renderCountdown(timer)} &nbsp;

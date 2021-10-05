@@ -23,6 +23,12 @@ export const QUOTES = [
     "Hesitation is defeat",
     "A hunter must hunt",
     "Don't you dare go hollow",
+    "You ever wonder why we're here?",
+    "Wrong lever",
+    "Oh right, the poison. The poison for Kuzco",
+    "22 minutes / 14.3 billion years",
+    "You runnin' Bay to Breakers this year?",
+    "Are you the next monarch? Or merely a pawn of fate?",
     "I pass the test. I will diminish, and go into the West, and remain Galadriel",
     "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve"
 ]

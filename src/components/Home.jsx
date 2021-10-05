@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Menu, MenuItem, Grid, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import LogPage from "./Log-Page";
+import AboutPage from "./About-Page";
 import Counter from "./Counter";
 import FooterComponent from "./FooterComponent";
 import readDate from "../helpers/Read-Date";
@@ -23,12 +23,6 @@ const Home = () => {
     
     // TODO: update renderTimers to check last letter of product name. If it's an "s", 
     // handle updated from "is" to "are". Can recycle that function in several spots
-
-    // Stuff I should mention in an FAQ / About:
-    // - Decision to only handle mature fruit trees
-    // - Decision to not allow multiple harvest timers of same fruit at once
-    // - Decision to not allow multiple artisan timers of the same specific product (i.e. blueberry wine)
-    // - Capping custom timer length at 112 days (bc it seems reasonable I guess?)
     
     // TODO: Figure out why Lists aren't using key prop correctly
 
@@ -174,7 +168,7 @@ const Home = () => {
                                 Stardew Log
                             </Typography>
                         }
-                        <Counter 
+                        {showLogPage && <Counter 
                             day={day}
                             mobile={mobile}
                             handleCheck={handleCheck}
@@ -195,7 +189,7 @@ const Home = () => {
                             setShowState={setShowState}
                             setJournalText={setJournalText}
                             setSkipTreeWarning={setSkipTreeWarning}
-                            />
+                        />}
                     </Toolbar>
                 </AppBar>
             </Grid>
@@ -232,14 +226,8 @@ const Home = () => {
                 </Grid>
             )}
             {showAboutPage && (
-                <Grid container justifyContent="space-around">
-                    <Grid item>
-                        <Typography variant="subtitle1">
-                            Stardew Log created by Nic Addelia
-                            &nbsp; <FontAwesomeIcon icon={faGithub} />
-                            &nbsp; <a href="https://github.com/addelian">@addelian</a>
-                        </Typography>
-                    </Grid>
+                <Grid item>
+                    <AboutPage />
                 </Grid>
             )}
                 <Grid item>
