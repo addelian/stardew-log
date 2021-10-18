@@ -14,8 +14,6 @@ const CustomTimer = ({ timers, setTimers }) => {
         setTimerName(e.target.value);
     }
 
-    console.log("timerLength", timerLength);
-
     const handleTimeChange = e => {
         if (validation()) {
             setHasError(true);

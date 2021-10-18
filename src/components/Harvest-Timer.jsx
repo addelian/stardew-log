@@ -4,7 +4,7 @@ import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCarrot, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
-import readDate from "../helpers/Read-Date";
+import { readDate } from "../helpers/common";
 
 const HarvestTimer = ({ day, timers, setTimers }) => {
     

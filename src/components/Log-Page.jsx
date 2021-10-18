@@ -13,6 +13,7 @@ const LogPage = ({
     artisanTimers,
     harvestTimers,
     journal,
+    customTimers,
     handleCheck,
     mobile,
     day,
@@ -64,6 +65,12 @@ const LogPage = ({
                                 <Checkbox size="small" checked={journal} onChange={handleCheck} name="journal" />
                             }
                             label="Show journal"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox size="small" checked={customTimers} onChange={handleCheck} name="customTimers" />
+                            }
+                            label="Show custom timer builder"
                         />
                     </FormGroup>
                 </FormControl>
@@ -127,13 +134,15 @@ const LogPage = ({
                                         />
                                 </Grid>
                             )}
-                            <Grid item>
-                                <CustomTimer
-                                    timers={timers}
-                                    setTimers={setTimers}
-                                />
-                            </Grid>
-                            {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal) && (
+                            {customTimers && (
+                                <Grid item>
+                                    <CustomTimer
+                                        timers={timers}
+                                        setTimers={setTimers}
+                                    />
+                                </Grid>
+                            )}
+                            {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal && !customTimers) && (
                                 <Grid item md={6}>
                                     <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
                                         <em>There wasn't anybody else there, or anything.

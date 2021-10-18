@@ -6,10 +6,12 @@ import LogPage from "./Log-Page";
 import AboutPage from "./About-Page";
 import Counter from "./Counter";
 import FooterComponent from "./FooterComponent";
-import readDate from "../helpers/Read-Date";
+import { readDate } from "../helpers/common";
 
 const Home = () => {
 
+    // TODO: no item selected easter egg is misaligned, idk
+    
     // TODO: revertDay logic needs to be updated to handle harvest & custom timer timing
    
     // TODO: handling custom timer:
@@ -48,9 +50,10 @@ const Home = () => {
         harvestTimers: true,
         currentTimers: true,
         journal: true,
+        customTimers: false
     })
 
-    const { date, artisanTimers, harvestTimers, currentTimers, journal } = showState;
+    const { date, artisanTimers, harvestTimers, currentTimers, journal, customTimers } = showState;
     
     const currentDate = readDate(day);
 
@@ -200,6 +203,7 @@ const Home = () => {
                     harvestTimers={harvestTimers}
                     artisanTimers={artisanTimers}
                     journal={journal}
+                    customTimers={customTimers}
                     currentDate={currentDate}
                     mobile={mobile}
                     handleCheck={handleCheck}

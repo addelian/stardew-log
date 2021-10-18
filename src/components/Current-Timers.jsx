@@ -3,6 +3,7 @@ import { Box, IconButton, Grid, List, ListItem, ListItemText, Typography } from 
 import { Alert, AlertTitle } from '@mui/material';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { removeSingleTimer } from "../helpers/common";
 
 const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, hasFruitTrees, setHasFruitTrees }) => {
 
@@ -15,12 +16,15 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
         const updatedActiveTimers = timers.filter(timer => ((timer.countdown !== 0 
             && !(timer.regrow 
             && timer.countdown === timer.regrowTime 
-            && timer.firstHarvest === false))))
+            && timer.firstHarvest === false))));
+        if (!hasHoney && updatedActiveTimers.some(timer => timer.name === "Honey")) {
+            updatedActiveTimers.splice(updatedActiveTimers.findIndex(timer => timer.name === "Honey"), 1);
+        }
         setActiveTimers(updatedActiveTimers);
         const updatedCompletedTimers = timers.filter(timer => timer.countdown === 0 
             || (timer.regrow 
             && timer.firstHarvest === false 
-            && timer.countdown === timer.regrowTime))
+            && timer.countdown === timer.regrowTime));
         setCompletedTimers(updatedCompletedTimers);
         if (updatedActiveTimers.length > 0) {
             setHasActiveTimers(true);

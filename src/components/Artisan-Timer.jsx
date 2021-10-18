@@ -47,6 +47,13 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
         setSkipTreeWarning(e.target.checked);
     };
 
+    const removeSingleTimer = (allTimers, toBeDeleted) => {
+        const updatedTimers = allTimers.filter(timer => timer.id !== toBeDeleted.id);
+        if (toBeDeleted.name === "Fruit Trees") { setHasFruitTrees(false) }
+        if (toBeDeleted.name === "Honey") { setHasHoney(false) }
+        return updatedTimers;
+    }
+
     const handleFruitTrees = () => {
         if (open) {
             handleClose();
@@ -64,10 +71,9 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
             return;
         }
         setHasFruitTrees(false);
-        const productTimer = timers.findIndex(timer => timer.name === "Fruit Trees");
-        const reducedTimers = timers.splice(productTimer, 1);
-        setTimers(timers);
-        return reducedTimers;
+        const productTimer = timers.find(timer => timer.name === "Fruit Trees");
+        setTimers(removeSingleTimer(timers, productTimer));
+        return productTimer;
     }
 
     const handleHoney = (() => {
@@ -84,10 +90,9 @@ const ArtisanTimer = ({timers, setTimers, day, hasHoney, setHasHoney, hasFruitTr
             return;
         }
         setHasHoney(false);
-        const productTimer = timers.findIndex(timer => timer.name === "Honey");
-        const reducedTimers = timers.splice(productTimer, 1);
-        setTimers(timers);
-        return reducedTimers;
+        const productTimer = timers.find(timer => timer.name === "Honey");
+        setTimers(removeSingleTimer(timers, productTimer));
+        return productTimer;
     })
 
     const createKegTimer = selectedOption => {

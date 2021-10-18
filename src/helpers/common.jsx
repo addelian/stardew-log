@@ -1,5 +1,5 @@
 
-const readDate = day => {
+export const readDate = day => {
     if ( 0 <= day && day <= 27 ) {
         return `Spring ${day + 1}`;
     } 
@@ -11,5 +11,3 @@ const readDate = day => {
     }
     return `Winter ${day - 83}`;
 }
-
-export default readDate;
