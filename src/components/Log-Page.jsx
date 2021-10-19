@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, FormControl, FormGroup, FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { Grid, FormControl, FormGroup, FormControlLabel, Checkbox, Typography, Box } from "@mui/material";
 import ArtisanTimer from "./Artisan-Timer";
 import HarvestTimer from "./Harvest-Timer";
 import CurrentTimers from "./Current-Timers";
@@ -33,47 +33,61 @@ const LogPage = ({
 
     return (
         <>
-            <Grid item sx={{mx: "auto"}}>
-                <FormControl component="fieldset">
-                    <FormGroup aria-label="Choose which timers to display" row>
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={date} onChange={handleCheck} name="date" />
-                            }
-                            label="Show date"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={currentTimers} onChange={handleCheck} name="currentTimers" />
-                            }
-                            label="Show current timers"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={harvestTimers} onChange={handleCheck} name="harvestTimers" />
-                            }
-                            label="Show harvest timer builder"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={artisanTimers} onChange={handleCheck} name="artisanTimers" />
-                            }
-                            label="Show artisan timer builder"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={journal} onChange={handleCheck} name="journal" />
-                            }
-                            label="Show journal"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox size="small" checked={customTimers} onChange={handleCheck} name="customTimers" />
-                            }
-                            label="Show custom timer builder"
-                        />
-                    </FormGroup>
-                </FormControl>
+            <Grid item>
+                <Box component="div" sx={{display: "flex", justifyContent: "center"}}>
+                    <FormControl component="fieldset">
+                        <FormGroup aria-label="Choose which timers to display" row>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={date} onChange={handleCheck} name="date" />
+                                    }
+                                    label="Show date"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={currentTimers} onChange={handleCheck} name="currentTimers" />
+                                    }
+                                    label="Show current timers"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={harvestTimers} onChange={handleCheck} name="harvestTimers" />
+                                    }
+                                    label="Show harvest timer builder"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={artisanTimers} onChange={handleCheck} name="artisanTimers" />
+                                    }
+                                    label="Show artisan timer builder"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={journal} onChange={handleCheck} name="journal" />
+                                    }
+                                    label="Show journal"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox size="small" checked={customTimers} onChange={handleCheck} name="customTimers" />
+                                    }
+                                    label="Show custom timer builder"
+                                />
+                            </Grid>
+                        </FormGroup>
+                    </FormControl>
+                </Box>
             </Grid>
             <Grid item>
                 <Grid container spacing={3} justifyContent="space-around">
@@ -135,22 +149,22 @@ const LogPage = ({
                                 </Grid>
                             )}
                             {customTimers && (
-                                <Grid item>
+                                <Grid item md={6} sx={{my: 2}} style={{marginLeft: 15, marginRight: 15, paddingLeft: 10, paddingRight: 10}} >
                                     <CustomTimer
                                         timers={timers}
                                         setTimers={setTimers}
                                     />
                                 </Grid>
                             )}
-                            {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal && !customTimers) && (
-                                <Grid item md={6}>
-                                    <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
-                                        <em>There wasn't anybody else there, or anything.
-                                        There was just violet light -- and a hum.</em>
-                                    </Typography>
-                                </Grid>
-                            )}
                         </Grid>
+                        {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal && !customTimers) && (
+                            <Grid item md={6}>
+                                <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
+                                    <em>There wasn't anybody else there, or anything.
+                                    There was just violet light -- and a hum.</em>
+                                </Typography>
+                            </Grid>
+                        )}
                     </Grid>
                     {journal && (
                         <Grid container justifyContent="center">

@@ -10,8 +10,6 @@ import { readDate } from "../helpers/common";
 
 const Home = () => {
 
-    // TODO: no item selected easter egg is misaligned, idk
-    
     // TODO: revertDay logic needs to be updated to handle harvest & custom timer timing
    
     // TODO: handling custom timer:

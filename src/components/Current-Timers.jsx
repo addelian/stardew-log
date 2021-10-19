@@ -96,7 +96,7 @@ const CurrentTimers = ({ day, error, timers, setTimers, hasHoney, setHasHoney, h
         return `${productInTimer.countdown > 0 ? 
             `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? 
             "days" : "day"} left`: `${(productInTimer.timerFor === "pickles" 
-            || productInTimer.name.includes("Seeds" || "Trees")) ? 
+            || (productInTimer.name !== undefined && productInTimer.name.includes("Seeds" || "Trees"))) ? 
             ` are` : ` is`} ready today`}`;
     }
 
