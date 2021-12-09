@@ -140,14 +140,45 @@ const Counter = ({
         setTimers(timersCountingUp);
         const timersToRemove = [];
         const timersToKeep = [];
-        // the below stuff is on the right track, but I'm pushing empty arrays to these things, and it's screwing stuff up. Probably need to pull
-        // these conditionals out and inject them in one at a time. Or just backpedal on this idea and have the products just delete themselves
-        // after a couple days, wouldn't be the end of the world
-        timersToRemove.push(timersCountingUp.filter(timer => timer.timerType === "keg" ? timer.countdown > timer.kegDuration : timer.countdown > 3));
-        timersToRemove.push(timersCountingUp.filter(timer => (timer.firstHarvest && timer.countdown > timer.growTime) || !timer.firstHarvest && timer.countdown > timer.regrowTime));
-        timersToKeep.push(timersCountingUp.filter(timer => timer.timerType === "keg" ? timer.countdown <= timer.kegDuration : timer.countdown <= 3));
-        timersToKeep.push(timersCountingUp.filter(timer => (timer.firstHarvest && timer.countdown <= timer.growTime) || !timer.firstHarvest && timer.countdown <= timer.regrowTime));
-        console.log("timersToRemove", timersToRemove, "timersToKeep", timersToKeep);
+        const checkRemainingTimers = (revertedTimers, timersFrom, toDo) => {
+            if (timersFrom === "artisan") {
+                if (toDo === "remove") {
+                    const artisansToRemove = revertedTimers.filter(timer => ["keg", "jar"].includes(timer.timerType) && (timer.timerType === "keg" ? timer.countdown > timer.kegDuration : timer.countdown > 3));
+                    if (artisansToRemove.length > 0) {
+                        return artisansToRemove;
+                    }
+                    return;
+                }
+                if (toDo === "keep") {
+                    const artisansToKeep = revertedTimers.filter(timer => ["keg", "jar"].includes(timer.timerType) && (timer.timerType === "keg" ? timer.countdown <= timer.kegDuration : timer.countdown <= 3));
+                    if (artisansToKeep.length > 0) {
+                        return artisansToKeep;
+                    }
+                    return;
+                }
+            }
+            if (timersFrom === "harvest") {
+                if (toDo === "remove") {
+                    const harvestsToRemove = revertedTimers.filter(timer => timer.timerType === "harvest" && ((timer.firstHarvest && timer.countdown > timer.growTime) || !timer.firstHarvest && timer.countdown > timer.regrowTime));
+                    if (harvestsToRemove.length > 0) {
+                        return harvestsToRemove;
+                    }
+                    return;
+                }
+                if (toDo === "keep") {
+                    const harvestsToKeep = revertedTimers.filter(timer => timer.timerType === "harvest" && ((timer.firstHarvest && timer.countdown <= timer.growTime) || !timer.firstHarvest && timer.countdown <= timer.regrowTime));
+                    if (harvestsToKeep.length > 0) {
+                        return harvestsToKeep;
+                    }
+                    return;
+                }
+            }
+            return;
+        }
+        checkRemainingTimers(timersCountingUp, "artisan", "remove") !== undefined ? timersToRemove.push(...checkRemainingTimers(timersCountingUp, "artisan", "remove")) : null;
+        checkRemainingTimers(timersCountingUp, "harvest", "remove") !== undefined ? timersToRemove.push(...checkRemainingTimers(timersCountingUp, "harvest", "remove")) : null;
+        checkRemainingTimers(timersCountingUp, "artisan", "keep") !== undefined ? timersToKeep.push(...checkRemainingTimers(timersCountingUp, "artisan", "keep")) : null;
+        checkRemainingTimers(timersCountingUp, "harvest", "keep") !== undefined ? timersToKeep.push(...checkRemainingTimers(timersCountingUp, "harvest", "keep")) : null;
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             setError({

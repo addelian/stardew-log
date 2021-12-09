@@ -15,12 +15,12 @@ const CustomTimer = ({ timers, setTimers }) => {
     }
 
     const handleTimeChange = e => {
-        if (validation()) {
-            setHasError(true);
-            return;
-        }
-        setHasError(false);
-        setTimerLength(Number(e.target.value));
+        // if (validation()) {
+        //     setHasError(true);
+        //     return;
+        // }
+        // setHasError(false);
+        setTimerLength(e.target.value);
     }
 
     const regex = /\d/
@@ -28,22 +28,33 @@ const CustomTimer = ({ timers, setTimers }) => {
     const clearTimer = () => {
         setTimerLength('');
         setTimerName('');
+        setHasError(false);
+        setError('');
     }
 
     const createCustomTimer = () => {
-        setTimers([ ...timers, { id: `${timerName}-custom-timer`, name: timerName, countdown: timerLength, timerType: "custom" }]);
+        setTimers([ ...timers, { id: `${timerName}-custom-timer`, name: timerName, countdown: Math.round(Number(timerLength)), timerType: "custom" }]);
         setTimerName('');
-        setTimerLength('')
+        setTimerLength('');
+        setHasError(false);
+        setError('');
         return;
     }
 
-    const validation = () => {
-        if (timerLength && (!regex.test(timerLength) 
-            || timerLength < 0 
-            || (timerLength && (timerLength.includes("+") || timerLength.includes("-") || timerLength.includes("."))))) {
-            setError("Timer length may only use positive whole numbers.")
+    // const validation = () => {
+    //     if (timerLength && (!regex.test(timerLength) 
+    //         || timerLength < 0 
+    //         || (timerLength && (timerLength.includes("+") || timerLength.includes("-") || timerLength.includes("."))))) {
+    //         setError("Timer length may only use positive whole numbers. Clear to continue")
+    //         return true;
+    //     }
+    // }
+
+    const timerExists = name => {
+        if (timers.some(timer => timer.name === name)) {
             return true;
         }
+        return false;
     }
     
     return(
@@ -78,8 +89,8 @@ const CustomTimer = ({ timers, setTimers }) => {
                 <Grid item>
                     <Button 
                         variant="contained"
-                        style={timerName && (timerLength && regex.test(timerLength)) ? {"backgroundColor": "green", "color" : "white"} : {}}
-                        disabled={timerName === '' || !timerLength || (timerLength && !regex.test(timerLength))}
+                        style={ timerName && (timerLength && regex.test(timerLength)) ? {"backgroundColor": "green", "color" : "white"} : {} }
+                        disabled={ timerName === '' || Number(timerLength) === NaN || timerExists(timerName) || timerLength === '' }
                         onClick={() => createCustomTimer()}
                         >
                         <FontAwesomeIcon icon={hasError ? faTimes : faCheck} /> &nbsp; Create it

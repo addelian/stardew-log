@@ -9,25 +9,6 @@ import FooterComponent from "./FooterComponent";
 import { readDate } from "../helpers/common";
 
 const Home = () => {
-
-    // TODO: revertDay logic needs to be updated to handle harvest & custom timer timing
-   
-    // TODO: handling custom timer:
-    // - redo validation logic, it's screwy
-    // - add more error handling for maxAmount of 112 (or so, w/e) and not allowing two timers with same name to exist
-    // - add all custom timer stuff to the save / load logic as needed, including show/hide. probably should be hidden on initial load
-    
-    // TODO: Move reset button to settings page
-    
-    // TODO: Decide what else I want on settings page!
-    
-    // TODO: update renderTimers to check last letter of product name. If it's an "s", 
-    // handle updated from "is" to "are". Can recycle that function in several spots
-    
-    // TODO: Figure out why Lists aren't using key prop correctly
-
-    // TODO: Add a confirmation when moving from day to day. Probably one of the 
-    // very last things I should do before considering v1 done
     
     const [mobile, setMobile] = useState(false);
     const [day, setDay] = useState(0);

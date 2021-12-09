@@ -1,6 +1,6 @@
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 import './App.css';
-import Main from "./components/Main";
+import Home from "./components/Home";
 
 const theme = createTheme();
 
@@ -9,7 +9,7 @@ function App() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <div className="App">
-            <Main />
+            <Home />
         </div>
       </ThemeProvider>
     </StyledEngineProvider>
