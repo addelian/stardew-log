@@ -5,7 +5,7 @@ export const CROPS = [
         type: "flower",
         season: ["spring"],
         growTime: 7,
-        regrow: false
+        regrow: false,
     },
     {
         id: "02-cauliflower",
@@ -832,4 +832,4 @@ export const CROPS = [
         product: "Wild crops (Winter)",
         season: ["winter"],
     },
-]
+];

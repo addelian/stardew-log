@@ -5,103 +5,235 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const AboutPage = () => {
     return (
-        <Grid container spacing={2} direction="column" justifyContent="space-around" sx={{px:5}}>
+        <Grid
+            container
+            spacing={2}
+            direction="column"
+            justifyContent="space-around"
+            sx={{ px: 5 }}
+        >
             <Grid item>
                 <Typography variant="body1">
-                    Stardew Log, version 0.3, October 2021. Created by Nic Addelia
-                    &nbsp;<FontAwesomeIcon icon={faGithub} />
+                    Stardew Log, version 0.3, October 2021. Created by Nic
+                    Addelia &nbsp;
+                    <FontAwesomeIcon icon={faGithub} />
                     &nbsp;<a href="https://github.com/addelian">@addelian</a>
                 </Typography>
             </Grid>
             <Grid item>
                 <Typography variant="body1">
-                    This app leverages <a href="https://reactjs.org/">React</a> and <a href="https://mui.com/">MUI</a>.
-                    It was built to serve as a responsive and relatively unintrusive companion app for the 
-                    casual farming / fishing / Haley-impressing simulator Stardew Valley.
+                    This app leverages <a href="https://reactjs.org/">React</a>{" "}
+                    and <a href="https://mui.com/">MUI</a>. It was built to
+                    serve as a responsive and relatively unintrusive companion
+                    app for the casual farming / fishing / Haley-impressing
+                    simulator Stardew Valley.
                 </Typography>
             </Grid>
             <Grid item>
                 <Typography variant="body1">
-                    It started as a single timer that could handle two inputs: <strong>crop</strong> and <strong>product type</strong>.
-                    The impetus was very much a "first-world problem:" I disliked losing the first ~hour of each day on my farm 
-                    (or having to restart each morning) due to running to each shed and seeing if my kegs or preserves jars were ready 
-                    to be collected and refilled, then running back and forth collecting the products and refilling with more crops.
-                    I started leaving little reminders for myself in real life, first as a sticky note, then as part of a Google Sheet on
-                    my second screen, but I'd frequently forget about the reminder (or would forget to set them up in the first place).
-                    I decided to begin developing an app to handle this, and figured I should handle a few more timers and functions to check
-                    on other farm life scheduling concerns, like when crops are ready to be harvested or re-planted, or how often 
-                    fruit tree orchards need picking. The original single timer that I built now exists as the <em>artisan timer builder</em> you 
-                    can find on the "Log" page. 
+                    It started as a single timer that could handle two inputs:{" "}
+                    <strong>crop</strong> and <strong>product type</strong>. The
+                    impetus was very much a "first-world problem:" I disliked
+                    losing the first ~hour of each day on my farm (or having to
+                    restart each morning) due to running to each shed and seeing
+                    if my kegs or preserves jars were ready to be collected and
+                    refilled, then running back and forth collecting the
+                    products and refilling with more crops. I started leaving
+                    little reminders for myself in real life, first as a sticky
+                    note, then as part of a Google Sheet on my second screen,
+                    but I'd frequently forget about the reminder (or would
+                    forget to set them up in the first place). I decided to
+                    begin developing an app to handle this, and figured I should
+                    handle a few more timers and functions to check on other
+                    farm life scheduling concerns, like when crops are ready to
+                    be harvested or re-planted, or how often fruit tree orchards
+                    need picking. The original single timer that I built now
+                    exists as the <em>artisan timer builder</em> you can find on
+                    the "Log" page.
                 </Typography>
             </Grid>
             <Grid item>
                 <Typography variant="body1">
-                    My personal requirements for the app were simple: I 
-                    didn't really want to think about it while I was playing the game, so it needed to be a quick and 
-                    intuitive process to build a timer and update the in-game day to keep track of them. I also didn't want the timers
-                    to affect the vanilla game experience - while I enjoy modded games as much as the next person, I still wanted to be 
-                    able to appreciate the pace and minimal UI within the game itself, while knowing that I had this interface available to
-                    me should I decide to build out some timers.
+                    My personal requirements for the app were simple: I didn't
+                    really want to think about it while I was playing the game,
+                    so it needed to be a quick and intuitive process to build a
+                    timer and update the in-game day to keep track of them. I
+                    also didn't want the timers to affect the vanilla game
+                    experience - while I enjoy modded games as much as the next
+                    person, I still wanted to be able to appreciate the pace and
+                    minimal UI within the game itself, while knowing that I had
+                    this interface available to me should I decide to build out
+                    some timers.
                 </Typography>
             </Grid>
-            <Grid item style={{paddingLeft: 0, paddingRight: 0}} sx={{px: 0, mx: 0}}>
-                <Typography variant="h3">
-                F.A.Q.
-                </Typography>
+            <Grid
+                item
+                style={{ paddingLeft: 0, paddingRight: 0 }}
+                sx={{ px: 0, mx: 0 }}
+            >
+                <Typography variant="h3">F.A.Q.</Typography>
                 <List>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            I just discovered your app and I want to use it, but I'm currently halfway through a season in-game and I am overwhelmed at the prospect of figuring out
-                            how to skip the Log ahead to match where my harvest / artisan products are at right now. Any suggestions?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                I just discovered your app and I want to use it,
+                                but I'm currently halfway through a season
+                                in-game and I am overwhelmed at the prospect of
+                                figuring out how to skip the Log ahead to match
+                                where my harvest / artisan products are at right
+                                now. Any suggestions?
                             </Typography>
                             <Typography variant="body2">
-                            I encountered this problem when I first built the app out, and honestly, I don't have a great solution. My personal recommendation is to 
-                            do one of two things: either start adding timers in as you re-plant / harvest items mid-season, which is annoying as you start it up, but will get your
-                            timers going as quickly as possible without having to do a bunch of day-counting, or just wait until the <strong>first day of the next 
-                            season</strong> (but not Winter) and follow the below steps:
+                                I encountered this problem when I first built
+                                the app out, and honestly, I don't have a great
+                                solution. My personal recommendation is to do
+                                one of two things: either start adding timers in
+                                as you re-plant / harvest items mid-season,
+                                which is annoying as you start it up, but will
+                                get your timers going as quickly as possible
+                                without having to do a bunch of day-counting, or
+                                just wait until the{" "}
+                                <strong>first day of the next season</strong>{" "}
+                                (but not Winter) and follow the below steps:
                             </Typography>
                             <ListItem>
                                 <ListItemText>
                                     <Typography variant="body2">
-                                        <ol style={{marginTop: 8}}>
+                                        <ol style={{ marginTop: 8 }}>
                                             <li>
-                                                If you have fully matured fruit trees, <strong>add fruit tree timer</strong> (and kill the dialog if you haven't already).
+                                                If you have fully matured fruit
+                                                trees,{" "}
+                                                <strong>
+                                                    add fruit tree timer
+                                                </strong>{" "}
+                                                (and kill the dialog if you
+                                                haven't already).
                                             </li>
                                             <li>
-                                                If you have bee houses, <em>and it is Summer 1 or Fall 1</em>, smack them with a pickaxe and place them back down, then <strong>add bee house timer</strong>.
-                                                I acknowledge that this is less efficient than just adding the timer whenever your honey does proc, and you could potentially lose 
-                                                up to three days of honey harvest time, but this by far the the simplest way to ensure timer accuracy at the top of a season during the first year that 
-                                                you begin to use this log (and, to reiterate, certainly not the most efficient). Please note that if 
-                                                it is Spring 1, you can just start up the timer here, since the bees will have just begun to produce again.
+                                                If you have bee houses,{" "}
+                                                <em>
+                                                    and it is Summer 1 or Fall 1
+                                                </em>
+                                                , smack them with a pickaxe and
+                                                place them back down, then{" "}
+                                                <strong>
+                                                    add bee house timer
+                                                </strong>
+                                                . I acknowledge that this is
+                                                less efficient than just adding
+                                                the timer whenever your honey
+                                                does proc, and you could
+                                                potentially lose up to three
+                                                days of honey harvest time, but
+                                                this by far the the simplest way
+                                                to ensure timer accuracy at the
+                                                top of a season during the first
+                                                year that you begin to use this
+                                                log (and, to reiterate,
+                                                certainly not the most
+                                                efficient). Please note that if
+                                                it is Spring 1, you can just
+                                                start up the timer here, since
+                                                the bees will have just begun to
+                                                produce again.
                                             </li>
                                             <li>
-                                                Grab whatever seeds you need, get them planted, and <strong>add harvest timers in for every crop</strong>. These timers are accurate to the day assuming two
-                                                things: First, that you never miss a day of watering, and second, that you <em>do not use any fertilizer</em>. Unfortunately, fertilizers are just random
-                                                enough that I didn't feel comfortable trying to account for the growth time with them mixed into the equation. If you're really hankering for some timers
-                                                that account for fertilizer, feel free to make a bunch of custom timers and shave the growth time of a given crop down by 10/25/33%, but be prepared for them to 
-                                                miss the mark every so often. 
+                                                Grab whatever seeds you need,
+                                                get them planted, and{" "}
+                                                <strong>
+                                                    add harvest timers in for
+                                                    every crop
+                                                </strong>
+                                                . These timers are accurate to
+                                                the day assuming two things:
+                                                First, that you never miss a day
+                                                of watering, and second, that
+                                                you{" "}
+                                                <em>
+                                                    do not use any fertilizer
+                                                </em>
+                                                . Unfortunately, fertilizers are
+                                                just random enough that I didn't
+                                                feel comfortable trying to
+                                                account for the growth time with
+                                                them mixed into the equation. If
+                                                you're really hankering for some
+                                                timers that account for
+                                                fertilizer, feel free to make a
+                                                bunch of custom timers and shave
+                                                the growth time of a given crop
+                                                down by 10/25/33%, but be
+                                                prepared for them to miss the
+                                                mark every so often.
                                             </li>
                                             <li>
-                                                Whenever your next batch of keg products and/or preserves jar products are ready to be collected, fill them up with a new batch of crops, 
-                                                and <strong>add artisan timers</strong> for each product. You may notice that, depending on the crop chosen in the artisan timer, either the 
-                                                "JAR IT" or "KEG IT" button will turn green, while the other will turn red. This strictly serves as a way to remind the user which choice is 
-                                                better for a given crop (i.e. more valuable). You can choose either option every time you create an artisan timer, but just note that the
-                                                green option will always be more valuable for the given crop.
+                                                Whenever your next batch of keg
+                                                products and/or preserves jar
+                                                products are ready to be
+                                                collected, fill them up with a
+                                                new batch of crops, and{" "}
+                                                <strong>
+                                                    add artisan timers
+                                                </strong>{" "}
+                                                for each product. You may notice
+                                                that, depending on the crop
+                                                chosen in the artisan timer,
+                                                either the "JAR IT" or "KEG IT"
+                                                button will turn green, while
+                                                the other will turn red. This
+                                                strictly serves as a way to
+                                                remind the user which choice is
+                                                better for a given crop (i.e.
+                                                more valuable). You can choose
+                                                either option every time you
+                                                create an artisan timer, but
+                                                just note that the green option
+                                                will always be more valuable for
+                                                the given crop.
                                             </li>
                                             <li>
-                                                Once your non-regrowing crops reach harvest time, you'll want to clear their current timer - the one that says "(crop) is ready today" - by clicking
-                                                the red "x" next to the timer, and add in another timer of the same type (assuming you want to re-plant said crop).
+                                                Once your non-regrowing crops
+                                                reach harvest time, you'll want
+                                                to clear their current timer -
+                                                the one that says "(crop) is
+                                                ready today" - by clicking the
+                                                red "x" next to the timer, and
+                                                add in another timer of the same
+                                                type (assuming you want to
+                                                re-plant said crop).
                                             </li>
                                             <li>
-                                                When the next season rolls around, <strong>repeat steps 1-5.</strong>
+                                                When the next season rolls
+                                                around,{" "}
+                                                <strong>
+                                                    repeat steps 1-5.
+                                                </strong>
                                             </li>
                                             <li>
-                                                <strong>A few things to note about the general flow of the app:</strong> the
-                                                harvest timer <em>does</em> account for plants that regrow, i.e. if you plant strawberries on Spring 1, it will alert that the first crop is ready on Spring 9,
-                                                then the timer will automatically set itself to 4 days, and will once again show the strawberries are ready on Spring 13, and so on through the end of the season.
-                                                Speaking of which, this timer also accounts for plants that will either die upon season change, or maintain over season changes, e.g. 
-                                                when Summer 1 arrives, said strawberry timer will be removed automatically, but your coffee bean timer will persist all the way through Summer 28.
+                                                <strong>
+                                                    A few things to note about
+                                                    the general flow of the app:
+                                                </strong>{" "}
+                                                the harvest timer <em>does</em>{" "}
+                                                account for plants that regrow,
+                                                i.e. if you plant strawberries
+                                                on Spring 1, it will alert that
+                                                the first crop is ready on
+                                                Spring 9, then the timer will
+                                                automatically set itself to 4
+                                                days, and will once again show
+                                                the strawberries are ready on
+                                                Spring 13, and so on through the
+                                                end of the season. Speaking of
+                                                which, this timer also accounts
+                                                for plants that will either die
+                                                upon season change, or maintain
+                                                over season changes, e.g. when
+                                                Summer 1 arrives, said
+                                                strawberry timer will be removed
+                                                automatically, but your coffee
+                                                bean timer will persist all the
+                                                way through Summer 28.
                                             </li>
                                         </ol>
                                     </Typography>
@@ -111,143 +243,259 @@ const AboutPage = () => {
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Why didn't you include (super common simple feature) that (more popular / more complete SV app) has?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Why didn't you include (super common simple
+                                feature) that (more popular / more complete SV
+                                app) has?
                             </Typography>
                             <Typography variant="body2">
-                            The Stardew Log was developed solely to fill a very specific purpose in my playstyle (see above). Any other
-                            features were built out after the fact, in accordance with what I thought would most benefit other users.
-                            I play the game pretty traditionally, without any mods and with a very "typical" farm setup
-                            (i.e., a big area to grow crops, two barns for different animals, and some kegs, preserves jars, and casks).
+                                The Stardew Log was developed solely to fill a
+                                very specific purpose in my playstyle (see
+                                above). Any other features were built out after
+                                the fact, in accordance with what I thought
+                                would most benefit other users. I play the game
+                                pretty traditionally, without any mods and with
+                                a very "typical" farm setup (i.e., a big area to
+                                grow crops, two barns for different animals, and
+                                some kegs, preserves jars, and casks).
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Okay, fine, but even given your approach, why didn't you include anything about villagers / fishing / mining / (other glaring omission from normal gameplay)?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Okay, fine, but even given your approach, why
+                                didn't you include anything about villagers /
+                                fishing / mining / (other glaring omission from
+                                normal gameplay)?
                             </Typography>
                             <Typography variant="body2">
-                            You caught me there. Truth be told, I started working on this app after already putting 150 hours into my farm. My farm
-                            "progress" (insofar as story is concerned) is totally completed. I've fully explored the mines, all of my villager's hearts are maxed out, and I have a spouse
-                            and two children. This app could certainly still be helpful to a newer player, but that was not its intent when I built it.
-                            If I get a ton of traffic and requests for a villager page or some sort of widget that can remind users of 
-                            favorite gifts, I'm not opposed to putting it in, but I have no plans to do so for the time being.
+                                You caught me there. Truth be told, I started
+                                working on this app after already putting 150
+                                hours into my farm. My farm "progress" (insofar
+                                as story is concerned) is totally completed.
+                                I've fully explored the mines, all of my
+                                villager's hearts are maxed out, and I have a
+                                spouse and two children. This app could
+                                certainly still be helpful to a newer player,
+                                but that was not its intent when I built it. If
+                                I get a ton of traffic and requests for a
+                                villager page or some sort of widget that can
+                                remind users of favorite gifts, I'm not opposed
+                                to putting it in, but I have no plans to do so
+                                for the time being.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            I have played Stardew Valley for x hours. Would you recommend I use this app?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                I have played Stardew Valley for x hours. Would
+                                you recommend I use this app?
                             </Typography>
                             <Typography variant="body2">
-                            I recommend against using apps like this from the get-go because I personally think min-maxing when still learning the ropes of a game can
-                            suck the fun out of it if you stress about it too hard from the start. On the flip side, some people love that approach regardless of playtime,
-                            so don't let me tell you how to live your life, I'm not your dad.
+                                I recommend against using apps like this from
+                                the get-go because I personally think min-maxing
+                                when still learning the ropes of a game can suck
+                                the fun out of it if you stress about it too
+                                hard from the start. On the flip side, some
+                                people love that approach regardless of
+                                playtime, so don't let me tell you how to live
+                                your life, I'm not your dad.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Why do bee houses and fruit trees have their own buttons?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Why do bee houses and fruit trees have their own
+                                buttons?
                             </Typography>
                             <Typography variant="body2">
-                            Honey and fruit trees in this game are a little funny. First, bee houses <em>kind of</em> act like some in-game plants, in that they
-                            take four days to mature and continue to produce after the fact, but they are not crops and do not require seeds, so it felt weird
-                            plugging them into the harvest timer as if they were crops. Second, mature fruit trees start growing fruit immediately, and
-                            I wanted their timer to reflect this for my own purposes. Technically, you can pick fruit trees every day,
-                            but it's far more efficient to visit them every three days when they are full (i.e. are holding three fruit apiece).
-                            Finally, and most importantly, both bee houses and fruit trees (assuming you have mature trees for each season) continue growing 
-                            between seasons, so their logic didn't quite fit with the automatic wipe I have set up in between each season. I could have shoe-horned
-                            these timers into the dropdowns, but it just didn't feel right. Unlike most other items in the game, the relationship between the farm and
-                            these items is binary. You either have mature fruit trees or you don't, and the timer acts accordingly. You either have bee houses
-                            on your farm or you don't, and the timer acts accordingly.
+                                Honey and fruit trees in this game are a little
+                                funny. First, bee houses <em>kind of</em> act
+                                like some in-game plants, in that they take four
+                                days to mature and continue to produce after the
+                                fact, but they are not crops and do not require
+                                seeds, so it felt weird plugging them into the
+                                harvest timer as if they were crops. Second,
+                                mature fruit trees start growing fruit
+                                immediately, and I wanted their timer to reflect
+                                this for my own purposes. Technically, you can
+                                pick fruit trees every day, but it's far more
+                                efficient to visit them every three days when
+                                they are full (i.e. are holding three fruit
+                                apiece). Finally, and most importantly, both bee
+                                houses and fruit trees (assuming you have mature
+                                trees for each season) continue growing between
+                                seasons, so their logic didn't quite fit with
+                                the automatic wipe I have set up in between each
+                                season. I could have shoe-horned these timers
+                                into the dropdowns, but it just didn't feel
+                                right. Unlike most other items in the game, the
+                                relationship between the farm and these items is
+                                binary. You either have mature fruit trees or
+                                you don't, and the timer acts accordingly. You
+                                either have bee houses on your farm or you
+                                don't, and the timer acts accordingly.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Speaking of fruit trees, why don't you account for initial fruit tree growth?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Speaking of fruit trees, why don't you account
+                                for initial fruit tree growth?
                             </Typography>
                             <Typography variant="body2">
-                            Version 0.2 of this app had a much different fruit tree timer. There was an intercept dialog that asked if you were planting a tree,
-                            or just resetting the timer at the top of a season, and if you chose the former, it would start a 28-day timer. The problem with this
-                            is that I would have had to add further logic to see if the user was accounting for a season change, and if they were growing a fruit
-                            tree that would produce fruit in the upcoming season (since fruit trees take an entire season to grow). That's a whole log of 
-                            conditional logic for a very specific moment in the lifetime of a user's farm, especially since most folks will only 
-                            go through the process of building up a fruit orchard once. I felt that a happy medium would be to explain the fruit tree logic
-                            in the pop-up modal when the timer is clicked, as well as remind users that, should they wish to track a new fruit tree for some reason,
-                            they could implement their own custom timer. This was also the inspiration behind the custom timer in the first place, for what it's worth.
+                                Version 0.2 of this app had a much different
+                                fruit tree timer. There was an intercept dialog
+                                that asked if you were planting a tree, or just
+                                resetting the timer at the top of a season, and
+                                if you chose the former, it would start a 28-day
+                                timer. The problem with this is that I would
+                                have had to add further logic to see if the user
+                                was accounting for a season change, and if they
+                                were growing a fruit tree that would produce
+                                fruit in the upcoming season (since fruit trees
+                                take an entire season to grow). That's a whole
+                                log of conditional logic for a very specific
+                                moment in the lifetime of a user's farm,
+                                especially since most folks will only go through
+                                the process of building up a fruit orchard once.
+                                I felt that a happy medium would be to explain
+                                the fruit tree logic in the pop-up modal when
+                                the timer is clicked, as well as remind users
+                                that, should they wish to track a new fruit tree
+                                for some reason, they could implement their own
+                                custom timer. This was also the inspiration
+                                behind the custom timer in the first place, for
+                                what it's worth.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Coffee takes two hours to be brewed in a keg, but the artisan timer indicates
-                            that it takes a full day (and/or insert any other timer inaccuracy here). What gives?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Coffee takes two hours to be brewed in a keg,
+                                but the artisan timer indicates that it takes a
+                                full day (and/or insert any other timer
+                                inaccuracy here). What gives?
                             </Typography>
                             <Typography variant="body2">
-                            Part of my personal requirements for this app are that I wanted it to be simple and unintrusive for my own personal use. For certain
-                            crops or products to be accurate, there would have to be a live timer built into the app that tracked the real-life flow of in-game time,
-                            i.e. I'd have to build an 86-second timer for coffee. This addition is simple by itself, but if the user does anything that interrupts
-                            the flow of time in-game, they would have to pause their Stardew Log timer as well. That's against the spirit of the app, in my opinion,
-                            not to mention that the whole point of the app is to not have to pay attention to timing that explicitly, whereas keeping live track
-                            of each timer in- and out-of-game requires even more attention than just playing the game by itself. At any rate, any time there
-                            was a timer that took less than a full day to complete, I rounded it up to a day. That way, I can be sure that when I do get around 
-                            to checking on my kegs, etc., I can do so with the assurance that the artisan product within will be completed, and I will not have
-                            wasted any time trekking back and forth (which was the purpose of this app's creation). If a user really wants this timing to be reflected
-                            more accurately, I recommend creating a custom timer set for 0 days. As soon as it's created, the timer will say the product is ready,
-                            but then it'll simply stay in the queue for the remainder of the day and hopefully remind the user to pick up the product before the
-                            day is done.
+                                Part of my personal requirements for this app
+                                are that I wanted it to be simple and
+                                unintrusive for my own personal use. For certain
+                                crops or products to be accurate, there would
+                                have to be a live timer built into the app that
+                                tracked the real-life flow of in-game time, i.e.
+                                I'd have to build an 86-second timer for coffee.
+                                This addition is simple by itself, but if the
+                                user does anything that interrupts the flow of
+                                time in-game, they would have to pause their
+                                Stardew Log timer as well. That's against the
+                                spirit of the app, in my opinion, not to mention
+                                that the whole point of the app is to not have
+                                to pay attention to timing that explicitly,
+                                whereas keeping live track of each timer in- and
+                                out-of-game requires even more attention than
+                                just playing the game by itself. At any rate,
+                                any time there was a timer that took less than a
+                                full day to complete, I rounded it up to a day.
+                                That way, I can be sure that when I do get
+                                around to checking on my kegs, etc., I can do so
+                                with the assurance that the artisan product
+                                within will be completed, and I will not have
+                                wasted any time trekking back and forth (which
+                                was the purpose of this app's creation). If a
+                                user really wants this timing to be reflected
+                                more accurately, I recommend creating a custom
+                                timer set for 0 days. As soon as it's created,
+                                the timer will say the product is ready, but
+                                then it'll simply stay in the queue for the
+                                remainder of the day and hopefully remind the
+                                user to pick up the product before the day is
+                                done.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            Why can't I create multiple timers for the same crop or artisan product?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                Why can't I create multiple timers for the same
+                                crop or artisan product?
                             </Typography>
                             <Typography variant="body2">
-                            Part personal choice, part programming concerns. I kept accidentally selecting the same crop twice when I was building out my timers, which,
-                            at best, meant deleting the superfluous timers, or at worst, not being sure which timer was correct if I did it on two separate
-                            days, leading to extra trips in and out of the farm, which defeats the purpose of this log in the first place. That annoyance aside,
-                            from a programming perspective, dealing with dynamic lists that have self-generating IDs and keys becomes a lot more obnoxious
-                            when users can reselect the same option without any sort of restrictions. It's not impossible by any means, but it's a problem that I
-                            felt didn't need solving given its lack of utility in the game anyway. If you really want multiple timers for the same crop/product, I'd
-                            recommend building custom timers that can track different names, e.g. "Blueberries planted on Summer 1," "Blueberries planted on Summer 2," and
-                            so on. As an aside, if someone wants to refactor my renderList functions to allow multiple entries from the same input in a way that doesn't
-                            involve just adding a thousand conditionals onto the ID and key, be my guest! I'd love to shadow you and learn something along the way.
+                                Part personal choice, part programming concerns.
+                                I kept accidentally selecting the same crop
+                                twice when I was building out my timers, which,
+                                at best, meant deleting the superfluous timers,
+                                or at worst, not being sure which timer was
+                                correct if I did it on two separate days,
+                                leading to extra trips in and out of the farm,
+                                which defeats the purpose of this log in the
+                                first place. That annoyance aside, from a
+                                programming perspective, dealing with dynamic
+                                lists that have self-generating IDs and keys
+                                becomes a lot more obnoxious when users can
+                                reselect the same option without any sort of
+                                restrictions. It's not impossible by any means,
+                                but it's a problem that I felt didn't need
+                                solving given its lack of utility in the game
+                                anyway. If you really want multiple timers for
+                                the same crop/product, I'd recommend building
+                                custom timers that can track different names,
+                                e.g. "Blueberries planted on Summer 1,"
+                                "Blueberries planted on Summer 2," and so on. As
+                                an aside, if someone wants to refactor my
+                                renderList functions to allow multiple entries
+                                from the same input in a way that doesn't
+                                involve just adding a thousand conditionals onto
+                                the ID and key, be my guest! I'd love to shadow
+                                you and learn something along the way.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            I want to create a custom timer longer than 112 days. Why are you stifling my creativity? You literally just said you weren't my dad,
-                            like, five questions ago.
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                I want to create a custom timer longer than 112
+                                days. Why are you stifling my creativity? You
+                                literally just said you weren't my dad, like,
+                                five questions ago.
                             </Typography>
                             <Typography variant="body2">
-                            You're right, and I'm terribly sorry. I figure that there are very few reasons to want to build a timer that would last longer than a 
-                            full Stardew year, and I wanted to put a cutoff somewhere. If folks want the timer max length to be extended, please let me 
-                            know and I'll change it.
+                                You're right, and I'm terribly sorry. I figure
+                                that there are very few reasons to want to build
+                                a timer that would last longer than a full
+                                Stardew year, and I wanted to put a cutoff
+                                somewhere. If folks want the timer max length to
+                                be extended, please let me know and I'll change
+                                it.
                             </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>
                         <ListItemText>
-                            <Typography variant="h6" sx={{mb: 1}}>
-                            What are the random messages along the bottom / bottom right of my screen?
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                What are the random messages along the bottom /
+                                bottom right of my screen?
                             </Typography>
                             <Typography variant="body2">
-                            They're a random collection of quotes from some of my favorite games, literature, and films. Most geeky 30-somethings
-                            (i.e. folks in my demographic) will recognize at least a few of them. As for its functionality, I built out a  
-                            list of quotes and pull a single quote from it at random every time the page refreshes. There is no rhyme or reason 
-                            as to which quote is pulled at any given time. It is 100% random. Some of the messages are cryptic in isolation, and 
-                            I apologize if any come across as off-putting to you. It's probably Hidetaka Miyazaki's fault, if that makes you feel any better.
+                                They're a random collection of quotes from some
+                                of my favorite games, literature, and films.
+                                Most geeky 30-somethings (i.e. folks in my
+                                demographic) will recognize at least a few of
+                                them. As for its functionality, I built out a
+                                list of quotes and pull a single quote from it
+                                at random every time the page refreshes. There
+                                is no rhyme or reason as to which quote is
+                                pulled at any given time. It is 100% random.
+                                Some of the messages are cryptic in isolation,
+                                and I apologize if any come across as
+                                off-putting to you. It's probably Hidetaka
+                                Miyazaki's fault, if that makes you feel any
+                                better.
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -255,13 +503,17 @@ const AboutPage = () => {
             </Grid>
             <Grid item>
                 <Typography variant="body1">
-                    Stardew Log is, and will remain, a <strong>work in progress</strong>. I welcome and encourage any feedback you may have for me.
-                    Please reach out to me on GitHub at the above link should you have any suggestions or recommendations, or if you would just like 
-                    to connect. <br />Thanks for your time!
+                    Stardew Log is, and will remain, a{" "}
+                    <strong>work in progress</strong>. I welcome and encourage
+                    any feedback you may have for me. Please reach out to me on
+                    GitHub at the above link should you have any suggestions or
+                    recommendations, or if you would just like to connect.{" "}
+                    <br />
+                    Thanks for your time!
                 </Typography>
             </Grid>
         </Grid>
-    )
-}
+    );
+};
 
 export default AboutPage;

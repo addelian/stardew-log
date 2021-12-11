@@ -1,5 +1,13 @@
 import React from "react";
-import { Grid, FormControl, FormGroup, FormControlLabel, Checkbox, Typography, Box } from "@mui/material";
+import {
+    Grid,
+    FormControl,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+    Typography,
+    Box,
+} from "@mui/material";
 import ArtisanTimer from "./Artisan-Timer";
 import HarvestTimer from "./Harvest-Timer";
 import CurrentTimers from "./Current-Timers";
@@ -28,19 +36,29 @@ const LogPage = ({
     journalText,
     setJournalText,
     skipTreeWarning,
-    setSkipTreeWarning
+    setSkipTreeWarning,
 }) => {
-
     return (
         <>
             <Grid item>
-                <Box component="div" sx={{display: "flex", justifyContent: "center"}}>
+                <Box
+                    component="div"
+                    sx={{ display: "flex", justifyContent: "center" }}
+                >
                     <FormControl component="fieldset">
-                        <FormGroup aria-label="Choose which timers to display" row>
+                        <FormGroup
+                            aria-label="Choose which timers to display"
+                            row
+                        >
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={date} onChange={handleCheck} name="date" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={date}
+                                            onChange={handleCheck}
+                                            name="date"
+                                        />
                                     }
                                     label="Show date"
                                 />
@@ -48,7 +66,12 @@ const LogPage = ({
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={currentTimers} onChange={handleCheck} name="currentTimers" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={currentTimers}
+                                            onChange={handleCheck}
+                                            name="currentTimers"
+                                        />
                                     }
                                     label="Show current timers"
                                 />
@@ -56,7 +79,12 @@ const LogPage = ({
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={harvestTimers} onChange={handleCheck} name="harvestTimers" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={harvestTimers}
+                                            onChange={handleCheck}
+                                            name="harvestTimers"
+                                        />
                                     }
                                     label="Show harvest timer builder"
                                 />
@@ -64,7 +92,12 @@ const LogPage = ({
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={artisanTimers} onChange={handleCheck} name="artisanTimers" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={artisanTimers}
+                                            onChange={handleCheck}
+                                            name="artisanTimers"
+                                        />
                                     }
                                     label="Show artisan timer builder"
                                 />
@@ -72,7 +105,12 @@ const LogPage = ({
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={journal} onChange={handleCheck} name="journal" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={journal}
+                                            onChange={handleCheck}
+                                            name="journal"
+                                        />
                                     }
                                     label="Show journal"
                                 />
@@ -80,7 +118,12 @@ const LogPage = ({
                             <Grid item>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox size="small" checked={customTimers} onChange={handleCheck} name="customTimers" />
+                                        <Checkbox
+                                            size="small"
+                                            checked={customTimers}
+                                            onChange={handleCheck}
+                                            name="customTimers"
+                                        />
                                     }
                                     label="Show custom timer builder"
                                 />
@@ -91,20 +134,33 @@ const LogPage = ({
             </Grid>
             <Grid item>
                 <Grid container spacing={3} justifyContent="space-around">
-                    <Grid item style={{paddingTop: 0}}>
+                    <Grid item style={{ paddingTop: 0 }}>
                         {date && (
-                            <Grid item justifyContent="center" xs={12} style={{textAlign: "center"}}>
-                                {mobile ? 
-                                    <Typography variant="h2">{currentDate}</Typography> 
-                                    : <Typography variant="h1" component="h2">
+                            <Grid
+                                item
+                                justifyContent="center"
+                                xs={12}
+                                style={{ textAlign: "center" }}
+                            >
+                                {mobile ? (
+                                    <Typography variant="h2">
                                         {currentDate}
                                     </Typography>
-                                }
+                                ) : (
+                                    <Typography variant="h1" component="h2">
+                                        {currentDate}
+                                    </Typography>
+                                )}
                             </Grid>
                         )}
                         {currentTimers && (
-                            <Grid item justifyContent="center" xs={12} style={{textAlign: "center"}}>
-                                <Typography variant="h4" sx={{pt: 2}}>
+                            <Grid
+                                item
+                                justifyContent="center"
+                                xs={12}
+                                style={{ textAlign: "center" }}
+                            >
+                                <Typography variant="h4" sx={{ pt: 2 }}>
                                     Current timers:
                                 </Typography>
                                 <CurrentTimers
@@ -121,10 +177,26 @@ const LogPage = ({
                         )}
                     </Grid>
                     <Grid item>
-                        <Grid container direction="column" spacing={4} justifyContent="space-around" alignItems="center">
+                        <Grid
+                            container
+                            direction="column"
+                            spacing={4}
+                            justifyContent="space-around"
+                            alignItems="center"
+                        >
                             {artisanTimers && (
-                                <Grid item md={6} style={{marginLeft: 15, marginRight: 15, paddingLeft: 10, paddingRight: 10}} justifyContent="center">
-                                    <ArtisanTimer 
+                                <Grid
+                                    item
+                                    md={6}
+                                    style={{
+                                        marginLeft: 15,
+                                        marginRight: 15,
+                                        paddingLeft: 10,
+                                        paddingRight: 10,
+                                    }}
+                                    justifyContent="center"
+                                >
+                                    <ArtisanTimer
                                         day={day}
                                         timers={timers}
                                         setTimers={setTimers}
@@ -136,20 +208,40 @@ const LogPage = ({
                                         setHasFruitTrees={setHasFruitTrees}
                                         skipTreeWarning={skipTreeWarning}
                                         setSkipTreeWarning={setSkipTreeWarning}
-                                        />
+                                    />
                                 </Grid>
                             )}
                             {harvestTimers && (
-                                <Grid item md={6} sx={{my: 2}} style={{marginLeft: 15, marginRight: 15, paddingLeft: 10, paddingRight: 10}}>
+                                <Grid
+                                    item
+                                    md={6}
+                                    sx={{ my: 2 }}
+                                    style={{
+                                        marginLeft: 15,
+                                        marginRight: 15,
+                                        paddingLeft: 10,
+                                        paddingRight: 10,
+                                    }}
+                                >
                                     <HarvestTimer
                                         day={day}
                                         timers={timers}
                                         setTimers={setTimers}
-                                        />
+                                    />
                                 </Grid>
                             )}
                             {customTimers && (
-                                <Grid item md={6} sx={{my: 2}} style={{marginLeft: 15, marginRight: 15, paddingLeft: 10, paddingRight: 10}} >
+                                <Grid
+                                    item
+                                    md={6}
+                                    sx={{ my: 2 }}
+                                    style={{
+                                        marginLeft: 15,
+                                        marginRight: 15,
+                                        paddingLeft: 10,
+                                        paddingRight: 10,
+                                    }}
+                                >
                                     <CustomTimer
                                         timers={timers}
                                         setTimers={setTimers}
@@ -157,20 +249,35 @@ const LogPage = ({
                                 </Grid>
                             )}
                         </Grid>
-                        {(!date && !currentTimers && !harvestTimers && !artisanTimers && !journal && !customTimers) && (
-                            <Grid item md={6}>
-                                <Typography variant="subtitle2" sx={{textAlign: "center", pt:10, pb: 10}}>
-                                    <em>There wasn't anybody else there, or anything.
-                                    There was just violet light -- and a hum.</em>
-                                </Typography>
-                            </Grid>
-                        )}
+                        {!date &&
+                            !currentTimers &&
+                            !harvestTimers &&
+                            !artisanTimers &&
+                            !journal &&
+                            !customTimers && (
+                                <Grid item md={6}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            textAlign: "center",
+                                            pt: 10,
+                                            pb: 10,
+                                        }}
+                                    >
+                                        <em>
+                                            There wasn't anybody else there, or
+                                            anything. There was just violet
+                                            light -- and a hum.
+                                        </em>
+                                    </Typography>
+                                </Grid>
+                            )}
                     </Grid>
                     {journal && (
                         <Grid container justifyContent="center">
-                            <Grid item xs={10} sx={{mx: "auto", pt: 5}}>
-                                <Journal 
-                                    journalText={journalText} 
+                            <Grid item xs={10} sx={{ mx: "auto", pt: 5 }}>
+                                <Journal
+                                    journalText={journalText}
                                     setJournalText={setJournalText}
                                 />
                             </Grid>
@@ -179,7 +286,7 @@ const LogPage = ({
                 </Grid>
             </Grid>
         </>
-    )
-}
+    );
+};
 
 export default LogPage;

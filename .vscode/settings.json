@@ -9,5 +9,6 @@
         "galadriel",
         "stardew",
         "weet"
-    ]
+    ],
+    "editor.formatOnSave": true
 }

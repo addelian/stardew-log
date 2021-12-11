@@ -1,12 +1,10 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-
-const Journal = ({journalText, setJournalText}) => {
-
-    const handleChange = e => {
+const Journal = ({ journalText, setJournalText }) => {
+    const handleChange = (e) => {
         setJournalText(e.target.value);
-    }
+    };
 
     return (
         <TextField
@@ -19,6 +17,6 @@ const Journal = ({journalText, setJournalText}) => {
             onChange={handleChange}
         />
     );
-}
+};
 
 export default Journal;
