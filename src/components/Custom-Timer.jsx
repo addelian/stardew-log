@@ -41,14 +41,15 @@ const CustomTimer = ({ timers, setTimers }) => {
         return;
     }
 
-    // const validation = () => {
-    //     if (timerLength && (!regex.test(timerLength) 
-    //         || timerLength < 0 
-    //         || (timerLength && (timerLength.includes("+") || timerLength.includes("-") || timerLength.includes("."))))) {
-    //         setError("Timer length may only use positive whole numbers. Clear to continue")
-    //         return true;
-    //     }
-    // }
+    const validation = () => {
+        if (timerName === '' || Number(timerLength) === NaN || timerExists(timerName) || timerLength === '' || Number(timerLength) > 112) {
+            return true;
+        }
+        if (timers.some(timer => timer.name === timerName)) {
+            return true;
+        }
+        return false;
+    }
 
     const timerExists = name => {
         if (timers.some(timer => timer.name === name)) {
@@ -89,8 +90,8 @@ const CustomTimer = ({ timers, setTimers }) => {
                 <Grid item>
                     <Button 
                         variant="contained"
-                        style={ timerName && (timerLength && regex.test(timerLength)) ? {"backgroundColor": "green", "color" : "white"} : {} }
-                        disabled={ timerName === '' || Number(timerLength) === NaN || timerExists(timerName) || timerLength === '' }
+                        style={ !validation() ? {"backgroundColor": "green", "color" : "white"} : {} }
+                        disabled={validation()}
                         onClick={() => createCustomTimer()}
                         >
                         <FontAwesomeIcon icon={hasError ? faTimes : faCheck} /> &nbsp; Create it
