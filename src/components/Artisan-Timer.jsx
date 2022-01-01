@@ -334,7 +334,7 @@ const ArtisanTimer = ({
                                                 name="skipTreeWarning"
                                             />
                                         }
-                                        label="Don't show this dialog again"
+                                        label="Don't show this reminder again"
                                     />
                                 </FormGroup>
                             </FormControl>

@@ -24,7 +24,7 @@ const AboutPage = () => {
                 <Typography variant="body1">
                     This app leverages <a href="https://reactjs.org/">React</a>{" "}
                     and <a href="https://mui.com/">MUI</a>. It was built to
-                    serve as a responsive and relatively unintrusive companion
+                    serve as a responsive and relatively un-intrusive companion
                     app for the casual farming / fishing / Haley-impressing
                     simulator Stardew Valley.
                 </Typography>
@@ -359,7 +359,7 @@ const AboutPage = () => {
                                 were growing a fruit tree that would produce
                                 fruit in the upcoming season (since fruit trees
                                 take an entire season to grow). That's a whole
-                                log of conditional logic for a very specific
+                                lot of conditional logic for a very specific
                                 moment in the lifetime of a user's farm,
                                 especially since most folks will only go through
                                 the process of building up a fruit orchard once.

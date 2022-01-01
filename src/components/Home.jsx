@@ -292,22 +292,18 @@ const Home = () => {
                 />
             )}
             {showSettingsPage && (
-                <Grid container justifyContent="space-around">
-                    <Grid item>
-                        <SettingsPage
-                            mobile={mobile}
-                            setDay={setDay}
-                            setTimers={setTimers}
-                            setHasHoney={setHasHoney}
-                            setHasFruitTrees={setHasFruitTrees}
-                            setShowState={setShowState}
-                            setJournalText={setJournalText}
-                            setSkipTreeWarning={setSkipTreeWarning}
-                            setShowSettingsPage={setShowSettingsPage}
-                            setShowLogPage={setShowLogPage}
-                        />
-                    </Grid>
-                </Grid>
+                <SettingsPage
+                    mobile={mobile}
+                    setDay={setDay}
+                    setTimers={setTimers}
+                    setHasHoney={setHasHoney}
+                    setHasFruitTrees={setHasFruitTrees}
+                    setShowState={setShowState}
+                    setJournalText={setJournalText}
+                    setSkipTreeWarning={setSkipTreeWarning}
+                    setShowSettingsPage={setShowSettingsPage}
+                    setShowLogPage={setShowLogPage}
+                />
             )}
             {showAboutPage && (
                 <Grid item>

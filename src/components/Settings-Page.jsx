@@ -60,26 +60,103 @@ const SettingsPage = ({
     };
 
     return (
-        <>
-            {!mobile ? (
-                <Button
-                    size="small"
-                    variant="contained"
-                    color="error"
-                    onClick={() => handleResetOpen()}
+        <Grid
+            container
+            spacing={2}
+            direction="column"
+            justifyContent="space-between"
+            sx={{ px: 5, py: 5 }}
+        >
+            <Grid item>
+                <Typography
+                    variant="body1"
+                    sx={{ textDecorationLine: "underline" }}
                 >
-                    <FontAwesomeIcon icon={faFire} /> &nbsp; Reset all
-                </Button>
-            ) : (
-                <IconButton
-                    variant="contained"
-                    sx={{ pr: 2 }}
-                    color="error"
-                    onClick={() => handleResetOpen()}
+                    Dev tools
+                </Typography>
+                <List
+                    sx={{
+                        fontStyle: "italic",
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                    }}
                 >
-                    <FontAwesomeIcon icon={faFire} />
-                </IconButton>
-            )}
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Reset the app. Use with caution!&nbsp;
+                                {!mobile ? (
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        color="error"
+                                        onClick={() => handleResetOpen()}
+                                    >
+                                        <FontAwesomeIcon icon={faFire} /> &nbsp;
+                                        Reset all
+                                    </Button>
+                                ) : (
+                                    <IconButton
+                                        variant="contained"
+                                        sx={{ pr: 2 }}
+                                        color="error"
+                                        onClick={() => handleResetOpen()}
+                                    >
+                                        <FontAwesomeIcon icon={faFire} />
+                                    </IconButton>
+                                )}
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                </List>
+            </Grid>
+            <Grid item>
+                <Typography
+                    variant="body1"
+                    sx={{ textDecorationLine: "underline" }}
+                >
+                    Planned features
+                </Typography>
+                <List
+                    sx={{
+                        fontStyle: "italic",
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                    }}
+                >
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Light/dark mode
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Ability to save and load different accounts
+                                and/or farms
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Jump to any day of your choosing without having
+                                to click through
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Budget calculator / planner tool
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                </List>
+            </Grid>
+
             <Dialog
                 open={resetOpen}
                 onClose={handleResetClose}
@@ -107,7 +184,7 @@ const SettingsPage = ({
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Grid>
     );
 };
 
