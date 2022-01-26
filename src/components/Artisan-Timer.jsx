@@ -23,6 +23,7 @@ import {
     faTimes,
     faLeaf,
 } from "@fortawesome/free-solid-svg-icons";
+import { removeSingleTimer } from "../helpers/common";
 import { CROPS } from "../data/crops";
 
 const ArtisanTimer = ({
@@ -62,19 +63,6 @@ const ArtisanTimer = ({
 
     const handleCheck = (e) => {
         setSkipTreeWarning(e.target.checked);
-    };
-
-    const removeSingleTimer = (allTimers, toBeDeleted) => {
-        const updatedTimers = allTimers.filter(
-            (timer) => timer.id !== toBeDeleted.id
-        );
-        if (toBeDeleted.name === "Fruit Trees") {
-            setHasFruitTrees(false);
-        }
-        if (toBeDeleted.name === "Honey") {
-            setHasHoney(false);
-        }
-        return updatedTimers;
     };
 
     const handleFruitTrees = () => {

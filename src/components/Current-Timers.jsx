@@ -19,9 +19,7 @@ const CurrentTimers = ({
     timers,
     setTimers,
     hasHoney,
-    setHasHoney,
     hasFruitTrees,
-    setHasFruitTrees,
 }) => {
     const [activeTimers, setActiveTimers] = useState([]);
     const [completedTimers, setCompletedTimers] = useState([]);
@@ -112,6 +110,13 @@ const CurrentTimers = ({
         <List dense>{createErrorList(fullError)}</List>
     );
 
+    const handlePlurals = (name) => {
+        if (name.slice(-1) === "s") {
+            return ` are`;
+        }
+        return ` is`;
+    };
+
     const renderCountdown = (productInTimer) => {
         if (productInTimer.name === "Fruit Trees") {
             if ([3, 0].includes(productInTimer.countdown)) {
@@ -127,9 +132,9 @@ const CurrentTimers = ({
             productInTimer.firstHarvest === false &&
             productInTimer.countdown === productInTimer.regrowTime
         ) {
-            return `${
-                productInTimer.name === "Hops" ? ` are` : ` is`
-            } ready today. Next harvest in ${productInTimer.countdown} days`;
+            return `${handlePlurals(
+                productInTimer.name
+            )} ready today. Next harvest in ${productInTimer.countdown} days`;
         }
         if (productInTimer.timerType === "custom") {
             return `${
@@ -145,27 +150,12 @@ const CurrentTimers = ({
                 ? `: ${productInTimer.countdown} ${
                       productInTimer.countdown > 1 ? "days" : "day"
                   } left`
-                : `${
-                      productInTimer.timerFor === "pickles" ||
-                      (productInTimer.name !== undefined &&
-                          productInTimer.name.includes("Seeds" || "Trees"))
-                          ? ` are`
-                          : ` is`
-                  } ready today`
+                : `${handlePlurals(
+                      productInTimer.timerFor !== undefined
+                          ? productInTimer.timerFor
+                          : productInTimer.name
+                  )} ready today`
         }`;
-    };
-
-    const removeSingleTimer = (allTimers, toBeDeleted) => {
-        const updatedTimers = allTimers.filter(
-            (timer) => timer.id !== toBeDeleted.id
-        );
-        if (toBeDeleted.name === "Fruit Trees") {
-            setHasFruitTrees(false);
-        }
-        if (toBeDeleted.name === "Honey") {
-            setHasHoney(false);
-        }
-        return updatedTimers;
     };
 
     const renderCompletedTimers = (allTimers, timersToRender) =>
@@ -187,7 +177,11 @@ const CurrentTimers = ({
                                 size="small"
                                 onClick={() => {
                                     setTimers(
-                                        removeSingleTimer(allTimers, timer)
+                                        removeSingleTimer(
+                                            allTimers,
+                                            timer,
+                                            "product"
+                                        )
                                     );
                                     if (completedTimers.length === 0) {
                                         setHasCompletedTimers(false);
@@ -223,7 +217,11 @@ const CurrentTimers = ({
                                 sx={{ pb: 1 }}
                                 onClick={() => {
                                     setTimers(
-                                        removeSingleTimer(allTimers, timer)
+                                        removeSingleTimer(
+                                            allTimers,
+                                            timer,
+                                            "product"
+                                        )
                                     );
                                     if (activeTimers.length === 0) {
                                         setHasActiveTimers(false);

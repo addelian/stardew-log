@@ -96,149 +96,121 @@ const AboutPage = () => {
                                 <strong>first day of the next season</strong>{" "}
                                 (but not Winter) and follow the below steps:
                             </Typography>
-                            <ListItem>
-                                <ListItemText>
-                                    <Typography variant="body2">
-                                        <ol style={{ marginTop: 8 }}>
-                                            <li>
-                                                If you have fully matured fruit
-                                                trees,{" "}
-                                                <strong>
-                                                    add fruit tree timer
-                                                </strong>{" "}
-                                                (and kill the dialog if you
-                                                haven't already).
-                                            </li>
-                                            <li>
-                                                If you have bee houses,{" "}
-                                                <em>
-                                                    and it is Summer 1 or Fall 1
-                                                </em>
-                                                , smack them with a pickaxe and
-                                                place them back down, then{" "}
-                                                <strong>
-                                                    add bee house timer
-                                                </strong>
-                                                . I acknowledge that this is
-                                                less efficient than just adding
-                                                the timer whenever your honey
-                                                does proc, and you could
-                                                potentially lose up to three
-                                                days of honey harvest time, but
-                                                this by far the the simplest way
-                                                to ensure timer accuracy at the
-                                                top of a season during the first
-                                                year that you begin to use this
-                                                log (and, to reiterate,
-                                                certainly not the most
-                                                efficient). Please note that if
-                                                it is Spring 1, you can just
-                                                start up the timer here, since
-                                                the bees will have just begun to
-                                                produce again.
-                                            </li>
-                                            <li>
-                                                Grab whatever seeds you need,
-                                                get them planted, and{" "}
-                                                <strong>
-                                                    add harvest timers in for
-                                                    every crop
-                                                </strong>
-                                                . These timers are accurate to
-                                                the day assuming two things:
-                                                First, that you never miss a day
-                                                of watering, and second, that
-                                                you{" "}
-                                                <em>
-                                                    do not use any fertilizer
-                                                </em>
-                                                . Unfortunately, fertilizers are
-                                                just random enough that I didn't
-                                                feel comfortable trying to
-                                                account for the growth time with
-                                                them mixed into the equation. If
-                                                you're really hankering for some
-                                                timers that account for
-                                                fertilizer, feel free to make a
-                                                bunch of custom timers and shave
-                                                the growth time of a given crop
-                                                down by 10/25/33%, but be
-                                                prepared for them to miss the
-                                                mark every so often.
-                                            </li>
-                                            <li>
-                                                Whenever your next batch of keg
-                                                products and/or preserves jar
-                                                products are ready to be
-                                                collected, fill them up with a
-                                                new batch of crops, and{" "}
-                                                <strong>
-                                                    add artisan timers
-                                                </strong>{" "}
-                                                for each product. You may notice
-                                                that, depending on the crop
-                                                chosen in the artisan timer,
-                                                either the "JAR IT" or "KEG IT"
-                                                button will turn green, while
-                                                the other will turn red. This
-                                                strictly serves as a way to
-                                                remind the user which choice is
-                                                better for a given crop (i.e.
-                                                more valuable). You can choose
-                                                either option every time you
-                                                create an artisan timer, but
-                                                just note that the green option
-                                                will always be more valuable for
-                                                the given crop.
-                                            </li>
-                                            <li>
-                                                Once your non-regrowing crops
-                                                reach harvest time, you'll want
-                                                to clear their current timer -
-                                                the one that says "(crop) is
-                                                ready today" - by clicking the
-                                                red "x" next to the timer, and
-                                                add in another timer of the same
-                                                type (assuming you want to
-                                                re-plant said crop).
-                                            </li>
-                                            <li>
-                                                When the next season rolls
-                                                around,{" "}
-                                                <strong>
-                                                    repeat steps 1-5.
-                                                </strong>
-                                            </li>
-                                            <li>
-                                                <strong>
-                                                    A few things to note about
-                                                    the general flow of the app:
-                                                </strong>{" "}
-                                                the harvest timer <em>does</em>{" "}
-                                                account for plants that regrow,
-                                                i.e. if you plant strawberries
-                                                on Spring 1, it will alert that
-                                                the first crop is ready on
-                                                Spring 9, then the timer will
-                                                automatically set itself to 4
-                                                days, and will once again show
-                                                the strawberries are ready on
-                                                Spring 13, and so on through the
-                                                end of the season. Speaking of
-                                                which, this timer also accounts
-                                                for plants that will either die
-                                                upon season change, or maintain
-                                                over season changes, e.g. when
-                                                Summer 1 arrives, said
-                                                strawberry timer will be removed
-                                                automatically, but your coffee
-                                                bean timer will persist all the
-                                                way through Summer 28.
-                                            </li>
-                                        </ol>
-                                    </Typography>
-                                </ListItemText>
-                            </ListItem>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                <ol style={{ marginTop: 8 }}>
+                                    <li>
+                                        If you have fully matured fruit trees,{" "}
+                                        <strong>add fruit tree timer</strong>{" "}
+                                        (and kill the dialog if you haven't
+                                        already).
+                                    </li>
+                                    <li>
+                                        If you have bee houses,{" "}
+                                        <em>and it is Summer 1 or Fall 1</em>,
+                                        smack them with a pickaxe and place them
+                                        back down, then{" "}
+                                        <strong>add bee house timer</strong>. I
+                                        acknowledge that this is less efficient
+                                        than just adding the timer whenever your
+                                        honey does proc, and you could
+                                        potentially lose up to three days of
+                                        honey harvest time, but this by far the
+                                        the simplest way to ensure timer
+                                        accuracy at the top of a season during
+                                        the first year that you begin to use
+                                        this log (and, to reiterate, certainly
+                                        not the most efficient). Please note
+                                        that if it is Spring 1, you can just
+                                        start up the timer here, since the bees
+                                        will have just begun to produce again.
+                                    </li>
+                                    <li>
+                                        Grab whatever seeds you need, get them
+                                        planted, and{" "}
+                                        <strong>
+                                            add harvest timers in for every crop
+                                        </strong>
+                                        . These timers are accurate to the day
+                                        assuming two things: First, that you
+                                        never miss a day of watering, and
+                                        second, that you{" "}
+                                        <em>do not use any fertilizer</em>.
+                                        Unfortunately, fertilizers are just
+                                        random enough that I didn't feel
+                                        comfortable trying to account for the
+                                        growth time with them mixed into the
+                                        equation. If you're really hankering for
+                                        some timers that account for fertilizer,
+                                        feel free to make a bunch of custom
+                                        timers and shave the growth time of a
+                                        given crop down by 10/25/33%, but be
+                                        prepared for them to miss the mark every
+                                        so often.
+                                    </li>
+                                    <li>
+                                        Whenever your next batch of keg products
+                                        and/or preserves jar products are ready
+                                        to be collected, fill them up with a new
+                                        batch of crops, and{" "}
+                                        <strong>add artisan timers</strong> for
+                                        each product. You may notice that,
+                                        depending on the crop chosen in the
+                                        artisan timer, either the "JAR IT" or
+                                        "KEG IT" button will turn green, while
+                                        the other will turn red. This strictly
+                                        serves as a way to remind the user which
+                                        choice is better for a given crop (i.e.
+                                        more valuable). You can choose either
+                                        option every time you create an artisan
+                                        timer, but just note that the green
+                                        option will always be more valuable for
+                                        the given crop.
+                                    </li>
+                                    <li>
+                                        Once your non-regrowing crops reach
+                                        harvest time, you'll want to clear their
+                                        current timer - the one that says
+                                        "(crop) is ready today" - by clicking
+                                        the red "x" next to the timer, and add
+                                        in another timer of the same type
+                                        (assuming you want to re-plant said
+                                        crop). Friendly heads up that, if you do
+                                        not manually clear a completed timer, it
+                                        will remove itself the next day.
+                                    </li>
+                                    <li>
+                                        When the next season rolls around,{" "}
+                                        <strong>repeat steps 1-5.</strong>
+                                    </li>
+                                    <li>
+                                        <strong>
+                                            A few things to note about the
+                                            general flow of the app:
+                                        </strong>{" "}
+                                        the harvest timer <em>does</em> account
+                                        for plants that regrow, i.e. if you
+                                        plant strawberries on Spring 1, it will
+                                        alert that the first crop is ready on
+                                        Spring 9, then the timer will
+                                        automatically set itself to 4 days, and
+                                        will once again show the strawberries
+                                        are ready on Spring 13, and so on
+                                        through the end of the season. Speaking
+                                        of which, this timer also accounts for
+                                        plants that will either die upon season
+                                        change, or maintain over season changes,
+                                        e.g. when Summer 1 arrives, said
+                                        strawberry timer will be removed
+                                        automatically, but your coffee bean
+                                        timer will persist all the way through
+                                        Summer 28.
+                                    </li>
+                                </ol>
+                            </Typography>
                         </ListItemText>
                     </ListItem>
                     <ListItem>

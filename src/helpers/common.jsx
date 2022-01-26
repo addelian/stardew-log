@@ -10,3 +10,10 @@ export const readDate = (day) => {
     }
     return `Winter ${day - 83}`;
 };
+
+export const removeSingleTimer = (allTimers, toBeDeleted) => {
+    const updatedTimers = allTimers.filter(
+        (timer) => timer.id !== toBeDeleted.id
+    );
+    return updatedTimers;
+};

@@ -169,9 +169,7 @@ const LogPage = ({
                                     timers={timers}
                                     setTimers={setTimers}
                                     hasHoney={hasHoney}
-                                    setHasHoney={setHasHoney}
                                     hasFruitTrees={hasFruitTrees}
-                                    setHasFruitTrees={setHasFruitTrees}
                                 />
                             </Grid>
                         )}
@@ -249,30 +247,30 @@ const LogPage = ({
                                 </Grid>
                             )}
                         </Grid>
-                        {!date &&
-                            !currentTimers &&
-                            !harvestTimers &&
-                            !artisanTimers &&
-                            !journal &&
-                            !customTimers && (
-                                <Grid item md={6}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            textAlign: "center",
-                                            pt: 10,
-                                            pb: 10,
-                                        }}
-                                    >
-                                        <em>
-                                            There wasn't anybody else there, or
-                                            anything. There was just violet
-                                            light -- and a hum.
-                                        </em>
-                                    </Typography>
-                                </Grid>
-                            )}
                     </Grid>
+                    {!date &&
+                        !currentTimers &&
+                        !harvestTimers &&
+                        !artisanTimers &&
+                        !journal &&
+                        !customTimers && (
+                            <Grid item xs={12}>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        textAlign: "center",
+                                        pt: 10,
+                                        pb: 10,
+                                    }}
+                                >
+                                    <em>
+                                        There wasn't anybody else there, or
+                                        anything. There was just violet light --
+                                        and a hum.
+                                    </em>
+                                </Typography>
+                            </Grid>
+                        )}
                     {journal && (
                         <Grid container justifyContent="center">
                             <Grid item xs={10} sx={{ mx: "auto", pt: 5 }}>

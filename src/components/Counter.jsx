@@ -20,11 +20,7 @@ const Counter = ({
     setTimers,
     setError,
     setHasHoney,
-    hasFruitTrees,
     setHasFruitTrees,
-    setShowState,
-    setJournalText,
-    setSkipTreeWarning,
 }) => {
     const [spring1Reminder, setSpring1Reminder] = useState(false);
 

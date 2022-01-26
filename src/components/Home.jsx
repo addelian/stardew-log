@@ -139,30 +139,26 @@ const Home = () => {
             <Grid item>
                 <AppBar position="static">
                     <Toolbar>
-                        <Button
-                            id="basic-button"
+                        <IconButton
                             aria-controls="basic-menu"
                             aria-haspopup="true"
                             aria-expanded={open ? "true" : undefined}
                             onClick={handleClick}
+                            size="large"
+                            edge="start"
+                            aria-label="menu"
+                            sx={
+                                mobile
+                                    ? {
+                                          flexGrow: 1,
+                                          justifyContent: "start",
+                                          color: "white",
+                                      }
+                                    : { mr: 2, color: "white" }
+                            }
                         >
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                aria-label="menu"
-                                sx={
-                                    mobile
-                                        ? {
-                                              flexGrow: 1,
-                                              justifyContent: "start",
-                                              color: "white",
-                                          }
-                                        : { mr: 2, color: "white" }
-                                }
-                            >
-                                <FontAwesomeIcon icon={faBars} />
-                            </IconButton>
-                        </Button>
+                            <FontAwesomeIcon icon={faBars} />
+                        </IconButton>
                         <Menu
                             id="basic-menu"
                             anchorEl={menuOpen}
@@ -242,24 +238,12 @@ const Home = () => {
                             <Counter
                                 day={day}
                                 mobile={mobile}
-                                handleCheck={handleCheck}
-                                date={date}
-                                artisanTimers={artisanTimers}
-                                currentTimers={currentTimers}
-                                harvestTimers={harvestTimers}
-                                customTimers={customTimers}
-                                journal={journal}
                                 setDay={setDay}
                                 timers={timers}
                                 setTimers={setTimers}
                                 setError={setError}
-                                hasHoney={hasHoney}
                                 setHasHoney={setHasHoney}
-                                hasFruitTrees={hasFruitTrees}
                                 setHasFruitTrees={setHasFruitTrees}
-                                setShowState={setShowState}
-                                setJournalText={setJournalText}
-                                setSkipTreeWarning={setSkipTreeWarning}
                             />
                         )}
                     </Toolbar>
