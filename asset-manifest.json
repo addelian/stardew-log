@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/stardew-log/static/css/main.bab0b925.chunk.css",
+    "main.js": "/stardew-log/static/js/main.dbacadb1.chunk.js",
+    "main.js.map": "/stardew-log/static/js/main.dbacadb1.chunk.js.map",
+    "runtime-main.js": "/stardew-log/static/js/runtime-main.a84864d1.js",
+    "runtime-main.js.map": "/stardew-log/static/js/runtime-main.a84864d1.js.map",
+    "static/css/2.9c7c8769.chunk.css": "/stardew-log/static/css/2.9c7c8769.chunk.css",
+    "static/js/2.7b4d9677.chunk.js": "/stardew-log/static/js/2.7b4d9677.chunk.js",
+    "static/js/2.7b4d9677.chunk.js.map": "/stardew-log/static/js/2.7b4d9677.chunk.js.map",
+    "static/js/3.44b9da47.chunk.js": "/stardew-log/static/js/3.44b9da47.chunk.js",
+    "static/js/3.44b9da47.chunk.js.map": "/stardew-log/static/js/3.44b9da47.chunk.js.map",
+    "index.html": "/stardew-log/index.html",
+    "static/css/2.9c7c8769.chunk.css.map": "/stardew-log/static/css/2.9c7c8769.chunk.css.map",
+    "static/css/main.bab0b925.chunk.css.map": "/stardew-log/static/css/main.bab0b925.chunk.css.map",
+    "static/js/2.7b4d9677.chunk.js.LICENSE.txt": "/stardew-log/static/js/2.7b4d9677.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/stardew-log/static/media/roboto-vietnamese-700-normal.3096f18a.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a84864d1.js",
+    "static/css/2.9c7c8769.chunk.css",
+    "static/js/2.7b4d9677.chunk.js",
+    "static/css/main.bab0b925.chunk.css",
+    "static/js/main.dbacadb1.chunk.js"
+  ]
+}
