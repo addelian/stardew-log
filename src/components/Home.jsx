@@ -243,6 +243,7 @@ const Home = () => {
                                 setTimers={setTimers}
                                 setError={setError}
                                 setHasHoney={setHasHoney}
+                                hasFruitTrees={hasFruitTrees}
                                 setHasFruitTrees={setHasFruitTrees}
                             />
                         )}

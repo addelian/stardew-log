@@ -14,7 +14,7 @@ const AboutPage = () => {
         >
             <Grid item>
                 <Typography variant="body1">
-                    Stardew Log, version 0.3, October 2021. Created by Nic
+                    Stardew Log, version 0.4, February 2022. Created by Nic
                     Addelia &nbsp;
                     <FontAwesomeIcon icon={faGithub} />
                     &nbsp;<a href="https://github.com/addelian">@addelian</a>
@@ -355,21 +355,21 @@ const AboutPage = () => {
                                 inaccuracy here). What gives?
                             </Typography>
                             <Typography variant="body2">
-                                Part of my personal requirements for this app
-                                are that I wanted it to be simple and
-                                unintrusive for my own personal use. For certain
-                                crops or products to be accurate, there would
-                                have to be a live timer built into the app that
-                                tracked the real-life flow of in-game time, i.e.
-                                I'd have to build an 86-second timer for coffee.
-                                This addition is simple by itself, but if the
-                                user does anything that interrupts the flow of
-                                time in-game, they would have to pause their
-                                Stardew Log timer as well. That's against the
-                                spirit of the app, in my opinion, not to mention
-                                that the whole point of the app is to not have
-                                to pay attention to timing that explicitly,
-                                whereas keeping live track of each timer in- and
+                                Part of my personal requirements for this app is
+                                that I wanted it to be simple and unintrusive
+                                for my own personal use. For certain crops or
+                                products to be accurate, there would have to be
+                                a live timer built into the app that tracked the
+                                real-life flow of in-game time, i.e. I'd have to
+                                build an 86-second timer for coffee. This
+                                addition is simple by itself, but if the user
+                                does anything that interrupts the flow of time
+                                in-game, they would have to pause their Stardew
+                                Log timer as well. That's against the spirit of
+                                the app, in my opinion, not to mention that the
+                                whole point of the app is to not have to pay
+                                attention to timing that explicitly, whereas
+                                keeping live track of each timer in- and
                                 out-of-game requires even more attention than
                                 just playing the game by itself. At any rate,
                                 any time there was a timer that took less than a
