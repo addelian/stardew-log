@@ -3,9 +3,10 @@ import {
     Grid,
     Button,
     Input,
-    Alert,
-    AlertTitle,
-    Typography,
+    FormControl,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -13,29 +14,30 @@ import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 const CustomTimer = ({ timers, setTimers }) => {
     const [timerName, setTimerName] = useState("");
     const [timerLength, setTimerLength] = useState("");
-    const [error, setError] = useState("");
-    const [hasError, setHasError] = useState(false);
+    const [timerRepeat, setTimerRepeat] = useState(false);
+    const [repeatLength, setRepeatLength] = useState(null);
 
     const handleNameChange = (e) => {
         setTimerName(e.target.value);
     };
 
     const handleTimeChange = (e) => {
-        // if (validation()) {
-        //     setHasError(true);
-        //     return;
-        // }
-        // setHasError(false);
         setTimerLength(e.target.value);
     };
 
-    const regex = /\d/;
+    const handleRepeatLengthChange = (e) => {
+        setRepeatLength(e.target.value);
+    };
+
+    const handleCheck = (e) => {
+        setTimerRepeat(e.target.checked);
+    };
 
     const clearTimer = () => {
         setTimerLength("");
         setTimerName("");
-        setHasError(false);
-        setError("");
+        setTimerRepeat(false);
+        setRepeatLength(null);
     };
 
     const createCustomTimer = () => {
@@ -46,29 +48,16 @@ const CustomTimer = ({ timers, setTimers }) => {
                 name: timerName,
                 countdown: Math.round(Number(timerLength)),
                 timerType: "custom",
+                repeat: timerRepeat,
+                firstHarvest: true,
+                repeatLength,
             },
         ]);
         setTimerName("");
         setTimerLength("");
-        setHasError(false);
-        setError("");
+        setTimerRepeat(false);
+        setRepeatLength(null);
         return;
-    };
-
-    const validation = () => {
-        if (
-            timerName === "" ||
-            Number(timerLength) === NaN ||
-            timerExists(timerName) ||
-            timerLength === "" ||
-            Number(timerLength) > 112
-        ) {
-            return true;
-        }
-        if (timers.some((timer) => timer.name === timerName)) {
-            return true;
-        }
-        return false;
     };
 
     const timerExists = (name) => {
@@ -78,29 +67,25 @@ const CustomTimer = ({ timers, setTimers }) => {
         return false;
     };
 
+    const validation = () => {
+        if (
+            timerName === "" ||
+            timerExists(timerName) ||
+            timerLength === "" ||
+            Number(timerLength) === NaN ||
+            Number(timerLength) > 112 ||
+            (repeatLength !== "" && Number(repeatLength) === NaN)
+        ) {
+            return true;
+        }
+        if (timers.some((timer) => timer.name === timerName)) {
+            return true;
+        }
+        return false;
+    };
+
     return (
         <>
-            {hasError && (
-                <Grid
-                    container
-                    spacing={1}
-                    justifyContent="center"
-                    alignItems="center"
-                >
-                    <Grid item>
-                        <Alert severity="error">
-                            <AlertTitle>
-                                <Typography variant="body1">
-                                    Custom timer error
-                                </Typography>
-                            </AlertTitle>
-                            <Typography variant="body2">
-                                <em>{error}</em>
-                            </Typography>
-                        </Alert>
-                    </Grid>
-                </Grid>
-            )}
             <Grid
                 container
                 spacing={1}
@@ -117,12 +102,41 @@ const CustomTimer = ({ timers, setTimers }) => {
                 <Grid item>
                     <Input
                         type="number"
-                        error={hasError}
                         placeholder="Length (days)"
                         onChange={handleTimeChange}
                         value={timerLength}
                     />
                 </Grid>
+                <Grid item>
+                    <FormControl component="fieldset">
+                        <FormGroup
+                            aria-label="Set custom timer to repeat itself"
+                            row
+                        >
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        size="small"
+                                        checked={timerRepeat}
+                                        onChange={handleCheck}
+                                        name="timerRepeat"
+                                    />
+                                }
+                                label="Repeat"
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </Grid>
+                {timerRepeat && (
+                    <Grid item>
+                        <Input
+                            type="number"
+                            placeholder="Length (days)"
+                            onChange={handleRepeatLengthChange}
+                            value={repeatLength}
+                        />
+                    </Grid>
+                )}
             </Grid>
             <Grid
                 container
@@ -142,8 +156,7 @@ const CustomTimer = ({ timers, setTimers }) => {
                         disabled={validation()}
                         onClick={() => createCustomTimer()}
                     >
-                        <FontAwesomeIcon icon={hasError ? faTimes : faCheck} />{" "}
-                        &nbsp; Create it
+                        <FontAwesomeIcon icon={faCheck} /> &nbsp; Create it
                     </Button>
                 </Grid>
                 <Grid item>

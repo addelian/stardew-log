@@ -43,7 +43,7 @@ const Counter = ({
     const handleSeasonChange = (remainingTimers, season) => {
         const toRemove = remainingTimers.filter(
             (timer) =>
-                !timer.season.includes(season) && timer.timerType === "harvest"
+                timer.timerType === "harvest" && !timer.season.includes(season)
         );
         const clearedTimers = remainingTimers.filter(
             (timer) => !toRemove.includes(timer)
@@ -89,13 +89,16 @@ const Counter = ({
         const timersToRemove = timersCountingDown.filter(
             (timer) =>
                 timer.countdown < 0 &&
-                ((timer.timerType === "harvest" && !timer.regrow) ||
-                    timer.timerType !== "harvest")
+                !(
+                    (timer.timerType === "harvest" && timer.regrow) ||
+                    (timer.timerType === "custom" && timer.repeat)
+                )
         );
         const timersToKeep = timersCountingDown.filter(
             (timer) =>
                 timer.countdown >= 0 ||
-                (timer.timerType === "harvest" && timer.regrow)
+                (timer.timerType === "harvest" && timer.regrow) ||
+                (timer.timerType === "custom" && timer.repeat)
         );
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
@@ -104,13 +107,17 @@ const Counter = ({
         timersToKeep.forEach((timer) => {
             if (
                 timer.countdown === 0 &&
-                timer.timerType === "harvest" &&
-                timer.regrow
+                (timer.timerType === "harvest" ||
+                    timer.timerType === "custom") &&
+                (timer.regrow || timer.repeat)
             ) {
                 if (timer.firstHarvest) {
                     timer.firstHarvest = false;
                 }
-                timer.countdown = timer.regrowTime;
+                timer.countdown =
+                    timer.timerType === "harvest"
+                        ? timer.regrowTime
+                        : timer.repeatLength;
             }
         });
         if (day === 111) {
