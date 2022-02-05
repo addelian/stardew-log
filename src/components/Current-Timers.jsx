@@ -34,6 +34,11 @@ const CurrentTimers = ({
                     timer.regrow &&
                     timer.countdown === timer.regrowTime &&
                     timer.firstHarvest === false
+                ) &&
+                !(
+                    timer.repeat &&
+                    timer.firstHarvest === false &&
+                    timer.countdown === timer.repeatLength
                 )
         );
         if (
@@ -47,15 +52,24 @@ const CurrentTimers = ({
                 1
             );
         }
-        setActiveTimers(updatedActiveTimers);
+        const sortedActiveTimers = updatedActiveTimers.sort((a, b) =>
+            a.countdown > b.countdown ? 1 : -1
+        );
+        setActiveTimers(sortedActiveTimers);
         const updatedCompletedTimers = timers.filter(
             (timer) =>
                 timer.countdown === 0 ||
                 (timer.regrow &&
                     timer.firstHarvest === false &&
-                    timer.countdown === timer.regrowTime)
+                    timer.countdown === timer.regrowTime) ||
+                (timer.repeat &&
+                    timer.firstHarvest === false &&
+                    timer.countdown === timer.repeatLength)
         );
-        setCompletedTimers(updatedCompletedTimers);
+        const sortedCompletedTimers = updatedCompletedTimers.sort((a, b) =>
+            a.countdown > b.countdown ? 1 : -1
+        );
+        setCompletedTimers(sortedCompletedTimers);
         if (updatedActiveTimers.length > 0) {
             setHasActiveTimers(true);
         } else setHasActiveTimers(false);
@@ -137,6 +151,12 @@ const CurrentTimers = ({
             )} ready today. Next harvest in ${productInTimer.countdown} days`;
         }
         if (productInTimer.timerType === "custom") {
+            if (
+                productInTimer.repeat &&
+                productInTimer.countdown === productInTimer.repeatLength
+            ) {
+                return `: timer completed. Next up in ${productInTimer.countdown} days`;
+            }
             return `${
                 productInTimer.countdown > 0
                     ? `: ${productInTimer.countdown} ${
