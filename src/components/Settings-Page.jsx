@@ -7,6 +7,7 @@ import {
     DialogContent,
     DialogContentText,
     Grid,
+    IconButton,
     Typography,
     List,
     ListItem,
@@ -110,6 +111,53 @@ const SettingsPage = ({
                     </ListItem>
                 </List>
             </Grid>
+            <Grid item>
+                <Typography
+                    variant="body1"
+                    sx={{ textDecorationLine: "underline" }}
+                >
+                    Planned features
+                </Typography>
+                <List
+                    sx={{
+                        fontStyle: "italic",
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                    }}
+                >
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Light/dark mode
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Ability to save and load different accounts
+                                and/or farms
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Jump to any day of your choosing without having
+                                to click through
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>
+                            <Typography variant="body2">
+                                Budget calculator / planner tool
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                </List>
+            </Grid>
+
             <Dialog
                 open={resetOpen}
                 onClose={handleResetClose}
