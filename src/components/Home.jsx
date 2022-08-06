@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-    Button,
     Menu,
     MenuItem,
     Grid,
@@ -45,15 +44,6 @@ const Home = () => {
         journal: true,
         customTimers: false,
     });
-
-    const {
-        date,
-        artisanTimers,
-        harvestTimers,
-        currentTimers,
-        journal,
-        customTimers,
-    } = showState;
 
     const currentDate = readDate(day);
 
@@ -252,12 +242,7 @@ const Home = () => {
             </Grid>
             {showLogPage && (
                 <LogPage
-                    date={date}
-                    currentTimers={currentTimers}
-                    harvestTimers={harvestTimers}
-                    artisanTimers={artisanTimers}
-                    journal={journal}
-                    customTimers={customTimers}
+                    showState={showState}
                     currentDate={currentDate}
                     mobile={mobile}
                     handleCheck={handleCheck}

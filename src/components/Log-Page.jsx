@@ -16,12 +16,7 @@ import Journal from "./Journal";
 
 const LogPage = ({
     currentDate,
-    date,
-    currentTimers,
-    artisanTimers,
-    harvestTimers,
-    journal,
-    customTimers,
+    showState,
     handleCheck,
     mobile,
     day,
@@ -38,6 +33,15 @@ const LogPage = ({
     skipTreeWarning,
     setSkipTreeWarning,
 }) => {
+    const {
+        date,
+        artisanTimers,
+        harvestTimers,
+        currentTimers,
+        journal,
+        customTimers,
+    } = showState;
+
     return (
         <>
             <Grid item>
