@@ -41,6 +41,7 @@ const LogPage = ({
         journal,
         customTimers,
     } = showState;
+
     return (
         <>
             <Grid item>
