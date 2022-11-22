@@ -31,7 +31,7 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
                 !timers.some((timer) => timer.name === crop.name)
         );
 
-        // ES6 alphabetical order
+        // Alphabetical order
         const cropsEligibleForHarvestTimer = cropsToSort.sort((a, b) =>
             a.name.localeCompare(b.name)
         );

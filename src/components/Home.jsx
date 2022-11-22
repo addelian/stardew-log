@@ -8,13 +8,16 @@ import {
     Typography,
     IconButton,
 } from "@mui/material";
+import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { CROPS } from "../data/crops";
 import LogPage from "./Log-Page";
 import AboutPage from "./About-Page";
 import SettingsPage from "./Settings-Page";
 import Counter from "./Counter";
-import FooterComponent from "./FooterComponent";
+import FooterComponent from "./Footer-Component";
+import Timer from "./timer/Timer";
 import { readDate } from "../helpers/common";
 
 const Home = () => {
@@ -116,6 +119,23 @@ const Home = () => {
 
     const handleClose = () => {
         setMenuOpen(null);
+    };
+
+    const setHarvestList = (crops) => {
+        const currentSeason = lowerCase(readDate(day).split(" ")[0]);
+        const cropsInSeason = crops.filter((crop) =>
+            crop.season.includes(currentSeason)
+        );
+        const cropsToSort = cropsInSeason.filter(
+            (crop) =>
+                crop.growTime !== undefined &&
+                !(
+                    crop.name.includes("Honey") ||
+                    crop.name.includes("Fruit Trees")
+                ) &&
+                !timers.some((timer) => timer.name === crop.name)
+        );
+        return cropsToSort;
     };
 
     return (
@@ -240,25 +260,30 @@ const Home = () => {
                     </Toolbar>
                 </AppBar>
             </Grid>
-            {showLogPage && (
-                <LogPage
-                    showState={showState}
-                    currentDate={currentDate}
-                    mobile={mobile}
-                    handleCheck={handleCheck}
-                    day={day}
-                    error={error}
-                    setError={setError}
-                    timers={timers}
-                    setTimers={setTimers}
-                    hasHoney={hasHoney}
-                    setHasHoney={setHasHoney}
-                    hasFruitTrees={hasFruitTrees}
-                    setHasFruitTrees={setHasFruitTrees}
-                    journalText={journalText}
-                    setJournalText={setJournalText}
-                    skipTreeWarning={skipTreeWarning}
-                    setSkipTreeWarning={setSkipTreeWarning}
+            {showLogPage && showState && (
+                // <LogPage
+                //     showState={showState}
+                //     currentDate={currentDate}
+                //     mobile={mobile}
+                //     handleCheck={handleCheck}
+                //     day={day}
+                //     error={error}
+                //     setError={setError}
+                //     timers={timers}
+                //     setTimers={setTimers}
+                //     hasHoney={hasHoney}
+                //     setHasHoney={setHasHoney}
+                //     hasFruitTrees={hasFruitTrees}
+                //     setHasFruitTrees={setHasFruitTrees}
+                //     journalText={journalText}
+                //     setJournalText={setJournalText}
+                //     skipTreeWarning={skipTreeWarning}
+                //     setSkipTreeWarning={setSkipTreeWarning}
+                // />
+                <Timer
+                    label="My great label"
+                    list={setHarvestList(CROPS)}
+                    type="test"
                 />
             )}
             {showSettingsPage && (

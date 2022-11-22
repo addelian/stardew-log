@@ -168,7 +168,7 @@ const ArtisanTimer = ({
                 crop.kegProduct !== undefined || crop.jarProduct !== undefined
         );
 
-        // ES6 alphabetical order
+        // Alphabetical order
         const cropsEligibleForArtisanProducts = cropsToSort.sort((a, b) =>
             a.name.localeCompare(b.name)
         );
