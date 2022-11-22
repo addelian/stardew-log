@@ -3,7 +3,6 @@ import { Button, Grid, FormControl, InputLabel, MenuItem, Select } from "@mui/ma
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faWineBottle,
-    faFan,
     faUtensilSpoon,
     faTimes,
     faLeaf,
@@ -13,7 +12,8 @@ import {
 const TimerButtons = ({
     type,
     selected,
-    timers
+    setSelected,
+    timers, setTimers
 }) => {
 
     const buttonStyling = (selectedOption, parentButton) => {
@@ -30,6 +30,39 @@ const TimerButtons = ({
         return {};
     };
 
+    const clearTimer = (selectedOption) => {
+        if (selectedOption !== "") {
+            setSelected("");
+        }
+    };
+
+    const createHarvestTimer = (selectedOption) => {
+        if (selectedOption.repeats) {
+            setTimers([
+                ...timers,
+                {
+                    ...selectedOption,
+                    countdown: selectedOption.growTime,
+                    timerType: "harvest",
+                    firstTime: true,
+                },
+            ]);
+            setSelected("");
+            return;
+        }
+        setTimers([
+            ...timers,
+            {
+                ...selectedOption,
+                countdown: selectedOption.growTime,
+                timerType: "harvest",
+            },
+        ]);
+        setSelected("");
+        return;
+    };
+
+
     const createKegTimer = (selectedOption) => {
         setTimers([
             ...timers,
@@ -39,6 +72,7 @@ const TimerButtons = ({
                 countdown: selectedOption.kegDuration,
                 timerFor: selectedOption.kegProduct,
                 timerType: "keg",
+                repeats: false
             },
         ]);
         setSelected("");
@@ -53,10 +87,26 @@ const TimerButtons = ({
                 countdown: selectedOption.name === "Caviar" ? 3 : 4,
                 timerFor: selectedOption.jarProduct,
                 timerType: "jar",
+                repeats: false
             },
         ]);
         setSelected("");
     };
+
+    const createFixtureTimer = (selectedOption) => {
+        setTimers([
+            ...timers,
+            {
+                ...selectedOption,
+                id: `${selectedOption.name}-${selectedOption.product}`,
+                countdown: selectedOption.time,
+                timerType: "fixture",
+                firstTime: true,
+                repeats: true
+            }
+        ]);
+        setSelected("");
+    }
 
     return (
         <>
@@ -121,6 +171,34 @@ const TimerButtons = ({
                     </Grid>
                 </>
             )}
+            {type === "fixture" && (
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        style={
+                            selected !== ""
+                                ? { backgroundColor: "green", color: "white" }
+                                : {}
+                        }
+                        disabled={selected === ""}
+                        onClick={() => createFixtureTimer(selected)}
+                    >
+                        <FontAwesomeIcon icon={faLeaf} />
+                        &nbsp;Add it
+                    </Button>
+                </Grid>
+            )}
+            <Grid item>
+                <Button
+                    variant="contained"
+                    color="warning"
+                    disabled={selected === ""}
+                    onClick={() => clearTimer(selected)}
+                >
+                    <FontAwesomeIcon icon={faTimes} />
+                    &nbsp;Clear it
+                </Button>
+            </Grid>
             {type === undefined && ""}
         </>
     )

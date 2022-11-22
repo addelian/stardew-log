@@ -56,7 +56,7 @@ const Counter = ({
             const newSeasonFruitTrees = {
                 ...product,
                 countdown: 2,
-                firstHarvest: true,
+                firstTime: true,
                 timerType: "harvest",
                 timerFor: "Fruit Trees",
             };
@@ -86,38 +86,22 @@ const Counter = ({
             return { ...timer, countdown: timer.countdown - 1 };
         });
         setTimers(timersCountingDown);
-        const timersToRemove = timersCountingDown.filter(
-            (timer) =>
-                timer.countdown < 0 &&
-                !(
-                    (timer.timerType === "harvest" && timer.regrow) ||
-                    (timer.timerType === "custom" && timer.repeat)
-                )
-        );
-        const timersToKeep = timersCountingDown.filter(
-            (timer) =>
-                timer.countdown >= 0 ||
-                (timer.timerType === "harvest" && timer.regrow) ||
-                (timer.timerType === "custom" && timer.repeat)
-        );
+        console.log("timersCountingDown", timersCountingDown);
+        const timersToRemove = timersCountingDown.filter((timer) => timer.countdown < 0 && !timer.repeats);
+        const timersToKeep = timersCountingDown.filter((timer) => timer.countdown >= 0 || timer.repeats);
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
         timersToKeep.forEach((timer) => {
-            if (
-                timer.countdown === 0 &&
-                (timer.timerType === "harvest" ||
-                    timer.timerType === "custom") &&
-                (timer.regrow || timer.repeat)
-            ) {
-                if (timer.firstHarvest) {
-                    timer.firstHarvest = false;
+            if (timer.countdown === 0 && timer.repeats) {
+                if (timer.firstTime) {
+                    timer.firstTime = false;
                 }
                 timer.countdown =
-                    timer.timerType === "harvest"
-                        ? timer.regrowTime
-                        : timer.repeatLength;
+                    timer.repeatLength
+                        ? timer.repeatLength
+                        : timer.time;
             }
         });
         if (day === 111) {
@@ -177,10 +161,10 @@ const Counter = ({
                     const harvestsToRemove = revertedTimers.filter(
                         (timer) =>
                             timer.timerType === "harvest" &&
-                            ((timer.firstHarvest &&
+                            ((timer.firstTime &&
                                 timer.countdown > timer.growTime) ||
-                                (!timer.firstHarvest &&
-                                    timer.countdown > timer.regrowTime))
+                                (!timer.firstTime &&
+                                    timer.countdown > timer.repeatLength))
                     );
                     if (harvestsToRemove.length > 0) {
                         return harvestsToRemove;
@@ -191,10 +175,10 @@ const Counter = ({
                     const harvestsToKeep = revertedTimers.filter(
                         (timer) =>
                             timer.timerType === "harvest" &&
-                            ((timer.firstHarvest &&
+                            ((timer.firstTime &&
                                 timer.countdown <= timer.growTime) ||
-                                (!timer.firstHarvest &&
-                                    timer.countdown <= timer.regrowTime))
+                                (!timer.firstTime &&
+                                    timer.countdown <= timer.repeatLength))
                     );
                     if (harvestsToKeep.length > 0) {
                         return harvestsToKeep;
@@ -205,26 +189,26 @@ const Counter = ({
             return;
         };
         checkRemainingTimers(timersCountingUp, "artisan", "remove") !==
-        undefined
+            undefined
             ? timersToRemove.push(
-                  ...checkRemainingTimers(timersCountingUp, "artisan", "remove")
-              )
+                ...checkRemainingTimers(timersCountingUp, "artisan", "remove")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "harvest", "remove") !==
-        undefined
+            undefined
             ? timersToRemove.push(
-                  ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
-              )
+                ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "artisan", "keep") !== undefined
             ? timersToKeep.push(
-                  ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
-              )
+                ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "harvest", "keep") !== undefined
             ? timersToKeep.push(
-                  ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
-              )
+                ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
+            )
             : null;
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);

@@ -18,7 +18,7 @@ import {
 import TimerSelection from "./Timer-Selection";
 import TimerButtons from "./Timer-Buttons";
 
-const Timer = ({ label, list, type, timers }) => {
+const Timer = ({ label, list, type, timers, setTimers }) => {
     const [selected, setSelected] = useState("");
 
     const handleChange = (e) => {
@@ -43,7 +43,7 @@ const Timer = ({ label, list, type, timers }) => {
                 selected={selected}
                 setSelected={setSelected}
             />
-            <TimerButtons type={type} timers={timers} selected={selected} />
+            <TimerButtons type={type} timers={timers} setTimers={setTimers} selected={selected} setSelected={setSelected} />
         </Grid>
     );
 };

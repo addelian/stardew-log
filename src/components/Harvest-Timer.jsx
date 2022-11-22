@@ -59,14 +59,14 @@ const HarvestTimer = ({ day, timers, setTimers }) => {
     };
 
     const createHarvestTimer = (selectedOption) => {
-        if (selectedOption.regrow) {
+        if (selectedOption.repeats) {
             setTimers([
                 ...timers,
                 {
                     ...selectedOption,
                     countdown: selectedOption.growTime,
                     timerType: "harvest",
-                    firstHarvest: true,
+                    firstTime: true,
                 },
             ]);
             setSelected("");

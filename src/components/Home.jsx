@@ -12,6 +12,7 @@ import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { CROPS } from "../data/crops";
+import { FARM_FIXTURES } from "../data/farm-fixtures";
 import LogPage from "./Log-Page";
 import AboutPage from "./About-Page";
 import SettingsPage from "./Settings-Page";
@@ -142,6 +143,13 @@ const Home = () => {
         );
         return cropsToSort;
     };
+
+    const setArtisanList = (products) => {
+        return products.filter(
+            (product) =>
+                product.kegProduct !== undefined || product.jarProduct !== undefined
+        );
+    }
 
     return (
         <Grid
@@ -291,6 +299,21 @@ const Home = () => {
                         list={setHarvestList(CROPS)}
                         type="harvest"
                         timers={timers}
+                        setTimers={setTimers}
+                    />
+                    <Timer
+                        label="Starter"
+                        list={setArtisanList(CROPS)}
+                        type="artisan"
+                        timers={timers}
+                        setTimers={setTimers}
+                    />
+                    <Timer
+                        label="Farm Fixture"
+                        list={FARM_FIXTURES}
+                        type="fixture"
+                        timers={timers}
+                        setTimers={setTimers}
                     />
                 </>
             )}

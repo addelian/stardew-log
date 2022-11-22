@@ -77,7 +77,7 @@ const ArtisanTimer = ({
                 {
                     ...product,
                     countdown: 2,
-                    firstHarvest: true,
+                    firstTime: true,
                     timerType: "harvest",
                     timerFor: "Fruit Trees",
                 },
@@ -103,7 +103,7 @@ const ArtisanTimer = ({
                     countdown: product.growTime,
                     timerFor: "Honey",
                     timerType: "harvest",
-                    firstHarvest: true,
+                    firstTime: true,
                 },
             ]);
             return;

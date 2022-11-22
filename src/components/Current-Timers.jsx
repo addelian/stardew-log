@@ -31,14 +31,9 @@ const CurrentTimers = ({
             (timer) =>
                 timer.countdown !== 0 &&
                 !(
-                    timer.regrow &&
-                    timer.countdown === timer.regrowTime &&
-                    timer.firstHarvest === false
-                ) &&
-                !(
-                    timer.repeat &&
-                    timer.firstHarvest === false &&
-                    timer.countdown === timer.repeatLength
+                    timer.repeats &&
+                    timer.countdown === timer.repeatLength &&
+                    timer.firstTime === false
                 )
         );
         if (
@@ -59,16 +54,14 @@ const CurrentTimers = ({
         const updatedCompletedTimers = timers.filter(
             (timer) =>
                 timer.countdown === 0 ||
-                (timer.regrow &&
-                    timer.firstHarvest === false &&
-                    timer.countdown === timer.regrowTime) ||
-                (timer.repeat &&
-                    timer.firstHarvest === false &&
+                (timer.repeats &&
+                    timer.firstTime === false &&
                     timer.countdown === timer.repeatLength)
         );
         const sortedCompletedTimers = updatedCompletedTimers.sort((a, b) =>
             a.countdown > b.countdown ? 1 : -1
         );
+        console.log("sortedCompletedTimers", sortedCompletedTimers);
         setCompletedTimers(sortedCompletedTimers);
         if (updatedActiveTimers.length > 0) {
             setHasActiveTimers(true);
@@ -100,6 +93,9 @@ const CurrentTimers = ({
                 return productInTimer.timerFor;
             }
             return "Caviar";
+        }
+        if (productInTimer.timerType === "fixture") {
+            return productInTimer.product;
         }
         if (productInTimer.timerType === "custom") {
             return productInTimer.name;
@@ -142,9 +138,9 @@ const CurrentTimers = ({
             return `: 2 fruit each`;
         }
         if (
-            productInTimer.regrow &&
-            productInTimer.firstHarvest === false &&
-            productInTimer.countdown === productInTimer.regrowTime
+            productInTimer.repeats &&
+            productInTimer.firstTime === false &&
+            productInTimer.countdown === productInTimer.repeatLength
         ) {
             return `${handlePlurals(
                 productInTimer.name
@@ -152,30 +148,28 @@ const CurrentTimers = ({
         }
         if (productInTimer.timerType === "custom") {
             if (
-                productInTimer.repeat &&
+                productInTimer.repeats &&
                 productInTimer.countdown === productInTimer.repeatLength
             ) {
                 return `: timer completed. Next up in ${productInTimer.countdown} days`;
             }
-            return `${
-                productInTimer.countdown > 0
-                    ? `: ${productInTimer.countdown} ${
-                          productInTimer.countdown > 1 ? "days" : "day"
-                      } left`
-                    : ": timer completed"
-            }`;
+            return `${productInTimer.countdown > 0
+                ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"
+                } left`
+                : ": timer completed"
+                }`;
         }
-        return `${
-            productInTimer.countdown > 0
-                ? `: ${productInTimer.countdown} ${
-                      productInTimer.countdown > 1 ? "days" : "day"
-                  } left`
-                : `${handlePlurals(
-                      productInTimer.timerFor !== undefined
-                          ? productInTimer.timerFor
-                          : productInTimer.name
-                  )} ready today`
-        }`;
+        return `${productInTimer.countdown > 0
+            ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"
+            } left`
+            : `${handlePlurals(
+                productInTimer.timerFor !== undefined
+                    ? productInTimer.timerFor
+                    : productInTimer.product !== undefined
+                        ? productInTimer.product
+                        : productInTimer.name
+            )} ready today`
+            }`;
     };
 
     const renderCompletedTimers = (allTimers, timersToRender) =>
