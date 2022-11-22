@@ -50,19 +50,24 @@ const Home = () => {
 
     const currentDate = readDate(day);
 
+    // handling new user with no cache
+    const dataExists = JSON.parse(window.localStorage.getItem("day"));
+
     // Loads local storage on componentDidMount
     useEffect(() => {
-        setDay(JSON.parse(window.localStorage.getItem("day")));
-        setTimers(JSON.parse(window.localStorage.getItem("timers")));
-        setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
-        setHasFruitTrees(
-            JSON.parse(window.localStorage.getItem("hasFruitTrees"))
-        );
-        setShowState(JSON.parse(window.localStorage.getItem("showState")));
-        setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
-        setSkipTreeWarning(
-            JSON.parse(window.localStorage.getItem("skipTreeWarning"))
-        );
+        if (dataExists) {
+            setDay(JSON.parse(window.localStorage.getItem("day")));
+            setTimers(JSON.parse(window.localStorage.getItem("timers")));
+            setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
+            setHasFruitTrees(
+                JSON.parse(window.localStorage.getItem("hasFruitTrees"))
+            );
+            setShowState(JSON.parse(window.localStorage.getItem("showState")));
+            setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
+            setSkipTreeWarning(
+                JSON.parse(window.localStorage.getItem("skipTreeWarning"))
+            );
+        }
     }, []);
 
     // Basic save functionality
@@ -160,10 +165,10 @@ const Home = () => {
                             sx={
                                 mobile
                                     ? {
-                                          flexGrow: 1,
-                                          justifyContent: "start",
-                                          color: "white",
-                                      }
+                                        flexGrow: 1,
+                                        justifyContent: "start",
+                                        color: "white",
+                                    }
                                     : { mr: 2, color: "white" }
                             }
                         >
@@ -261,30 +266,33 @@ const Home = () => {
                 </AppBar>
             </Grid>
             {showLogPage && showState && (
-                // <LogPage
-                //     showState={showState}
-                //     currentDate={currentDate}
-                //     mobile={mobile}
-                //     handleCheck={handleCheck}
-                //     day={day}
-                //     error={error}
-                //     setError={setError}
-                //     timers={timers}
-                //     setTimers={setTimers}
-                //     hasHoney={hasHoney}
-                //     setHasHoney={setHasHoney}
-                //     hasFruitTrees={hasFruitTrees}
-                //     setHasFruitTrees={setHasFruitTrees}
-                //     journalText={journalText}
-                //     setJournalText={setJournalText}
-                //     skipTreeWarning={skipTreeWarning}
-                //     setSkipTreeWarning={setSkipTreeWarning}
-                // />
-                <Timer
-                    label="My great label"
-                    list={setHarvestList(CROPS)}
-                    type="test"
-                />
+                <>
+                    <LogPage
+                        showState={showState}
+                        currentDate={currentDate}
+                        mobile={mobile}
+                        handleCheck={handleCheck}
+                        day={day}
+                        error={error}
+                        setError={setError}
+                        timers={timers}
+                        setTimers={setTimers}
+                        hasHoney={hasHoney}
+                        setHasHoney={setHasHoney}
+                        hasFruitTrees={hasFruitTrees}
+                        setHasFruitTrees={setHasFruitTrees}
+                        journalText={journalText}
+                        setJournalText={setJournalText}
+                        skipTreeWarning={skipTreeWarning}
+                        setSkipTreeWarning={setSkipTreeWarning}
+                    />
+                    <Timer
+                        label="Crops"
+                        list={setHarvestList(CROPS)}
+                        type="harvest"
+                        timers={timers}
+                    />
+                </>
             )}
             {showSettingsPage && (
                 <SettingsPage

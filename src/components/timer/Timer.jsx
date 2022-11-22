@@ -16,8 +16,9 @@ import {
     DialogActions,
 } from "@mui/material";
 import TimerSelection from "./Timer-Selection";
+import TimerButtons from "./Timer-Buttons";
 
-const Timer = ({ label, list, type }) => {
+const Timer = ({ label, list, type, timers }) => {
     const [selected, setSelected] = useState("");
 
     const handleChange = (e) => {
@@ -42,6 +43,7 @@ const Timer = ({ label, list, type }) => {
                 selected={selected}
                 setSelected={setSelected}
             />
+            <TimerButtons type={type} timers={timers} selected={selected} />
         </Grid>
     );
 };

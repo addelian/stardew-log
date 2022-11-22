@@ -1,6 +1,6 @@
 {
   "name": "stardew-log",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "private": true,
   "homepage": "https://addelian.github.io/stardew-log/",
   "dependencies": {
@@ -22,7 +22,7 @@
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "4.0.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
