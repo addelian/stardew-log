@@ -41,10 +41,7 @@ const Counter = ({
     };
 
     const handleSeasonChange = (remainingTimers, season) => {
-        const toRemove = remainingTimers.filter(
-            (timer) =>
-                timer.timerType === "harvest" && !timer.season.includes(season)
-        );
+        const toRemove = remainingTimers.filter((timer) => !timer.season.includes(season));
         const clearedTimers = remainingTimers.filter(
             (timer) => !toRemove.includes(timer)
         );
@@ -86,7 +83,6 @@ const Counter = ({
             return { ...timer, countdown: timer.countdown - 1 };
         });
         setTimers(timersCountingDown);
-        console.log("timersCountingDown", timersCountingDown);
         const timersToRemove = timersCountingDown.filter((timer) => timer.countdown < 0 && !timer.repeats);
         const timersToKeep = timersCountingDown.filter((timer) => timer.countdown >= 0 || timer.repeats);
         if (timersToRemove.length > 0) {

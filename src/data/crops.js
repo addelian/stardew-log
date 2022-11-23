@@ -788,16 +788,7 @@ export const CROPS = [
         preferred: "jar",
     },
     {
-        id: "81-fruit-trees",
-        name: "Fruit Trees",
-        type: "other",
-        growTime: 3,
-        repeats: true,
-        repeatLength: 3,
-        season: ["spring", "summer", "fall"],
-    },
-    {
-        id: "82-spring-seeds",
+        id: "81-spring-seeds",
         name: "Spring Seeds",
         type: "other",
         growTime: 7,
@@ -806,7 +797,7 @@ export const CROPS = [
         season: ["spring"],
     },
     {
-        id: "83-summer-seeds",
+        id: "82-summer-seeds",
         name: "Summer Seeds",
         type: "other",
         growTime: 7,
@@ -815,7 +806,7 @@ export const CROPS = [
         season: ["summer"],
     },
     {
-        id: "84-fall-seeds",
+        id: "83-fall-seeds",
         name: "Fall Seeds",
         type: "other",
         growTime: 7,
@@ -824,7 +815,7 @@ export const CROPS = [
         season: ["fall"],
     },
     {
-        id: "85-winter-seeds",
+        id: "84-winter-seeds",
         name: "Winter Seeds",
         type: "other",
         growTime: 7,

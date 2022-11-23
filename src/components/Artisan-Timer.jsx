@@ -92,27 +92,27 @@ const ArtisanTimer = ({
         return productTimer;
     };
 
-    const handleHoney = () => {
-        if (!hasHoney) {
-            const product = CROPS.find((crop) => crop.name === "Honey");
-            setHasHoney(true);
-            setTimers([
-                ...timers,
-                {
-                    ...product,
-                    countdown: product.growTime,
-                    timerFor: "Honey",
-                    timerType: "harvest",
-                    firstTime: true,
-                },
-            ]);
-            return;
-        }
-        setHasHoney(false);
-        const productTimer = timers.find((timer) => timer.name === "Honey");
-        setTimers(removeSingleTimer(timers, productTimer));
-        return productTimer;
-    };
+    // const handleHoney = () => {
+    //     if (!hasHoney) {
+    //         const product = CROPS.find((crop) => crop.name === "Honey");
+    //         setHasHoney(true);
+    //         setTimers([
+    //             ...timers,
+    //             {
+    //                 ...product,
+    //                 countdown: product.growTime,
+    //                 timerFor: "Honey",
+    //                 timerType: "harvest",
+    //                 firstTime: true,
+    //             },
+    //         ]);
+    //         return;
+    //     }
+    //     setHasHoney(false);
+    //     const productTimer = timers.find((timer) => timer.name === "Honey");
+    //     setTimers(removeSingleTimer(timers, productTimer));
+    //     return productTimer;
+    // };
 
     const createKegTimer = (selectedOption) => {
         setTimers([
@@ -263,7 +263,7 @@ const ArtisanTimer = ({
                 alignItems="center"
                 sx={{ pt: 1 }}
             >
-                <Grid item>
+                {/* <Grid item>
                     <Button
                         color={hasHoney ? "warning" : "primary"}
                         variant="contained"
@@ -276,7 +276,7 @@ const ArtisanTimer = ({
                             ? "Remove bee house timer"
                             : "Add bee house timer"}
                     </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                     <Button
                         color={hasFruitTrees ? "warning" : "primary"}

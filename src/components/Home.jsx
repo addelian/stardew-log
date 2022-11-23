@@ -59,7 +59,7 @@ const Home = () => {
         if (dataExists) {
             setDay(JSON.parse(window.localStorage.getItem("day")));
             setTimers(JSON.parse(window.localStorage.getItem("timers")));
-            setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
+            // setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
             setHasFruitTrees(
                 JSON.parse(window.localStorage.getItem("hasFruitTrees"))
             );
@@ -78,9 +78,9 @@ const Home = () => {
     useEffect(() => {
         window.localStorage.setItem("timers", JSON.stringify(timers));
     }, [timers]);
-    useEffect(() => {
-        window.localStorage.setItem("hasHoney", hasHoney);
-    }, [hasHoney]);
+    // useEffect(() => {
+    //     window.localStorage.setItem("hasHoney", hasHoney);
+    // }, [hasHoney]);
     useEffect(() => {
         window.localStorage.setItem("hasFruitTrees", hasFruitTrees);
     }, [hasFruitTrees]);
@@ -314,6 +314,8 @@ const Home = () => {
                         type="fixture"
                         timers={timers}
                         setTimers={setTimers}
+                        skipTreeWarning={skipTreeWarning}
+                        setSkipTreeWarning={setSkipTreeWarning}
                     />
                 </>
             )}

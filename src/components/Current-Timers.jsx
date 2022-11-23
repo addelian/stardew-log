@@ -32,21 +32,20 @@ const CurrentTimers = ({
                 timer.countdown !== 0 &&
                 !(
                     timer.repeats &&
-                    timer.countdown === timer.repeatLength &&
-                    timer.firstTime === false
-                )
-        );
-        if (
-            !hasHoney &&
-            updatedActiveTimers.some((timer) => timer.name === "Honey")
-        ) {
-            updatedActiveTimers.splice(
-                updatedActiveTimers.findIndex(
-                    (timer) => timer.name === "Honey"
-                ),
-                1
-            );
-        }
+                    (timer.countdown === timer.repeatLength &&
+                        timer.firstTime === false)
+                ));
+        // if (
+        //     !hasHoney &&
+        //     updatedActiveTimers.some((timer) => timer.name === "Honey")
+        // ) {
+        //     updatedActiveTimers.splice(
+        //         updatedActiveTimers.findIndex(
+        //             (timer) => timer.name === "Honey"
+        //         ),
+        //         1
+        //     );
+        // }
         const sortedActiveTimers = updatedActiveTimers.sort((a, b) =>
             a.countdown > b.countdown ? 1 : -1
         );
@@ -61,7 +60,6 @@ const CurrentTimers = ({
         const sortedCompletedTimers = updatedCompletedTimers.sort((a, b) =>
             a.countdown > b.countdown ? 1 : -1
         );
-        console.log("sortedCompletedTimers", sortedCompletedTimers);
         setCompletedTimers(sortedCompletedTimers);
         if (updatedActiveTimers.length > 0) {
             setHasActiveTimers(true);
@@ -317,11 +315,13 @@ const CurrentTimers = ({
                     </Typography>
                 </Box>
             </Grid>
-            {timers.length === 0 && !hasHoney && !hasFruitTrees ? (
-                <Grid item sx={{ padding: 2 }}>
-                    <Typography variant="body2">None. Enjoy yer day</Typography>
-                </Grid>
-            ) : null}
+            {timers.length === 0
+                // && !hasHoney && !hasFruitTrees 
+                ? (
+                    <Grid item sx={{ padding: 2 }}>
+                        <Typography variant="body2">None. Enjoy yer day</Typography>
+                    </Grid>
+                ) : null}
         </Grid>
     );
 };

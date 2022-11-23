@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, Grid, FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, FormControlLabel, Checkbox, InputLabel, MenuItem, Select } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faWineBottle,
@@ -13,8 +13,48 @@ const TimerButtons = ({
     type,
     selected,
     setSelected,
-    timers, setTimers
+    timers,
+    setTimers,
+    skipTreeWarning,
+    setSkipTreeWarning
 }) => {
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        if (!skipTreeWarning) {
+            setOpen(true);
+            return;
+        }
+        if (open) {
+            handleClose();
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setSelected("");
+    };
+
+    const handleFruitTrees = (selectedOption) => {
+        setTimers([
+            ...timers,
+            {
+                ...selectedOption,
+                id: `${selectedOption.name}-${selectedOption.product}`,
+                countdown: selectedOption.time,
+                timerType: "fixture",
+                firstTime: true,
+                repeats: true,
+                repeatLength: selectedOption.time
+            }
+        ]);
+        handleClose();
+    }
+
+    const handleCheck = (e) => {
+        setSkipTreeWarning(e.target.checked);
+    };
 
     const buttonStyling = (selectedOption, parentButton) => {
         if (timers.some((timer) => timer.name === selected.name)) return {};
@@ -94,6 +134,10 @@ const TimerButtons = ({
     };
 
     const createFixtureTimer = (selectedOption) => {
+        if (selectedOption.name === "Fruit Trees") {
+            handleClickOpen();
+            return;
+        }
         setTimers([
             ...timers,
             {
@@ -102,7 +146,8 @@ const TimerButtons = ({
                 countdown: selectedOption.time,
                 timerType: "fixture",
                 firstTime: true,
-                repeats: true
+                repeats: true,
+                repeatLength: selectedOption.time
             }
         ]);
         setSelected("");
@@ -199,6 +244,57 @@ const TimerButtons = ({
                     &nbsp;Clear it
                 </Button>
             </Grid>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="tree-timer-dialog"
+            >
+                <DialogTitle id="tree-timer-dialog">
+                    Heads up!
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        This timer assumes that you already have fully
+                        matured fruit trees and just need to keep track
+                        of their fruit growth. If you need to track a
+                        fruit tree sapling, please build a custom timer
+                        that lasts 28 days. Do you wish to proceed?
+                    </DialogContentText>
+                    <FormControl component="fieldset">
+                        <FormGroup
+                            aria-label="Don't show this reminder again"
+                            row
+                        >
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        size="small"
+                                        checked={skipTreeWarning}
+                                        onChange={handleCheck}
+                                        name="skipTreeWarning"
+                                    />
+                                }
+                                label="Don't show this reminder again"
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        autoFocus
+                        onClick={() => handleClose()}
+                        color="primary"
+                    >
+                        No
+                    </Button>
+                    <Button
+                        onClick={() => handleFruitTrees(selected)}
+                        color="primary"
+                    >
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
             {type === undefined && ""}
         </>
     )
