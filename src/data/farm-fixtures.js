@@ -1,7 +1,14 @@
 export const FARM_FIXTURES = [
     {
-        id: "1-honey",
-        name: "Honey",
+        id: "0-cave-bats",
+        name: "Cave Bats",
+        product: "Cave fruits",
+        time: 1,
+        season: ["spring", "summer", "fall", "winter"],
+    },
+    {
+        id: "1-bee-houses",
+        name: "Bee Houses",
         product: "Honey",
         time: 4,
         season: ["spring", "summer", "fall"],
@@ -9,7 +16,7 @@ export const FARM_FIXTURES = [
     {
         id: "2-fruit-trees",
         name: "Fruit Trees",
-        product: "Fruit from fruit trees",
+        product: "Fruit trees",
         time: 3,
         season: ["spring", "summer", "fall"],
     },
@@ -40,12 +47,5 @@ export const FARM_FIXTURES = [
         product: "Cave mushrooms",
         time: 1,
         season: ["spring", "summer", "fall", "winter"],
-    },
-    {
-        id: "7-cave-bats",
-        name: "Cave Bats",
-        product: "Cave fruits",
-        time: 1,
-        season: ["spring", "summer", "fall", "winter"],
-    },
+    }
 ];

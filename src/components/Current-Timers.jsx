@@ -17,9 +17,7 @@ const CurrentTimers = ({
     day,
     error,
     timers,
-    setTimers,
-    hasHoney,
-    hasFruitTrees,
+    setTimers
 }) => {
     const [activeTimers, setActiveTimers] = useState([]);
     const [completedTimers, setCompletedTimers] = useState([]);
@@ -35,17 +33,6 @@ const CurrentTimers = ({
                     (timer.countdown === timer.repeatLength &&
                         timer.firstTime === false)
                 ));
-        // if (
-        //     !hasHoney &&
-        //     updatedActiveTimers.some((timer) => timer.name === "Honey")
-        // ) {
-        //     updatedActiveTimers.splice(
-        //         updatedActiveTimers.findIndex(
-        //             (timer) => timer.name === "Honey"
-        //         ),
-        //         1
-        //     );
-        // }
         const sortedActiveTimers = updatedActiveTimers.sort((a, b) =>
             a.countdown > b.countdown ? 1 : -1
         );
@@ -78,8 +65,7 @@ const CurrentTimers = ({
         }
         if (
             (productInTimer.timerType === "keg" &&
-                !["wine", "juice"].includes(productInTimer.timerFor)) ||
-            ["Honey", "Fruit Trees"].includes(productInTimer.timerFor)
+                !["wine", "juice"].includes(productInTimer.timerFor))
         ) {
             return productInTimer.timerFor;
         }
@@ -105,11 +91,7 @@ const CurrentTimers = ({
         fullError.triggers.map((error) => {
             return (
                 <ListItem key={`error-for-${error.id}`}>
-                    {error.name === "Fruit Trees" ? (
-                        <ListItemText primary="Fruit from fruit trees" />
-                    ) : (
-                        <ListItemText primary={renderProductName(error)} />
-                    )}
+                    <ListItemText primary={renderProductName(error)} />
                 </ListItem>
             );
         });
@@ -119,7 +101,7 @@ const CurrentTimers = ({
     );
 
     const handlePlurals = (name) => {
-        if (name.slice(-1) === "s") {
+        if (name.slice(-1) === "s" && name !== "Bee Houses") {
             return ` are`;
         }
         return ` is`;
@@ -127,6 +109,9 @@ const CurrentTimers = ({
 
     const renderCountdown = (productInTimer) => {
         if (productInTimer.name === "Fruit Trees") {
+            if (productInTimer.firstTime) {
+                return productInTimer.countdown === 2 ? ": 1 fruit each" : ": 2 fruit each";
+            }
             if ([3, 0].includes(productInTimer.countdown)) {
                 return ` are full (3 fruit each). Pick them today!`;
             }
@@ -316,7 +301,6 @@ const CurrentTimers = ({
                 </Box>
             </Grid>
             {timers.length === 0
-                // && !hasHoney && !hasFruitTrees 
                 ? (
                     <Grid item sx={{ padding: 2 }}>
                         <Typography variant="body2">None. Enjoy yer day</Typography>

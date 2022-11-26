@@ -42,7 +42,7 @@ const TimerButtons = ({
             {
                 ...selectedOption,
                 id: `${selectedOption.name}-${selectedOption.product}`,
-                countdown: selectedOption.time,
+                countdown: 2,
                 timerType: "fixture",
                 firstTime: true,
                 repeats: true,
@@ -134,7 +134,7 @@ const TimerButtons = ({
     };
 
     const createFixtureTimer = (selectedOption) => {
-        if (selectedOption.name === "Fruit Trees") {
+        if (selectedOption.name === "Fruit Trees" && !skipTreeWarning) {
             handleClickOpen();
             return;
         }
@@ -143,7 +143,7 @@ const TimerButtons = ({
             {
                 ...selectedOption,
                 id: `${selectedOption.name}-${selectedOption.product}`,
-                countdown: selectedOption.time,
+                countdown: selectedOption.name === "Fruit Trees" ? 2 : selectedOption.time,
                 timerType: "fixture",
                 firstTime: true,
                 repeats: true,

@@ -673,11 +673,8 @@ export const CROPS = [
         id: "69-honey",
         name: "Honey",
         type: "other",
-        growTime: 4,
-        repeats: true,
-        repeatLength: 4,
         kegProduct: "Mead",
-        season: ["spring", "summer", "fall"],
+        season: [],
         kegDuration: 1,
     },
     {

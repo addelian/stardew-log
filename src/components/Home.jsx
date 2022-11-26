@@ -8,17 +8,13 @@ import {
     Typography,
     IconButton,
 } from "@mui/material";
-import { lowerCase } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { CROPS } from "../data/crops";
-import { FARM_FIXTURES } from "../data/farm-fixtures";
 import LogPage from "./Log-Page";
 import AboutPage from "./About-Page";
 import SettingsPage from "./Settings-Page";
 import Counter from "./Counter";
 import FooterComponent from "./Footer-Component";
-import Timer from "./timer/Timer";
 import { readDate } from "../helpers/common";
 
 const Home = () => {
@@ -31,8 +27,6 @@ const Home = () => {
         description: "",
         triggers: [],
     });
-    const [hasHoney, setHasHoney] = useState(false);
-    const [hasFruitTrees, setHasFruitTrees] = useState(false);
     const [showLogPage, setShowLogPage] = useState(true);
     const [showSettingsPage, setShowSettingsPage] = useState(false);
     const [showAboutPage, setShowAboutPage] = useState(false);
@@ -44,6 +38,7 @@ const Home = () => {
         date: true,
         artisanTimers: true,
         harvestTimers: true,
+        fixtureTimers: true,
         currentTimers: true,
         journal: true,
         customTimers: false,
@@ -59,10 +54,6 @@ const Home = () => {
         if (dataExists) {
             setDay(JSON.parse(window.localStorage.getItem("day")));
             setTimers(JSON.parse(window.localStorage.getItem("timers")));
-            // setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
-            setHasFruitTrees(
-                JSON.parse(window.localStorage.getItem("hasFruitTrees"))
-            );
             setShowState(JSON.parse(window.localStorage.getItem("showState")));
             setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
             setSkipTreeWarning(
@@ -78,12 +69,6 @@ const Home = () => {
     useEffect(() => {
         window.localStorage.setItem("timers", JSON.stringify(timers));
     }, [timers]);
-    // useEffect(() => {
-    //     window.localStorage.setItem("hasHoney", hasHoney);
-    // }, [hasHoney]);
-    useEffect(() => {
-        window.localStorage.setItem("hasFruitTrees", hasFruitTrees);
-    }, [hasFruitTrees]);
     useEffect(() => {
         window.localStorage.setItem("showState", JSON.stringify(showState));
     }, [showState]);
@@ -126,30 +111,6 @@ const Home = () => {
     const handleClose = () => {
         setMenuOpen(null);
     };
-
-    const setHarvestList = (crops) => {
-        const currentSeason = lowerCase(readDate(day).split(" ")[0]);
-        const cropsInSeason = crops.filter((crop) =>
-            crop.season.includes(currentSeason)
-        );
-        const cropsToSort = cropsInSeason.filter(
-            (crop) =>
-                crop.growTime !== undefined &&
-                !(
-                    crop.name.includes("Honey") ||
-                    crop.name.includes("Fruit Trees")
-                ) &&
-                !timers.some((timer) => timer.name === crop.name)
-        );
-        return cropsToSort;
-    };
-
-    const setArtisanList = (products) => {
-        return products.filter(
-            (product) =>
-                product.kegProduct !== undefined || product.jarProduct !== undefined
-        );
-    }
 
     return (
         <Grid
@@ -265,9 +226,6 @@ const Home = () => {
                                 timers={timers}
                                 setTimers={setTimers}
                                 setError={setError}
-                                setHasHoney={setHasHoney}
-                                hasFruitTrees={hasFruitTrees}
-                                setHasFruitTrees={setHasFruitTrees}
                             />
                         )}
                     </Toolbar>
@@ -285,35 +243,8 @@ const Home = () => {
                         setError={setError}
                         timers={timers}
                         setTimers={setTimers}
-                        hasHoney={hasHoney}
-                        setHasHoney={setHasHoney}
-                        hasFruitTrees={hasFruitTrees}
-                        setHasFruitTrees={setHasFruitTrees}
                         journalText={journalText}
                         setJournalText={setJournalText}
-                        skipTreeWarning={skipTreeWarning}
-                        setSkipTreeWarning={setSkipTreeWarning}
-                    />
-                    <Timer
-                        label="Crops"
-                        list={setHarvestList(CROPS)}
-                        type="harvest"
-                        timers={timers}
-                        setTimers={setTimers}
-                    />
-                    <Timer
-                        label="Starter"
-                        list={setArtisanList(CROPS)}
-                        type="artisan"
-                        timers={timers}
-                        setTimers={setTimers}
-                    />
-                    <Timer
-                        label="Farm Fixture"
-                        list={FARM_FIXTURES}
-                        type="fixture"
-                        timers={timers}
-                        setTimers={setTimers}
                         skipTreeWarning={skipTreeWarning}
                         setSkipTreeWarning={setSkipTreeWarning}
                     />
@@ -324,8 +255,6 @@ const Home = () => {
                     mobile={mobile}
                     setDay={setDay}
                     setTimers={setTimers}
-                    setHasHoney={setHasHoney}
-                    setHasFruitTrees={setHasFruitTrees}
                     setShowState={setShowState}
                     setJournalText={setJournalText}
                     setSkipTreeWarning={setSkipTreeWarning}

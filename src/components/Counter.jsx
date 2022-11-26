@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { CROPS } from "../data/crops";
+import { FARM_FIXTURES } from "../data/farm-fixtures";
 
 const Counter = ({
     day,
@@ -18,10 +18,7 @@ const Counter = ({
     mobile,
     timers,
     setTimers,
-    setError,
-    setHasHoney,
-    hasFruitTrees,
-    setHasFruitTrees,
+    setError
 }) => {
     const [spring1Reminder, setSpring1Reminder] = useState(false);
 
@@ -45,25 +42,23 @@ const Counter = ({
         const clearedTimers = remainingTimers.filter(
             (timer) => !toRemove.includes(timer)
         );
-        if (hasFruitTrees && season !== "winter") {
+        if (timers.some(timer => timer.name === "Fruit Trees") && season !== "winter") {
             const i = clearedTimers.findIndex(
                 (timer) => timer.name === "Fruit Trees"
             );
-            const product = CROPS.find((crop) => crop.name === "Fruit Trees");
+            const product = FARM_FIXTURES.find((ff) => ff.name === "Fruit Trees");
             const newSeasonFruitTrees = {
                 ...product,
+                id: `${product.name}-${product.product}`,
                 countdown: 2,
                 firstTime: true,
-                timerType: "harvest",
-                timerFor: "Fruit Trees",
+                timerType: "fixture",
+                repeats: true,
+                repeatLength: product.time
             };
             clearedTimers.splice(i, 1, newSeasonFruitTrees);
         }
         setTimers(clearedTimers);
-        if (season === "winter") {
-            setHasFruitTrees(false);
-            setHasHoney(false);
-        }
         if (toRemove.length > 0) {
             setError({
                 exists: true,
@@ -182,6 +177,22 @@ const Counter = ({
                     return;
                 }
             }
+            if (timersFrom === "fixture") {
+                if (toDo === "remove") {
+                    const fixturesToRemove = revertedTimers.filter((timer) => timer.timerType === "fixture" && timer.countdown > timer.time);
+                    if (fixturesToRemove.length > 0) {
+                        return fixturesToRemove;
+                    }
+                    return;
+                }
+                if (toDo === "keep") {
+                    const fixturesToKeep = revertedTimers.filter((timer) => timer.timerType === "fixture" && timer.countdown <= timer.growTime);
+                    if (fixturesToKeep.length > 0) {
+                        return fixturesToKeep;
+                    }
+                    return;
+                }
+            }
             return;
         };
         checkRemainingTimers(timersCountingUp, "artisan", "remove") !==
@@ -196,6 +207,12 @@ const Counter = ({
                 ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
             )
             : null;
+        checkRemainingTimers(timersCountingUp, "fixture", "remove") !==
+            undefined
+            ? timersToRemove.push(
+                ...checkRemainingTimers(timersCountingUp, "fixture", "remove")
+            )
+            : null;
         checkRemainingTimers(timersCountingUp, "artisan", "keep") !== undefined
             ? timersToKeep.push(
                 ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
@@ -206,6 +223,11 @@ const Counter = ({
                 ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
             )
             : null;
+        checkRemainingTimers(timersCountingUp, "fixture", "keep") !== undefined
+            ? timersToKeep.push(
+                ...checkRemainingTimers(timersCountingUp, "fixture", "keep")
+            )
+            : null;
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             setError({
@@ -214,13 +236,6 @@ const Counter = ({
                 description: "The timers for the following items were removed:",
                 triggers: timersToRemove,
             });
-            console.log("Invalid timer(s) removed: ", timersToRemove);
-            if (timersToRemove.some((timer) => timer.name === "Honey")) {
-                setHasHoney(false);
-            }
-            if (timersToRemove.some((timer) => timer.name === "Fruit Trees")) {
-                setHasFruitTrees(false);
-            }
             handleError();
         }
     };
