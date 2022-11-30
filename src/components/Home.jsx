@@ -10,10 +10,10 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
-import LogPage from "./Log-Page";
-import AboutPage from "./About-Page";
-import SettingsPage from "./Settings-Page";
-import Counter from "./Counter";
+import LogPage from "./pages/Log-Page";
+import AboutPage from "./pages/About-Page";
+import SettingsPage from "./pages/Settings-Page";
+import Counter from "./log-items/Counter";
 import FooterComponent from "./Footer-Component";
 import { readDate } from "../helpers/common";
 

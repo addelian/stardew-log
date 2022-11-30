@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FARM_FIXTURES } from "../data/farm-fixtures";
+import { FARM_FIXTURES } from "../../data/farm-fixtures";
 
 const Counter = ({
     day,
@@ -292,7 +292,7 @@ const Counter = ({
                     variant="contained"
                     onClick={() => advanceDay(timers)}
                 >
-                    Advance day&nbsp;&nbsp;
+                    Advance Day&nbsp;&nbsp;
                     <FontAwesomeIcon icon={faArrowRight} />
                 </Button>
             ) : (

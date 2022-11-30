@@ -11,7 +11,7 @@ import {
 import { Alert, AlertTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { removeSingleTimer } from "../helpers/common";
+import { removeSingleTimer } from "../../helpers/common";
 
 const CurrentTimers = ({
     day,

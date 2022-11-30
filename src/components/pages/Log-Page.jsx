@@ -9,13 +9,13 @@ import {
     Box,
 } from "@mui/material";
 import { lowerCase } from "lodash";
-import { readDate } from "../helpers/common";
-import Timer from "./timer/Timer";
-import CurrentTimers from "./Current-Timers";
-import CustomTimer from "./Custom-Timer";
-import Journal from "./Journal";
-import { CROPS } from "../data/crops";
-import { FARM_FIXTURES } from "../data/farm-fixtures";
+import { readDate } from "../../helpers/common";
+import Timer from "../timer/Timer";
+import CurrentTimers from "../log-items/Current-Timers";
+import CustomTimer from "../log-items/Custom-Timer";
+import Journal from "../log-items/Journal";
+import { CROPS } from "../../data/crops";
+import { FARM_FIXTURES } from "../../data/farm-fixtures";
 
 const LogPage = ({
     currentDate,
