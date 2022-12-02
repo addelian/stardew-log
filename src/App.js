@@ -9,7 +9,7 @@ function App() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <div className="App">
-            <Home />
+          <Home />
         </div>
       </ThemeProvider>
     </StyledEngineProvider>

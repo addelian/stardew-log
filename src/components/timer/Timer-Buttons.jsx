@@ -84,8 +84,8 @@ const TimerButtons = ({
                     ...selectedOption,
                     countdown: selectedOption.growTime,
                     timerType: "harvest",
-                    firstTime: true,
-                },
+                    firstTime: true
+                }
             ]);
             setSelected("");
             return;
@@ -96,7 +96,9 @@ const TimerButtons = ({
                 ...selectedOption,
                 countdown: selectedOption.growTime,
                 timerType: "harvest",
-            },
+                firstTime: false,
+                repeatLength: selectedOption.growTime
+            }
         ]);
         setSelected("");
         return;
@@ -124,7 +126,7 @@ const TimerButtons = ({
             {
                 ...selectedOption,
                 id: `${selectedOption.name}-${selectedOption.jarProduct}`,
-                countdown: selectedOption.name === "Caviar" ? 3 : 4,
+                countdown: selectedOption.name === "Sturgeon Roe" ? 3 : 4,
                 timerFor: selectedOption.jarProduct,
                 timerType: "jar",
                 repeats: false

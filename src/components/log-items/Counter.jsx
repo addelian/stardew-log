@@ -126,7 +126,7 @@ const Counter = ({
                             ["keg", "jar"].includes(timer.timerType) &&
                             (timer.timerType === "keg"
                                 ? timer.countdown > timer.kegDuration
-                                : timer.countdown > 3)
+                                : timer.name === "Sturgeon Roe" ? timer.countdown > 3 : timer.countdown > 4)
                     );
                     if (artisansToRemove.length > 0) {
                         return artisansToRemove;
@@ -139,7 +139,7 @@ const Counter = ({
                             ["keg", "jar"].includes(timer.timerType) &&
                             (timer.timerType === "keg"
                                 ? timer.countdown <= timer.kegDuration
-                                : timer.countdown <= 3)
+                                : timer.name === "Sturgeon Roe" ? timer.countdown <= 3 : timer.countdown <= 4)
                     );
                     if (artisansToKeep.length > 0) {
                         return artisansToKeep;
@@ -150,12 +150,9 @@ const Counter = ({
             if (timersFrom === "harvest") {
                 if (toDo === "remove") {
                     const harvestsToRemove = revertedTimers.filter(
-                        (timer) =>
-                            timer.timerType === "harvest" &&
-                            ((timer.firstTime &&
-                                timer.countdown > timer.growTime) ||
-                                (!timer.firstTime &&
-                                    timer.countdown > timer.repeatLength))
+                        (timer) => timer.timerType === "harvest" &&
+                            ((timer.firstTime && timer.countdown > timer.growTime) ||
+                                (!timer.firstTime && timer.countdown > timer.repeatLength))
                     );
                     if (harvestsToRemove.length > 0) {
                         return harvestsToRemove;

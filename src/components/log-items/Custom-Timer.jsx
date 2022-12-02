@@ -50,6 +50,7 @@ const CustomTimer = ({ timers, setTimers }) => {
                 timerType: "custom",
                 repeats: timerRepeat,
                 firstTime: true,
+                season: ["spring", "summer", "fall", "winter"],
                 repeatLength,
             },
         ]);

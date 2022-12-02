@@ -30,5 +30,5 @@ export const QUOTES = [
     "You runnin' Bay to Breakers this year?",
     "Are you the next monarch? Or merely a pawn of fate?",
     "I pass the test. I will diminish, and go into the West, and remain Galadriel",
-    "I don’t know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
+    "I don't know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
 ];
