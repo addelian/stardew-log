@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { CROPS } from "../data/crops";
+import { FARM_FIXTURES } from "../../data/farm-fixtures";
 
 const Counter = ({
     day,
@@ -18,10 +18,7 @@ const Counter = ({
     mobile,
     timers,
     setTimers,
-    setError,
-    setHasHoney,
-    hasFruitTrees,
-    setHasFruitTrees,
+    setError
 }) => {
     const [spring1Reminder, setSpring1Reminder] = useState(false);
 
@@ -41,32 +38,27 @@ const Counter = ({
     };
 
     const handleSeasonChange = (remainingTimers, season) => {
-        const toRemove = remainingTimers.filter(
-            (timer) =>
-                timer.timerType === "harvest" && !timer.season.includes(season)
-        );
+        const toRemove = remainingTimers.filter((timer) => !timer.season.includes(season));
         const clearedTimers = remainingTimers.filter(
             (timer) => !toRemove.includes(timer)
         );
-        if (hasFruitTrees && season !== "winter") {
+        if (timers.some(timer => timer.name === "Fruit Trees") && season !== "winter") {
             const i = clearedTimers.findIndex(
                 (timer) => timer.name === "Fruit Trees"
             );
-            const product = CROPS.find((crop) => crop.name === "Fruit Trees");
+            const product = FARM_FIXTURES.find((ff) => ff.name === "Fruit Trees");
             const newSeasonFruitTrees = {
                 ...product,
+                id: `${product.name}-${product.product}`,
                 countdown: 2,
-                firstHarvest: true,
-                timerType: "harvest",
-                timerFor: "Fruit Trees",
+                firstTime: true,
+                timerType: "fixture",
+                repeats: true,
+                repeatLength: product.time
             };
             clearedTimers.splice(i, 1, newSeasonFruitTrees);
         }
         setTimers(clearedTimers);
-        if (season === "winter") {
-            setHasFruitTrees(false);
-            setHasHoney(false);
-        }
         if (toRemove.length > 0) {
             setError({
                 exists: true,
@@ -86,38 +78,21 @@ const Counter = ({
             return { ...timer, countdown: timer.countdown - 1 };
         });
         setTimers(timersCountingDown);
-        const timersToRemove = timersCountingDown.filter(
-            (timer) =>
-                timer.countdown < 0 &&
-                !(
-                    (timer.timerType === "harvest" && timer.regrow) ||
-                    (timer.timerType === "custom" && timer.repeat)
-                )
-        );
-        const timersToKeep = timersCountingDown.filter(
-            (timer) =>
-                timer.countdown >= 0 ||
-                (timer.timerType === "harvest" && timer.regrow) ||
-                (timer.timerType === "custom" && timer.repeat)
-        );
+        const timersToRemove = timersCountingDown.filter((timer) => timer.countdown < 0 && !timer.repeats);
+        const timersToKeep = timersCountingDown.filter((timer) => timer.countdown >= 0 || timer.repeats);
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             console.log("Completed timer(s) removed: ", timersToRemove);
         }
         timersToKeep.forEach((timer) => {
-            if (
-                timer.countdown === 0 &&
-                (timer.timerType === "harvest" ||
-                    timer.timerType === "custom") &&
-                (timer.regrow || timer.repeat)
-            ) {
-                if (timer.firstHarvest) {
-                    timer.firstHarvest = false;
+            if (timer.countdown === 0 && timer.repeats) {
+                if (timer.firstTime) {
+                    timer.firstTime = false;
                 }
                 timer.countdown =
-                    timer.timerType === "harvest"
-                        ? timer.regrowTime
-                        : timer.repeatLength;
+                    timer.repeatLength
+                        ? timer.repeatLength
+                        : timer.time;
             }
         });
         if (day === 111) {
@@ -151,7 +126,7 @@ const Counter = ({
                             ["keg", "jar"].includes(timer.timerType) &&
                             (timer.timerType === "keg"
                                 ? timer.countdown > timer.kegDuration
-                                : timer.countdown > 3)
+                                : timer.name === "Sturgeon Roe" ? timer.countdown > 3 : timer.countdown > 4)
                     );
                     if (artisansToRemove.length > 0) {
                         return artisansToRemove;
@@ -164,7 +139,7 @@ const Counter = ({
                             ["keg", "jar"].includes(timer.timerType) &&
                             (timer.timerType === "keg"
                                 ? timer.countdown <= timer.kegDuration
-                                : timer.countdown <= 3)
+                                : timer.name === "Sturgeon Roe" ? timer.countdown <= 3 : timer.countdown <= 4)
                     );
                     if (artisansToKeep.length > 0) {
                         return artisansToKeep;
@@ -175,12 +150,9 @@ const Counter = ({
             if (timersFrom === "harvest") {
                 if (toDo === "remove") {
                     const harvestsToRemove = revertedTimers.filter(
-                        (timer) =>
-                            timer.timerType === "harvest" &&
-                            ((timer.firstHarvest &&
-                                timer.countdown > timer.growTime) ||
-                                (!timer.firstHarvest &&
-                                    timer.countdown > timer.regrowTime))
+                        (timer) => timer.timerType === "harvest" &&
+                            ((timer.firstTime && timer.countdown > timer.growTime) ||
+                                (!timer.firstTime && timer.countdown > timer.repeatLength))
                     );
                     if (harvestsToRemove.length > 0) {
                         return harvestsToRemove;
@@ -191,10 +163,10 @@ const Counter = ({
                     const harvestsToKeep = revertedTimers.filter(
                         (timer) =>
                             timer.timerType === "harvest" &&
-                            ((timer.firstHarvest &&
+                            ((timer.firstTime &&
                                 timer.countdown <= timer.growTime) ||
-                                (!timer.firstHarvest &&
-                                    timer.countdown <= timer.regrowTime))
+                                (!timer.firstTime &&
+                                    timer.countdown <= timer.repeatLength))
                     );
                     if (harvestsToKeep.length > 0) {
                         return harvestsToKeep;
@@ -202,29 +174,56 @@ const Counter = ({
                     return;
                 }
             }
+            if (timersFrom === "fixture") {
+                if (toDo === "remove") {
+                    const fixturesToRemove = revertedTimers.filter((timer) => timer.timerType === "fixture" && timer.countdown > timer.time);
+                    if (fixturesToRemove.length > 0) {
+                        return fixturesToRemove;
+                    }
+                    return;
+                }
+                if (toDo === "keep") {
+                    const fixturesToKeep = revertedTimers.filter((timer) => timer.timerType === "fixture" && timer.countdown <= timer.growTime);
+                    if (fixturesToKeep.length > 0) {
+                        return fixturesToKeep;
+                    }
+                    return;
+                }
+            }
             return;
         };
         checkRemainingTimers(timersCountingUp, "artisan", "remove") !==
-        undefined
+            undefined
             ? timersToRemove.push(
-                  ...checkRemainingTimers(timersCountingUp, "artisan", "remove")
-              )
+                ...checkRemainingTimers(timersCountingUp, "artisan", "remove")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "harvest", "remove") !==
-        undefined
+            undefined
             ? timersToRemove.push(
-                  ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
-              )
+                ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
+            )
+            : null;
+        checkRemainingTimers(timersCountingUp, "fixture", "remove") !==
+            undefined
+            ? timersToRemove.push(
+                ...checkRemainingTimers(timersCountingUp, "fixture", "remove")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "artisan", "keep") !== undefined
             ? timersToKeep.push(
-                  ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
-              )
+                ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
+            )
             : null;
         checkRemainingTimers(timersCountingUp, "harvest", "keep") !== undefined
             ? timersToKeep.push(
-                  ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
-              )
+                ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
+            )
+            : null;
+        checkRemainingTimers(timersCountingUp, "fixture", "keep") !== undefined
+            ? timersToKeep.push(
+                ...checkRemainingTimers(timersCountingUp, "fixture", "keep")
+            )
             : null;
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
@@ -234,13 +233,6 @@ const Counter = ({
                 description: "The timers for the following items were removed:",
                 triggers: timersToRemove,
             });
-            console.log("Invalid timer(s) removed: ", timersToRemove);
-            if (timersToRemove.some((timer) => timer.name === "Honey")) {
-                setHasHoney(false);
-            }
-            if (timersToRemove.some((timer) => timer.name === "Fruit Trees")) {
-                setHasFruitTrees(false);
-            }
             handleError();
         }
     };
@@ -297,7 +289,7 @@ const Counter = ({
                     variant="contained"
                     onClick={() => advanceDay(timers)}
                 >
-                    Advance day&nbsp;&nbsp;
+                    Advance Day&nbsp;&nbsp;
                     <FontAwesomeIcon icon={faArrowRight} />
                 </Button>
             ) : (

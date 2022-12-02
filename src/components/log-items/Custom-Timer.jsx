@@ -48,8 +48,9 @@ const CustomTimer = ({ timers, setTimers }) => {
                 name: timerName,
                 countdown: Math.round(Number(timerLength)),
                 timerType: "custom",
-                repeat: timerRepeat,
-                firstHarvest: true,
+                repeats: timerRepeat,
+                firstTime: true,
+                season: ["spring", "summer", "fall", "winter"],
                 repeatLength,
             },
         ]);

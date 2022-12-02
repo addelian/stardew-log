@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCheck } from "@fortawesome/free-solid-svg-icons";
-import LogPage from "./Log-Page";
-import AboutPage from "./About-Page";
-import SettingsPage from "./Settings-Page";
-import Counter from "./Counter";
-import FooterComponent from "./FooterComponent";
+import LogPage from "./pages/Log-Page";
+import AboutPage from "./pages/About-Page";
+import SettingsPage from "./pages/Settings-Page";
+import Counter from "./log-items/Counter";
+import FooterComponent from "./Footer-Component";
 import { readDate } from "../helpers/common";
 
 const Home = () => {
@@ -27,8 +27,6 @@ const Home = () => {
         description: "",
         triggers: [],
     });
-    const [hasHoney, setHasHoney] = useState(false);
-    const [hasFruitTrees, setHasFruitTrees] = useState(false);
     const [showLogPage, setShowLogPage] = useState(true);
     const [showSettingsPage, setShowSettingsPage] = useState(false);
     const [showAboutPage, setShowAboutPage] = useState(false);
@@ -40,6 +38,7 @@ const Home = () => {
         date: true,
         artisanTimers: true,
         harvestTimers: true,
+        fixtureTimers: true,
         currentTimers: true,
         journal: true,
         customTimers: false,
@@ -47,19 +46,20 @@ const Home = () => {
 
     const currentDate = readDate(day);
 
+    // handling new user with no cache
+    const dataExists = JSON.parse(window.localStorage.getItem("day"));
+
     // Loads local storage on componentDidMount
     useEffect(() => {
-        setDay(JSON.parse(window.localStorage.getItem("day")));
-        setTimers(JSON.parse(window.localStorage.getItem("timers")));
-        setHasHoney(JSON.parse(window.localStorage.getItem("hasHoney")));
-        setHasFruitTrees(
-            JSON.parse(window.localStorage.getItem("hasFruitTrees"))
-        );
-        setShowState(JSON.parse(window.localStorage.getItem("showState")));
-        setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
-        setSkipTreeWarning(
-            JSON.parse(window.localStorage.getItem("skipTreeWarning"))
-        );
+        if (dataExists) {
+            setDay(JSON.parse(window.localStorage.getItem("day")));
+            setTimers(JSON.parse(window.localStorage.getItem("timers")));
+            setShowState(JSON.parse(window.localStorage.getItem("showState")));
+            setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
+            setSkipTreeWarning(
+                JSON.parse(window.localStorage.getItem("skipTreeWarning"))
+            );
+        }
     }, []);
 
     // Basic save functionality
@@ -69,12 +69,6 @@ const Home = () => {
     useEffect(() => {
         window.localStorage.setItem("timers", JSON.stringify(timers));
     }, [timers]);
-    useEffect(() => {
-        window.localStorage.setItem("hasHoney", hasHoney);
-    }, [hasHoney]);
-    useEffect(() => {
-        window.localStorage.setItem("hasFruitTrees", hasFruitTrees);
-    }, [hasFruitTrees]);
     useEffect(() => {
         window.localStorage.setItem("showState", JSON.stringify(showState));
     }, [showState]);
@@ -140,10 +134,10 @@ const Home = () => {
                             sx={
                                 mobile
                                     ? {
-                                          flexGrow: 1,
-                                          justifyContent: "start",
-                                          color: "white",
-                                      }
+                                        flexGrow: 1,
+                                        justifyContent: "start",
+                                        color: "white",
+                                    }
                                     : { mr: 2, color: "white" }
                             }
                         >
@@ -232,42 +226,35 @@ const Home = () => {
                                 timers={timers}
                                 setTimers={setTimers}
                                 setError={setError}
-                                setHasHoney={setHasHoney}
-                                hasFruitTrees={hasFruitTrees}
-                                setHasFruitTrees={setHasFruitTrees}
                             />
                         )}
                     </Toolbar>
                 </AppBar>
             </Grid>
-            {showLogPage && (
-                <LogPage
-                    showState={showState}
-                    currentDate={currentDate}
-                    mobile={mobile}
-                    handleCheck={handleCheck}
-                    day={day}
-                    error={error}
-                    setError={setError}
-                    timers={timers}
-                    setTimers={setTimers}
-                    hasHoney={hasHoney}
-                    setHasHoney={setHasHoney}
-                    hasFruitTrees={hasFruitTrees}
-                    setHasFruitTrees={setHasFruitTrees}
-                    journalText={journalText}
-                    setJournalText={setJournalText}
-                    skipTreeWarning={skipTreeWarning}
-                    setSkipTreeWarning={setSkipTreeWarning}
-                />
+            {showLogPage && showState && (
+                <>
+                    <LogPage
+                        showState={showState}
+                        currentDate={currentDate}
+                        mobile={mobile}
+                        handleCheck={handleCheck}
+                        day={day}
+                        error={error}
+                        setError={setError}
+                        timers={timers}
+                        setTimers={setTimers}
+                        journalText={journalText}
+                        setJournalText={setJournalText}
+                        skipTreeWarning={skipTreeWarning}
+                        setSkipTreeWarning={setSkipTreeWarning}
+                    />
+                </>
             )}
             {showSettingsPage && (
                 <SettingsPage
                     mobile={mobile}
                     setDay={setDay}
                     setTimers={setTimers}
-                    setHasHoney={setHasHoney}
-                    setHasFruitTrees={setHasFruitTrees}
                     setShowState={setShowState}
                     setJournalText={setJournalText}
                     setSkipTreeWarning={setSkipTreeWarning}

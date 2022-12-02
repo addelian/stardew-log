@@ -14,7 +14,7 @@ const AboutPage = () => {
         >
             <Grid item>
                 <Typography variant="body1">
-                    Stardew Log, version 0.4, August 2022. Created by Nic
+                    Stardew Log, version 0.4, November 2022. Created by Nic
                     Addelia &nbsp;
                     <FontAwesomeIcon icon={faGithub} />
                     &nbsp;<a href="https://github.com/addelian">@addelian</a>

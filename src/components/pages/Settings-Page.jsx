@@ -20,8 +20,6 @@ const SettingsPage = ({
     mobile,
     setDay,
     setTimers,
-    setHasHoney,
-    setHasFruitTrees,
     setShowState,
     setJournalText,
     setSkipTreeWarning,
@@ -41,13 +39,12 @@ const SettingsPage = ({
     const resetAll = () => {
         setDay(0);
         setTimers([]);
-        setHasHoney(false);
-        setHasFruitTrees(false);
         setShowState({
             date: true,
             artisanTimers: true,
             currentTimers: true,
             harvestTimers: true,
+            fixtureTimers: true,
             journal: true,
             customTimers: false,
         });
