@@ -6,8 +6,8 @@ type TimerSelectionProps = {
     selectionLabel: string,
     selectionList: Array<CropType | FixtureType>,
     type: string,
-    selected: CropType | FixtureType | undefined,
-    setSelected: (item: CropType | FixtureType | undefined) => void
+    selected: CropType | FixtureType | string,
+    setSelected: (item: CropType | FixtureType | string) => void
 }
 
 const TimerSelection: React.FC<TimerSelectionProps> = ({
@@ -23,7 +23,7 @@ const TimerSelection: React.FC<TimerSelectionProps> = ({
             const selectedOption = selectionList.find(
                 (item) => item.id === e.target.value
             );
-            const selection = typeof selectedOption !== "undefined" ? selectedOption : undefined;
+            const selection = typeof selectedOption !== "undefined" ? selectedOption : "";
             setSelected(selection);
         }
     };
@@ -48,7 +48,7 @@ const TimerSelection: React.FC<TimerSelectionProps> = ({
                     labelId={`${type}-select-label`}
                     id={`${type}-select`}
                     label={selectionLabel}
-                    value={typeof selected !== "undefined" ? selected.id : undefined}
+                    value={typeof selected !== "string" ? selected.id : ""}
                     onChange={handleChange}
                 >
                     {renderOptions(selectionList)}

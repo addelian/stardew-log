@@ -17,7 +17,7 @@ type TimerProps = {
 }
 
 const Timer: React.FC<TimerProps> = ({ label, list, type, timers, setTimers, skipTreeWarning, setSkipTreeWarning }) => {
-    const [selected, setSelected] = React.useState<CropType | FixtureType | undefined>(undefined);
+    const [selected, setSelected] = React.useState<CropType | FixtureType | string>("");
 
     return (
         <Grid container spacing={1} justifyContent="center" alignItems="center">

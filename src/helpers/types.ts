@@ -10,7 +10,9 @@ export type TimerType = {
     repeats?: boolean,
     repeatLength?: number,
     timerFor?: string,
-
+    time?: number
+    kegDuration?: number,
+    growTime?: number
 };
 
 export type ShowStateType = {
@@ -27,7 +29,7 @@ export type ErrorType = {
     exists: boolean,
     message: string,
     description: string,
-    triggers: TimerType[],
+    triggers: TimerType[] | [],
 };
 
 export type CropType = {

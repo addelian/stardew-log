@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import {
     Box,
     IconButton,
@@ -12,19 +12,27 @@ import { Alert, AlertTitle } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { removeSingleTimer } from "../../helpers/common";
+import { ErrorType, TimerType } from "../../helpers/types";
 
-const CurrentTimers = ({
+type CurrentTimersProps = {
+    day: number,
+    error: ErrorType,
+    timers: TimerType[],
+    setTimers: (timers: TimerType[]) => void
+}
+
+const CurrentTimers: React.FC<CurrentTimersProps> = ({
     day,
     error,
     timers,
     setTimers
 }) => {
-    const [activeTimers, setActiveTimers] = useState([]);
-    const [completedTimers, setCompletedTimers] = useState([]);
-    const [hasActiveTimers, setHasActiveTimers] = useState(false);
-    const [hasCompletedTimers, setHasCompletedTimers] = useState(false);
+    const [activeTimers, setActiveTimers] = React.useState<TimerType[] | []>([]);
+    const [completedTimers, setCompletedTimers] = React.useState<TimerType[] | []>([]);
+    const [hasActiveTimers, setHasActiveTimers] = React.useState(false);
+    const [hasCompletedTimers, setHasCompletedTimers] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const updatedActiveTimers = timers.filter(
             (timer) =>
                 timer.countdown !== 0 &&
@@ -56,7 +64,7 @@ const CurrentTimers = ({
         } else setHasCompletedTimers(false);
     }, [timers]);
 
-    const renderProductName = (productInTimer) => {
+    const renderProductName = (productInTimer: TimerType) => {
         if (productInTimer.timerType === "harvest") {
             if (productInTimer.name.includes("Seeds")) {
                 return productInTimer.product;
@@ -64,13 +72,13 @@ const CurrentTimers = ({
             return productInTimer.name;
         }
         if (
-            (productInTimer.timerType === "keg" &&
+            (productInTimer.timerType === "keg" && typeof productInTimer.timerFor !== "undefined" &&
                 !["wine", "juice"].includes(productInTimer.timerFor))
         ) {
             return productInTimer.timerFor;
         }
         if (
-            productInTimer.timerType === "jar" &&
+            productInTimer.timerType === "jar" && typeof productInTimer.timerFor !== "undefined" &&
             !["jelly", "pickles"].includes(productInTimer.timerFor)
         ) {
             if (productInTimer.timerFor === "Aged Roe") {
@@ -87,7 +95,7 @@ const CurrentTimers = ({
         return `${productInTimer.name} ${productInTimer.timerFor}`;
     };
 
-    const createErrorList = (fullError) =>
+    const createErrorList = (fullError: ErrorType) =>
         fullError.triggers.map((error) => {
             return (
                 <ListItem key={`error-for-${error.id}`}>
@@ -96,18 +104,18 @@ const CurrentTimers = ({
             );
         });
 
-    const renderTimerErrorBlock = (fullError) => (
+    const renderTimerErrorBlock = (fullError: ErrorType) => (
         <List dense>{createErrorList(fullError)}</List>
     );
 
-    const handlePlurals = (name) => {
+    const handlePlurals = (name: string) => {
         if (name.slice(-1) === "s" && name !== "Bee Houses") {
             return ` are`;
         }
         return ` is`;
     };
 
-    const renderCountdown = (productInTimer) => {
+    const renderCountdown = (productInTimer: TimerType) => {
         if (productInTimer.name === "Fruit Trees") {
             if (productInTimer.firstTime) {
                 return productInTimer.countdown === 2 ? ": 1 fruit each" : ": 2 fruit each";
@@ -155,7 +163,7 @@ const CurrentTimers = ({
             }`;
     };
 
-    const renderCompletedTimers = (allTimers, timersToRender) =>
+    const renderCompletedTimers = (allTimers: TimerType[], timersToRender: TimerType[]) =>
         timersToRender.map((timer) => {
             return (
                 <ListItem
@@ -176,8 +184,7 @@ const CurrentTimers = ({
                                     setTimers(
                                         removeSingleTimer(
                                             allTimers,
-                                            timer,
-                                            "product"
+                                            timer
                                         )
                                     );
                                     if (completedTimers.length === 0) {
@@ -195,11 +202,10 @@ const CurrentTimers = ({
             );
         });
 
-    const renderTimers = (allTimers, timersToRender) =>
+    const renderTimers = (allTimers: TimerType[], timersToRender: TimerType[]) =>
         timersToRender.map((timer) => {
             return (
                 <ListItem
-                    size="small"
                     key={`${timer.id}-${timer.timerFor}-day-${day}`}
                     style={{ textAlign: "center" }}
                     sx={{ py: 0 }}
@@ -216,8 +222,7 @@ const CurrentTimers = ({
                                     setTimers(
                                         removeSingleTimer(
                                             allTimers,
-                                            timer,
-                                            "product"
+                                            timer
                                         )
                                     );
                                     if (activeTimers.length === 0) {

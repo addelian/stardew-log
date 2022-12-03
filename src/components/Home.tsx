@@ -16,13 +16,13 @@ import SettingsPage from "./pages/Settings-Page";
 import Counter from "./log-items/Counter";
 import FooterComponent from "./Footer-Component";
 import { readDate } from "../helpers/common";
-import { TimerType } from "../helpers/types";
+import { TimerType, ErrorType } from "../helpers/types";
 
 const Home = () => {
     const [mobile, setMobile] = React.useState(false);
     const [day, setDay] = React.useState(0);
     const [timers, setTimers] = React.useState<TimerType[] | []>([]);
-    const [error, setError] = React.useState({
+    const [error, setError] = React.useState<ErrorType>({
         exists: false,
         message: "Oh no!",
         description: "",
@@ -225,6 +225,7 @@ const Home = () => {
                                 setDay={setDay}
                                 timers={timers}
                                 setTimers={setTimers}
+                                error={error}
                                 setError={setError}
                             />
                         )}

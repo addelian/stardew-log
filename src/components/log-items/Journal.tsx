@@ -1,8 +1,13 @@
-import React from "react";
+import * as React from "react";
 import { TextField } from "@mui/material";
 
-const Journal = ({ journalText, setJournalText }) => {
-    const handleChange = (e) => {
+type JournalProps = {
+    journalText: string,
+    setJournalText: (text: string) => void
+}
+
+const Journal: React.FC<JournalProps> = ({ journalText, setJournalText }) => {
+    const handleChange = (e: any) => {
         setJournalText(e.target.value);
     };
 

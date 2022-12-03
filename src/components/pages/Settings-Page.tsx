@@ -107,8 +107,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
                                     </Button>
                                 ) : (
                                     <IconButton
-                                        variant="contained"
-                                        sx={{ pr: 2 }}
+                                        aria-label="delete"
                                         color="error"
                                         onClick={() => handleResetOpen()}
                                     >

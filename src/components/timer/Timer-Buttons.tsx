@@ -12,8 +12,8 @@ import { CropType, FixtureType, TimerType } from "../../helpers/types";
 
 type TimerButtonsProps = {
     type: string,
-    selected: CropType | FixtureType | undefined,
-    setSelected: (s: CropType | FixtureType | undefined) => void,
+    selected: CropType | FixtureType | string,
+    setSelected: (s: CropType | FixtureType | string) => void,
     timers: TimerType[];
     setTimers: (timers: TimerType[]) => void,
     skipTreeWarning: boolean,
@@ -44,11 +44,11 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
 
     const handleClose = () => {
         setOpen(false);
-        setSelected(undefined);
+        setSelected("");
     };
 
-    const handleFruitTrees = (selectedOption: CropType | FixtureType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
+    const handleFruitTrees = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
             setTimers([
                 ...timers,
                 {
@@ -70,9 +70,9 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
         setSkipTreeWarning(e.target.checked);
     };
 
-    const buttonStyling = (selectedOption: CropType | FixtureType | undefined, parentButton: string) => {
-        if (timers.some((timer) => typeof selected !== "undefined" && timer.name === selected.name)) return {};
-        if (typeof selectedOption !== "undefined" && typeof selectedOption.preferred !== "undefined") {
+    const buttonStyling = (selectedOption: CropType | FixtureType | string, parentButton: string) => {
+        if (timers.some((timer) => typeof selected !== "string" && timer.name === selected.name)) return {};
+        if (typeof selectedOption !== "string" && typeof selectedOption.preferred !== "undefined") {
             if (parentButton === "keg" && selectedOption.preferred === "keg") {
                 return { backgroundColor: "green", color: "white" };
             }
@@ -84,14 +84,14 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
         return {};
     };
 
-    const clearTimer = (selectedOption: CropType | FixtureType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
-            setSelected(undefined);
+    const clearTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
+            setSelected("");
         }
     };
 
-    const createHarvestTimer = (selectedOption: CropType | FixtureType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
+    const createHarvestTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
             if (selectedOption.repeats) {
                 setTimers([
                     ...timers,
@@ -102,7 +102,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                         firstTime: true
                     }
                 ]);
-                setSelected(undefined);
+                setSelected("");
                 return;
             }
             setTimers([
@@ -115,15 +115,15 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     repeatLength: selectedOption.growTime
                 }
             ]);
-            setSelected(undefined);
+            setSelected("");
             return;
         }
         return;
     };
 
 
-    const createKegTimer = (selectedOption: CropType | FixtureType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
+    const createKegTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
             setTimers([
                 ...timers,
                 {
@@ -135,13 +135,13 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     repeats: false
                 },
             ]);
-            setSelected(undefined);
+            setSelected("");
         }
         return;
     };
 
-    const createJarTimer = (selectedOption: CropType | FixtureType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
+    const createJarTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
             setTimers([
                 ...timers,
                 {
@@ -153,13 +153,13 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     repeats: false
                 },
             ]);
-            setSelected(undefined);
+            setSelected("");
         }
         return;
     };
 
-    const createFixtureTimer = (selectedOption: FixtureType | CropType | undefined) => {
-        if (typeof selectedOption !== "undefined") {
+    const createFixtureTimer = (selectedOption: FixtureType | CropType | string) => {
+        if (typeof selectedOption !== "string") {
 
             if (selectedOption.name === "Fruit Trees" && !skipTreeWarning) {
                 handleClickOpen();
@@ -177,7 +177,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     repeatLength: selectedOption.time
                 }
             ]);
-            setSelected(undefined);
+            setSelected("");
         }
         return;
     }
@@ -189,11 +189,11 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     <Button
                         variant="contained"
                         style={
-                            typeof selected !== "undefined"
+                            typeof selected !== "string"
                                 ? { backgroundColor: "green", color: "white" }
                                 : {}
                         }
-                        disabled={typeof selected === "undefined"}
+                        disabled={typeof selected === "string"}
                         onClick={() => createHarvestTimer(selected)}
                     >
                         <FontAwesomeIcon icon={faCarrot} />
@@ -208,7 +208,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                             variant="contained"
                             style={buttonStyling(selected, "keg")}
                             disabled={
-                                typeof selected === "undefined" ||
+                                typeof selected === "string" ||
                                 ["Ginger", "Roe", "Sturgeon Roe"].includes(
                                     selected.name
                                 ) ||
@@ -229,7 +229,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                             variant="contained"
                             style={buttonStyling(selected, "jar")}
                             disabled={
-                                typeof selected === "undefined" ||
+                                typeof selected === "string" ||
                                 ["Coffee Bean", "Honey"].includes(selected.name) ||
                                 timers.some(
                                     (timer) =>
@@ -250,11 +250,11 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     <Button
                         variant="contained"
                         style={
-                            typeof selected !== "undefined"
+                            typeof selected !== "string"
                                 ? { backgroundColor: "green", color: "white" }
                                 : {}
                         }
-                        disabled={typeof selected === "undefined"}
+                        disabled={typeof selected === "string"}
                         onClick={() => createFixtureTimer(selected)}
                     >
                         <FontAwesomeIcon icon={faLeaf} />
@@ -266,7 +266,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                 <Button
                     variant="contained"
                     color="warning"
-                    disabled={typeof selected === "undefined"}
+                    disabled={typeof selected === "string"}
                     onClick={() => clearTimer(selected)}
                 >
                     <FontAwesomeIcon icon={faTimes} />
