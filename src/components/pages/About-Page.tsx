@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Grid, Typography, List, ListItem, ListItemText } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";

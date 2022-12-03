@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import {
     Button,
     Dialog,
@@ -15,8 +15,20 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire } from "@fortawesome/free-solid-svg-icons";
+import { ShowStateType, TimerType } from "../../helpers/types";
 
-const SettingsPage = ({
+type SettingsPageProps = {
+    mobile: boolean,
+    setDay: (day: number) => void,
+    setTimers: (timers: TimerType[]) => void,
+    setShowState: (showState: ShowStateType) => void,
+    setJournalText: (text: string) => void,
+    setSkipTreeWarning: (skip: boolean) => void,
+    setShowSettingsPage: (showSettings: boolean) => void,
+    setShowLogPage: (showLog: boolean) => void
+}
+
+const SettingsPage: React.FC<SettingsPageProps> = ({
     mobile,
     setDay,
     setTimers,
@@ -26,7 +38,7 @@ const SettingsPage = ({
     setShowSettingsPage,
     setShowLogPage,
 }) => {
-    const [resetOpen, setResetOpen] = useState(false);
+    const [resetOpen, setResetOpen] = React.useState(false);
 
     const handleResetOpen = () => {
         setResetOpen(true);
