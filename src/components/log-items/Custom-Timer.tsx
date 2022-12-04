@@ -19,9 +19,9 @@ type CustomTimerProps = {
 
 const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
     const [timerName, setTimerName] = React.useState("");
-    const [timerLength, setTimerLength] = React.useState(undefined);
+    const [timerLength, setTimerLength] = React.useState("");
     const [timerRepeat, setTimerRepeat] = React.useState(false);
-    const [repeatLength, setRepeatLength] = React.useState<number | undefined>(undefined);
+    const [repeatLength, setRepeatLength] = React.useState<number | string>("");
 
     const handleNameChange = (e: any) => {
         setTimerName(e.target.value);
@@ -40,10 +40,10 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
     };
 
     const clearTimer = () => {
-        setTimerLength(undefined);
+        setTimerLength("");
         setTimerName("");
         setTimerRepeat(false);
-        setRepeatLength(undefined);
+        setRepeatLength("");
     };
 
     const createCustomTimer = () => {
@@ -57,13 +57,13 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
                 repeats: timerRepeat,
                 firstTime: true,
                 season: ["spring", "summer", "fall", "winter"],
-                repeatLength,
+                repeatLength: Math.round(Number(repeatLength))
             },
         ]);
         setTimerName("");
-        setTimerLength(undefined);
+        setTimerLength("");
         setTimerRepeat(false);
-        setRepeatLength(undefined);
+        setRepeatLength("");
         return;
     };
 
@@ -80,7 +80,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
             timerExists(timerName) ||
             timerLength === "" ||
             Number(timerLength) > 112 ||
-            typeof repeatLength !== "undefined"
+            (timerRepeat && repeatLength === "")
         ) {
             return true;
         }

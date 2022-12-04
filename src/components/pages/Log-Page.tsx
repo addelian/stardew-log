@@ -64,7 +64,7 @@ const LogPage: React.FC<LogPageProps> = ({
         );
         const cropsToSort = cropsInSeason.filter(
             (crop) =>
-                crop.growTime !== undefined && !timers.some((timer) => timer.name === crop.name)
+                typeof crop.growTime !== "undefined" && !timers.some((timer) => timer.name === crop.name)
         );
         return cropsToSort;
     };
@@ -72,14 +72,14 @@ const LogPage: React.FC<LogPageProps> = ({
     const setArtisanList = (products: CropType[]) => {
         return products.filter(
             (product) =>
-                product.kegProduct !== undefined || product.jarProduct !== undefined
+                typeof product.kegProduct !== "undefined" || typeof product.jarProduct !== "undefined"
         );
     }
 
     const setFixtureList = (products: FixtureType[]) => {
         const currentSeason = lowerCase(readDate(day).split(" ")[0]);
         return products.filter((fixture) =>
-            fixture.season.includes(currentSeason)
+            fixture.season.includes(currentSeason) && !timers.some((timer) => timer.name === fixture.name)
         );
     }
 

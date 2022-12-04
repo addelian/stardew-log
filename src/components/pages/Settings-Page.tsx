@@ -61,7 +61,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             customTimers: false,
         });
         setJournalText(
-            "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
+            "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache. 😎"
         );
         setSkipTreeWarning(false);
         setResetOpen(false);

@@ -32,7 +32,7 @@ const Home = () => {
     const [showSettingsPage, setShowSettingsPage] = React.useState(false);
     const [showAboutPage, setShowAboutPage] = React.useState(false);
     const [journalText, setJournalText] = React.useState(
-        "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
+        "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache. 😎"
     );
     const [skipTreeWarning, setSkipTreeWarning] = React.useState(false);
     const [showState, setShowState] = React.useState({
