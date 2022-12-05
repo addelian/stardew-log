@@ -128,15 +128,6 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
             }
             return `: 2 fruit each`;
         }
-        if (
-            productInTimer.repeats &&
-            productInTimer.firstTime === false &&
-            productInTimer.countdown === productInTimer.repeatLength
-        ) {
-            return `${handlePlurals(
-                productInTimer.name
-            )} ready today. Next harvest in ${productInTimer.countdown} days`;
-        }
         if (productInTimer.timerType === "custom") {
             if (
                 productInTimer.repeats &&
@@ -150,6 +141,15 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
                 } left`
                 : ": timer completed"
                 }`;
+        }
+        if (
+            productInTimer.repeats &&
+            productInTimer.firstTime === false &&
+            productInTimer.countdown === productInTimer.repeatLength
+        ) {
+            return `${handlePlurals(
+                productInTimer.name
+            )} ready today. Next harvest in ${productInTimer.countdown} days`;
         }
         return `${productInTimer.countdown > 0
             ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"

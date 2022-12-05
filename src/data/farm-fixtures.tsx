@@ -1,7 +1,7 @@
 export const FARM_FIXTURES = [
     {
-        id: "0-cave-bats",
-        name: "Cave Bats",
+        id: "0-fruit-bats",
+        name: "Fruit Bats",
         product: "Cave fruits",
         time: 1,
         season: ["spring", "summer", "fall", "winter"],
@@ -42,8 +42,8 @@ export const FARM_FIXTURES = [
         season: ["spring", "summer", "fall", "winter"],
     },
     {
-        id: "6-cave-mushrooms",
-        name: "Cave Mushrooms",
+        id: "6-mushroom-cave",
+        name: "Mushroom Cave",
         product: "Cave mushrooms",
         time: 1,
         season: ["spring", "summer", "fall", "winter"],

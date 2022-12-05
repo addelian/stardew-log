@@ -83,7 +83,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
             timerLength === "" ||
             Number(timerLength) > 112 ||
             Number(repeatLength) > 112 ||
-            (timerRepeat && repeatLength === "")
+            (timerRepeat && (repeatLength === "" || Number(repeatLength) < 1))
         ) {
             return true;
         }
