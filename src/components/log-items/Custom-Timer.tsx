@@ -7,6 +7,7 @@ import {
     FormGroup,
     FormControlLabel,
     Checkbox,
+    Typography
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -53,11 +54,12 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
                 id: `${timerName}-custom-timer`,
                 name: timerName,
                 countdown: Math.round(Number(timerLength)),
+                time: Math.round(Number(timerLength)),
                 timerType: "custom",
                 repeats: timerRepeat,
-                firstTime: true,
+                firstTime: timerRepeat,
                 season: ["spring", "summer", "fall", "winter"],
-                repeatLength: Math.round(Number(repeatLength))
+                repeatLength: Math.round(Number(timerRepeat ? repeatLength : timerLength))
             },
         ]);
         setTimerName("");
@@ -80,6 +82,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
             timerExists(timerName) ||
             timerLength === "" ||
             Number(timerLength) > 112 ||
+            Number(repeatLength) > 112 ||
             (timerRepeat && repeatLength === "")
         ) {
             return true;
@@ -134,14 +137,21 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
                     </FormControl>
                 </Grid>
                 {timerRepeat && (
-                    <Grid item>
-                        <Input
-                            type="number"
-                            placeholder="Length (days)"
-                            onChange={handleRepeatLengthChange}
-                            value={repeatLength}
-                        />
-                    </Grid>
+                    <>
+                        <Grid item >
+                            <Typography variant="body1">
+                                for &nbsp;
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Input
+                                type="number"
+                                placeholder="Repeat Length (days)"
+                                onChange={handleRepeatLengthChange}
+                                value={repeatLength}
+                            />
+                        </Grid>
+                    </>
                 )}
             </Grid>
             <Grid
@@ -169,7 +179,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ timers, setTimers }) => {
                     <Button
                         variant="contained"
                         color="warning"
-                        disabled={timerName === "" || timerLength === null}
+                        disabled={timerName === "" && timerLength === "" && timerRepeat === false && repeatLength === ""}
                         onClick={() => clearTimer()}
                     >
                         <FontAwesomeIcon icon={faTimes} />

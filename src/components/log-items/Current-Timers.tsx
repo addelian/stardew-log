@@ -140,6 +140,7 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
         if (productInTimer.timerType === "custom") {
             if (
                 productInTimer.repeats &&
+                productInTimer.firstTime === false &&
                 productInTimer.countdown === productInTimer.repeatLength
             ) {
                 return `: timer completed. Next up in ${productInTimer.countdown} days`;

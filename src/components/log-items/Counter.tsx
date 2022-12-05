@@ -144,10 +144,6 @@ const Counter: React.FC<CounterProps> = ({
                                 ? timer.countdown > timer.kegDuration
                                 : timer.name === "Sturgeon Roe" ? timer.countdown > 3 : timer.countdown > 4)
                     );
-                    // if (artisansToRemove.length > 0) {
-                    //     return artisansToRemove;
-                    // }
-                    // return;
                     if (artisansToRemove.length > 0) {
                         artisansToRemove.forEach(timer => {
                             timersToRemove.push(timer);
@@ -163,10 +159,6 @@ const Counter: React.FC<CounterProps> = ({
                                 ? timer.countdown <= timer.kegDuration
                                 : timer.name === "Sturgeon Roe" ? timer.countdown <= 3 : timer.countdown <= 4)
                     );
-                    // if (artisansToKeep.length > 0) {
-                    //     return artisansToKeep;
-                    // }
-                    // return;
                     if (artisansToKeep.length > 0) {
                         artisansToKeep.forEach(timer => {
                             timersToKeep.push(timer);
@@ -184,10 +176,6 @@ const Counter: React.FC<CounterProps> = ({
                             ((timer.firstTime && timer.countdown > timer.growTime) ||
                                 (!timer.firstTime && timer.countdown > timer.repeatLength))
                     );
-                    // if (harvestsToRemove.length > 0) {
-                    //     return harvestsToRemove;
-                    // }
-                    // return;
                     if (harvestsToRemove.length > 0) {
                         harvestsToRemove.forEach(timer => {
                             timersToRemove.push(timer);
@@ -206,10 +194,6 @@ const Counter: React.FC<CounterProps> = ({
                                 (!timer.firstTime &&
                                     timer.countdown <= timer.repeatLength))
                     );
-                    // if (harvestsToKeep.length > 0) {
-                    //     return harvestsToKeep;
-                    // }
-                    // return;
                     if (harvestsToKeep.length > 0) {
                         harvestsToKeep.forEach(timer => {
                             timersToKeep.push(timer);
@@ -221,10 +205,6 @@ const Counter: React.FC<CounterProps> = ({
             if (timersFrom === "fixture") {
                 if (toDo === "remove") {
                     const fixturesToRemove = revertedTimers.filter((timer: TimerType) => timer.timerType === "fixture" && typeof timer.time !== "undefined" && timer.countdown > timer.time);
-                    // if (fixturesToRemove.length > 0) {
-                    //     return fixturesToRemove;
-                    // }
-                    // return;
                     if (fixturesToRemove.length > 0) {
                         fixturesToRemove.forEach(timer => {
                             timersToRemove.push(timer);
@@ -233,13 +213,44 @@ const Counter: React.FC<CounterProps> = ({
                     return;
                 }
                 if (toDo === "keep") {
-                    const fixturesToKeep = revertedTimers.filter((timer: TimerType) => timer.timerType === "fixture" && typeof timer.growTime !== "undefined" && timer.countdown <= timer.growTime);
-                    // if (fixturesToKeep.length > 0) {
-                    //     return fixturesToKeep;
-                    // }
-                    // return;
+                    const fixturesToKeep = revertedTimers.filter((timer: TimerType) => timer.timerType === "fixture" && typeof timer.time !== "undefined" && timer.countdown <= timer.time);
                     if (fixturesToKeep.length > 0) {
                         fixturesToKeep.forEach(timer => {
+                            timersToKeep.push(timer);
+                        })
+                    }
+                    return;
+                }
+            }
+            if (timersFrom === "custom") {
+                if (toDo === "remove") {
+                    const customsToRemove = revertedTimers.filter(
+                        (timer) => timer.timerType === "custom" &&
+                            typeof timer.time !== "undefined" &&
+                            typeof timer.repeatLength !== "undefined" &&
+                            ((timer.firstTime && timer.countdown > timer.time) ||
+                                (!timer.firstTime && timer.countdown > timer.repeatLength))
+                    );
+                    if (customsToRemove.length > 0) {
+                        customsToRemove.forEach(timer => {
+                            timersToRemove.push(timer);
+                        })
+                    }
+                    return;
+                }
+                if (toDo === "keep") {
+                    const customsToKeep = revertedTimers.filter(
+                        (timer) =>
+                            timer.timerType === "custom" &&
+                            typeof timer.time !== "undefined" &&
+                            typeof timer.repeatLength !== "undefined" &&
+                            ((timer.firstTime &&
+                                timer.countdown <= timer.time) ||
+                                (!timer.firstTime &&
+                                    timer.countdown <= timer.repeatLength))
+                    );
+                    if (customsToKeep.length > 0) {
+                        customsToKeep.forEach(timer => {
                             timersToKeep.push(timer);
                         })
                     }
@@ -251,42 +262,11 @@ const Counter: React.FC<CounterProps> = ({
         checkRemainingTimers(timersCountingUp, "artisan", "remove");
         checkRemainingTimers(timersCountingUp, "harvest", "remove");
         checkRemainingTimers(timersCountingUp, "fixture", "remove");
+        checkRemainingTimers(timersCountingUp, "custom", "remove");
         checkRemainingTimers(timersCountingUp, "artisan", "keep");
         checkRemainingTimers(timersCountingUp, "harvest", "keep");
         checkRemainingTimers(timersCountingUp, "fixture", "keep");
-        // checkRemainingTimers(timersCountingUp, "artisan", "remove") !==
-        //     undefined
-        //     ? timersToRemove.push(
-        //         ...checkRemainingTimers(timersCountingUp, "artisan", "remove")
-        //     )
-        //     : null;
-        // checkRemainingTimers(timersCountingUp, "harvest", "remove") !==
-        //     undefined
-        //     ? timersToRemove.push(
-        //         ...checkRemainingTimers(timersCountingUp, "harvest", "remove")
-        //     )
-        //     : null;
-        // checkRemainingTimers(timersCountingUp, "fixture", "remove") !==
-        //     undefined
-        //     ? timersToRemove.push(
-        //         ...checkRemainingTimers(timersCountingUp, "fixture", "remove")
-        //     )
-        //     : null;
-        // checkRemainingTimers(timersCountingUp, "artisan", "keep") !== undefined
-        //     ? timersToKeep.push(
-        //         ...checkRemainingTimers(timersCountingUp, "artisan", "keep")
-        //     )
-        //     : null;
-        // checkRemainingTimers(timersCountingUp, "harvest", "keep") !== undefined
-        //     ? timersToKeep.push(
-        //         ...checkRemainingTimers(timersCountingUp, "harvest", "keep")
-        //     )
-        //     : null;
-        // checkRemainingTimers(timersCountingUp, "fixture", "keep") !== undefined
-        //     ? timersToKeep.push(
-        //         ...checkRemainingTimers(timersCountingUp, "fixture", "keep")
-        //     )
-        //     : null;
+        checkRemainingTimers(timersCountingUp, "custom", "keep");
         if (timersToRemove.length > 0) {
             setTimers(timersToKeep);
             setError({
