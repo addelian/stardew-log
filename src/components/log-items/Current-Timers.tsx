@@ -109,7 +109,7 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
     );
 
     const handlePlurals = (name: string) => {
-        if (name.slice(-1) === "s" && name !== "Bee Houses") {
+        if ((name.slice(-1) === "s" && name !== "Bee Houses") || name === "Mushroom Cave") {
             return ` are`;
         }
         return ` is`;
@@ -274,10 +274,10 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
                                     px: "auto",
                                     mb: 1,
                                     width: "100%",
-                                    maxWidth: 450,
+                                    maxWidth: 500,
                                     position: "relative",
                                     overflow: "scroll",
-                                    maxHeight: 82,
+                                    maxHeight: 160,
                                     "& ul": { padding: 0 },
                                 }}
                                 style={{ backgroundColor: "#EFF7EE" }}
@@ -292,10 +292,10 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
                                     borderRadius: 2,
                                     px: "auto",
                                     width: "100%",
-                                    maxWidth: 450,
+                                    maxWidth: 500,
                                     position: "relative",
                                     overflow: "scroll",
-                                    maxHeight: 88,
+                                    maxHeight: 160,
                                     "& ul": { padding: 0 },
                                 }}
                                 style={{ backgroundColor: "#DCDCDC" }}
