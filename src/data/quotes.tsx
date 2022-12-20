@@ -36,5 +36,5 @@ export const QUOTES = [
     "Put these foolish ambitions to rest",
     "I've given thee courtesy enough",
     "I am Malenia, Blade of Miquella",
-    "Forefathers, one and all... Bear witness",
+    "Forefathers, one and all... Bear witness!",
 ];
