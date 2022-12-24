@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/stardew-log/static/css/main.97b38b10.css",
-    "main.js": "/stardew-log/static/js/main.bc3aa229.js",
+    "main.js": "/stardew-log/static/js/main.0317268f.js",
     "static/js/787.8e8347f0.chunk.js": "/stardew-log/static/js/787.8e8347f0.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/stardew-log/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
     "static/media/roboto-all-700-normal.woff": "/stardew-log/static/media/roboto-all-700-normal.a457fde362a540fcadff.woff",
@@ -37,11 +37,11 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/stardew-log/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/stardew-log/index.html",
     "main.97b38b10.css.map": "/stardew-log/static/css/main.97b38b10.css.map",
-    "main.bc3aa229.js.map": "/stardew-log/static/js/main.bc3aa229.js.map",
+    "main.0317268f.js.map": "/stardew-log/static/js/main.0317268f.js.map",
     "787.8e8347f0.chunk.js.map": "/stardew-log/static/js/787.8e8347f0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.97b38b10.css",
-    "static/js/main.bc3aa229.js"
+    "static/js/main.0317268f.js"
   ]
 }
