@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
     Grid,
     FormControl,
@@ -16,9 +16,23 @@ import CustomTimer from "../log-items/Custom-Timer";
 import Journal from "../log-items/Journal";
 import { CROPS } from "../../data/crops";
 import { FARM_FIXTURES } from "../../data/farm-fixtures";
+import { CropType, ErrorType, FixtureType, ShowStateType, TimerType } from "../../helpers/types";
 
-const LogPage = ({
-    currentDate,
+type LogPageProps = {
+    showState: ShowStateType,
+    handleCheck: (e: any) => void,
+    mobile: boolean,
+    day: number,
+    error: ErrorType,
+    timers: TimerType[],
+    setTimers: (timers: TimerType[]) => void,
+    journalText: string,
+    setJournalText: (text: string) => void,
+    skipTreeWarning: boolean,
+    setSkipTreeWarning: (skip: boolean) => void
+}
+
+const LogPage: React.FC<LogPageProps> = ({
     showState,
     handleCheck,
     mobile,
@@ -41,29 +55,31 @@ const LogPage = ({
         customTimers,
     } = showState;
 
-    const setHarvestList = (crops) => {
+    const currentDate = readDate(day);
+
+    const setHarvestList = (crops: CropType[]) => {
         const currentSeason = lowerCase(readDate(day).split(" ")[0]);
         const cropsInSeason = crops.filter((crop) =>
             crop.season.includes(currentSeason)
         );
         const cropsToSort = cropsInSeason.filter(
             (crop) =>
-                crop.growTime !== undefined && !timers.some((timer) => timer.name === crop.name)
+                typeof crop.growTime !== "undefined" && !timers.some((timer) => timer.name === crop.name)
         );
         return cropsToSort;
     };
 
-    const setArtisanList = (products) => {
+    const setArtisanList = (products: CropType[]) => {
         return products.filter(
             (product) =>
-                product.kegProduct !== undefined || product.jarProduct !== undefined
+                typeof product.kegProduct !== "undefined" || typeof product.jarProduct !== "undefined"
         );
     }
 
-    const setFixtureList = (products) => {
+    const setFixtureList = (products: FixtureType[]) => {
         const currentSeason = lowerCase(readDate(day).split(" ")[0]);
         return products.filter((fixture) =>
-            fixture.season.includes(currentSeason)
+            fixture.season.includes(currentSeason) && !timers.some((timer) => timer.name === fixture.name)
         );
     }
 
@@ -240,6 +256,8 @@ const LogPage = ({
                                         type="harvest"
                                         timers={timers}
                                         setTimers={setTimers}
+                                        skipTreeWarning={skipTreeWarning}
+                                        setSkipTreeWarning={setSkipTreeWarning}
                                     />
                                 </Grid>
                             )}
@@ -260,6 +278,8 @@ const LogPage = ({
                                         type="artisan"
                                         timers={timers}
                                         setTimers={setTimers}
+                                        skipTreeWarning={skipTreeWarning}
+                                        setSkipTreeWarning={setSkipTreeWarning}
                                     />
                                 </Grid>
                             )}

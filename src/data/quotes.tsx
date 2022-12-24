@@ -31,4 +31,10 @@ export const QUOTES = [
     "Are you the next monarch? Or merely a pawn of fate?",
     "I pass the test. I will diminish, and go into the West, and remain Galadriel",
     "I don't know half of you half as well as I should like; and I like less than half of you half as well as you deserve",
+    "Foul Tarnished... In search of the Elden Ring",
+    "...Emboldened by the flame of ambition",
+    "Put these foolish ambitions to rest",
+    "I've given thee courtesy enough",
+    "I am Malenia, Blade of Miquella",
+    "Forefathers, one and all... Bear witness!",
 ];

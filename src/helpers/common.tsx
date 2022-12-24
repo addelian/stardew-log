@@ -1,4 +1,6 @@
-export const readDate = (day) => {
+import { TimerType } from "./types";
+
+export const readDate = (day: number) => {
     if (0 <= day && day <= 27) {
         return `Spring ${day + 1}`;
     }
@@ -11,7 +13,7 @@ export const readDate = (day) => {
     return `Winter ${day - 83}`;
 };
 
-export const removeSingleTimer = (allTimers, toBeDeleted) => {
+export const removeSingleTimer = (allTimers: TimerType[], toBeDeleted: TimerType) => {
     const updatedTimers = allTimers.filter(
         (timer) => timer.id !== toBeDeleted.id
     );

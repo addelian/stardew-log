@@ -1,12 +1,26 @@
-import { useState } from "react";
+import * as React from "react";
 import { fireEvent, render, screen } from '@testing-library/react';
 import Counter from "./Counter";
+import { ErrorType, TimerType } from "../../helpers/types";
 
 beforeEach(() => {
     const Wrapper = () => {
-        const [day, setDay] = useState(0);
-        const [timers, setTimers] = useState([]);
-        return <Counter day={day} setDay={setDay} timers={timers} setTimers={setTimers} />
+        const [day, setDay] = React.useState(0);
+        const [timers, setTimers] = React.useState<TimerType[] | []>([]);
+        const [error, setError] = React.useState<ErrorType>({
+            exists: false,
+            message: "Oh no!",
+            description: "",
+            triggers: [],
+        });
+        return <Counter
+            day={day}
+            setDay={setDay}
+            timers={timers}
+            setTimers={setTimers}
+            mobile={false}
+            error={error}
+            setError={setError} />
     }
     render(<Wrapper />);
 })

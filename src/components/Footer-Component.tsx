@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import { Grid, Typography } from "@mui/material";
 import { QUOTES } from "../data/quotes";
 
 const FooterComponent = () => {
-    const [quote, setQuote] = useState("");
+    const [quote, setQuote] = React.useState("");
 
-    useEffect(() => {
+    React.useEffect(() => {
         const quoteDuJour = renderQuote(QUOTES);
         setQuote(quoteDuJour);
     }, []);
 
-    const renderQuote = (quotes) => {
-        const getQuote = (amountOfQuotes) => {
+    const renderQuote = (quotes: string[]) => {
+        const getQuote = (amountOfQuotes: number) => {
             return Math.floor(Math.random() * amountOfQuotes);
         };
         return quotes[getQuote(quotes.length)];

@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import * as React from "react";
 import {
     Grid
 } from "@mui/material";
 import TimerSelection from "./Timer-Selection";
 import TimerButtons from "./Timer-Buttons";
+import { CropType, FixtureType, TimerType } from "../../helpers/types";
 
-const Timer = ({ label, list, type, timers, setTimers, skipTreeWarning, setSkipTreeWarning }) => {
-    const [selected, setSelected] = useState("");
+type TimerProps = {
+    label: string,
+    list: CropType[] | FixtureType[],
+    type: string,
+    timers: TimerType[],
+    setTimers: (timers: TimerType[]) => void,
+    skipTreeWarning: boolean,
+    setSkipTreeWarning: (skip: boolean) => void
+}
+
+const Timer: React.FC<TimerProps> = ({ label, list, type, timers, setTimers, skipTreeWarning, setSkipTreeWarning }) => {
+    const [selected, setSelected] = React.useState<CropType | FixtureType | string>("");
 
     return (
         <Grid container spacing={1} justifyContent="center" alignItems="center">

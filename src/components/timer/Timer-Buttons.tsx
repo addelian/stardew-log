@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { Button, Grid, FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormGroup, FormControlLabel, Checkbox, InputLabel, MenuItem, Select } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,8 +8,19 @@ import {
     faLeaf,
     faCarrot
 } from "@fortawesome/free-solid-svg-icons";
+import { CropType, FixtureType, TimerType } from "../../helpers/types";
 
-const TimerButtons = ({
+type TimerButtonsProps = {
+    type: string,
+    selected: CropType | FixtureType | string,
+    setSelected: (s: CropType | FixtureType | string) => void,
+    timers: TimerType[];
+    setTimers: (timers: TimerType[]) => void,
+    skipTreeWarning: boolean,
+    setSkipTreeWarning: (skip: boolean) => void
+}
+
+const TimerButtons: React.FC<TimerButtonsProps> = ({
     type,
     selected,
     setSelected,
@@ -19,7 +30,7 @@ const TimerButtons = ({
     setSkipTreeWarning
 }) => {
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         if (!skipTreeWarning) {
@@ -36,29 +47,32 @@ const TimerButtons = ({
         setSelected("");
     };
 
-    const handleFruitTrees = (selectedOption) => {
-        setTimers([
-            ...timers,
-            {
-                ...selectedOption,
-                id: `${selectedOption.name}-${selectedOption.product}`,
-                countdown: 2,
-                timerType: "fixture",
-                firstTime: true,
-                repeats: true,
-                repeatLength: selectedOption.time
-            }
-        ]);
-        handleClose();
+    const handleFruitTrees = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
+            setTimers([
+                ...timers,
+                {
+                    ...selectedOption,
+                    id: `${selectedOption.name}-timer`,
+                    countdown: 2,
+                    timerType: "fixture",
+                    firstTime: true,
+                    repeats: true,
+                    repeatLength: 3
+                }
+            ]);
+            handleClose();
+        }
+        return;
     }
 
-    const handleCheck = (e) => {
+    const handleCheck = (e: any) => {
         setSkipTreeWarning(e.target.checked);
     };
 
-    const buttonStyling = (selectedOption, parentButton) => {
-        if (timers.some((timer) => timer.name === selected.name)) return {};
-        if (selectedOption !== "" && selectedOption.preferred !== undefined) {
+    const buttonStyling = (selectedOption: CropType | FixtureType | string, parentButton: string) => {
+        if (timers.some((timer) => typeof selected !== "string" && timer.name === selected.name)) return {};
+        if (typeof selectedOption !== "string" && typeof selectedOption.preferred !== "undefined") {
             if (parentButton === "keg" && selectedOption.preferred === "keg") {
                 return { backgroundColor: "green", color: "white" };
             }
@@ -70,89 +84,102 @@ const TimerButtons = ({
         return {};
     };
 
-    const clearTimer = (selectedOption) => {
-        if (selectedOption !== "") {
+    const clearTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
             setSelected("");
         }
     };
 
-    const createHarvestTimer = (selectedOption) => {
-        if (selectedOption.repeats) {
+    const createHarvestTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
+            if (selectedOption.repeats) {
+                setTimers([
+                    ...timers,
+                    {
+                        ...selectedOption,
+                        countdown: typeof selectedOption.growTime !== "undefined" ? selectedOption.growTime : 0,
+                        timerType: "harvest",
+                        firstTime: true
+                    }
+                ]);
+                setSelected("");
+                return;
+            }
             setTimers([
                 ...timers,
                 {
                     ...selectedOption,
-                    countdown: selectedOption.growTime,
+                    countdown: typeof selectedOption.growTime !== "undefined" ? selectedOption.growTime : 0,
                     timerType: "harvest",
-                    firstTime: true
+                    firstTime: false,
+                    repeatLength: selectedOption.growTime
                 }
             ]);
             setSelected("");
             return;
         }
-        setTimers([
-            ...timers,
-            {
-                ...selectedOption,
-                countdown: selectedOption.growTime,
-                timerType: "harvest",
-                firstTime: false,
-                repeatLength: selectedOption.growTime
-            }
-        ]);
-        setSelected("");
         return;
     };
 
 
-    const createKegTimer = (selectedOption) => {
-        setTimers([
-            ...timers,
-            {
-                ...selectedOption,
-                id: `${selectedOption.name}-${selectedOption.kegProduct}`,
-                countdown: selectedOption.kegDuration,
-                timerFor: selectedOption.kegProduct,
-                timerType: "keg",
-                repeats: false
-            },
-        ]);
-        setSelected("");
-    };
-
-    const createJarTimer = (selectedOption) => {
-        setTimers([
-            ...timers,
-            {
-                ...selectedOption,
-                id: `${selectedOption.name}-${selectedOption.jarProduct}`,
-                countdown: selectedOption.name === "Sturgeon Roe" ? 3 : 4,
-                timerFor: selectedOption.jarProduct,
-                timerType: "jar",
-                repeats: false
-            },
-        ]);
-        setSelected("");
-    };
-
-    const createFixtureTimer = (selectedOption) => {
-        if (selectedOption.name === "Fruit Trees" && !skipTreeWarning) {
-            handleClickOpen();
-            return;
+    const createKegTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
+            setTimers([
+                ...timers,
+                {
+                    ...selectedOption,
+                    id: `${selectedOption.name}-${selectedOption.kegProduct}`,
+                    countdown: typeof selectedOption.kegDuration !== "undefined" ? selectedOption.kegDuration : 0,
+                    timerFor: selectedOption.kegProduct,
+                    timerType: "keg",
+                    repeats: false
+                },
+            ]);
+            setSelected("");
         }
-        setTimers([
-            ...timers,
-            {
-                ...selectedOption,
-                id: `${selectedOption.name}-${selectedOption.product}`,
-                countdown: selectedOption.name === "Fruit Trees" ? 2 : selectedOption.time,
-                timerType: "fixture",
-                firstTime: true,
-                repeats: true,
-                repeatLength: selectedOption.time
+        return;
+    };
+
+    const createJarTimer = (selectedOption: CropType | FixtureType | string) => {
+        if (typeof selectedOption !== "string") {
+            setTimers([
+                ...timers,
+                {
+                    ...selectedOption,
+                    id: `${selectedOption.name}-${selectedOption.jarProduct}`,
+                    countdown: selectedOption.name === "Sturgeon Roe" ? 3 : 4,
+                    timerFor: selectedOption.jarProduct,
+                    timerType: "jar",
+                    repeats: false
+                },
+            ]);
+            setSelected("");
+        }
+        return;
+    };
+
+    const createFixtureTimer = (selectedOption: FixtureType | CropType | string) => {
+        if (typeof selectedOption !== "string") {
+
+            if (selectedOption.name === "Fruit Trees" && !skipTreeWarning) {
+                handleClickOpen();
+                return;
             }
-        ]);
-        setSelected("");
+            setTimers([
+                ...timers,
+                {
+                    ...selectedOption,
+                    id: `${selectedOption.name}-${selectedOption.product}`,
+                    countdown: selectedOption.name === "Fruit Trees" ? 2 : typeof selectedOption.time !== "undefined" ? selectedOption.time : 0,
+                    timerType: "fixture",
+                    firstTime: true,
+                    repeats: true,
+                    repeatLength: selectedOption.time
+                }
+            ]);
+            setSelected("");
+        }
+        return;
     }
 
     return (
@@ -162,11 +189,11 @@ const TimerButtons = ({
                     <Button
                         variant="contained"
                         style={
-                            selected !== ""
+                            typeof selected !== "string"
                                 ? { backgroundColor: "green", color: "white" }
                                 : {}
                         }
-                        disabled={selected === ""}
+                        disabled={typeof selected === "string"}
                         onClick={() => createHarvestTimer(selected)}
                     >
                         <FontAwesomeIcon icon={faCarrot} />
@@ -181,7 +208,7 @@ const TimerButtons = ({
                             variant="contained"
                             style={buttonStyling(selected, "keg")}
                             disabled={
-                                selected === "" ||
+                                typeof selected === "string" ||
                                 ["Ginger", "Roe", "Sturgeon Roe"].includes(
                                     selected.name
                                 ) ||
@@ -202,7 +229,7 @@ const TimerButtons = ({
                             variant="contained"
                             style={buttonStyling(selected, "jar")}
                             disabled={
-                                selected === "" ||
+                                typeof selected === "string" ||
                                 ["Coffee Bean", "Honey"].includes(selected.name) ||
                                 timers.some(
                                     (timer) =>
@@ -223,11 +250,11 @@ const TimerButtons = ({
                     <Button
                         variant="contained"
                         style={
-                            selected !== ""
+                            typeof selected !== "string"
                                 ? { backgroundColor: "green", color: "white" }
                                 : {}
                         }
-                        disabled={selected === ""}
+                        disabled={typeof selected === "string"}
                         onClick={() => createFixtureTimer(selected)}
                     >
                         <FontAwesomeIcon icon={faLeaf} />
@@ -239,7 +266,7 @@ const TimerButtons = ({
                 <Button
                     variant="contained"
                     color="warning"
-                    disabled={selected === ""}
+                    disabled={typeof selected === "string"}
                     onClick={() => clearTimer(selected)}
                 >
                     <FontAwesomeIcon icon={faTimes} />

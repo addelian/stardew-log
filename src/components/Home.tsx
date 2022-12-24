@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import {
     Menu,
     MenuItem,
@@ -16,25 +16,26 @@ import SettingsPage from "./pages/Settings-Page";
 import Counter from "./log-items/Counter";
 import FooterComponent from "./Footer-Component";
 import { readDate } from "../helpers/common";
+import { TimerType, ErrorType } from "../helpers/types";
 
 const Home = () => {
-    const [mobile, setMobile] = useState(false);
-    const [day, setDay] = useState(0);
-    const [timers, setTimers] = useState([]);
-    const [error, setError] = useState({
+    const [mobile, setMobile] = React.useState(false);
+    const [day, setDay] = React.useState(0);
+    const [timers, setTimers] = React.useState<TimerType[] | []>([]);
+    const [error, setError] = React.useState<ErrorType>({
         exists: false,
         message: "Oh no!",
         description: "",
         triggers: [],
     });
-    const [showLogPage, setShowLogPage] = useState(true);
-    const [showSettingsPage, setShowSettingsPage] = useState(false);
-    const [showAboutPage, setShowAboutPage] = useState(false);
-    const [journalText, setJournalText] = useState(
-        "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache."
+    const [showLogPage, setShowLogPage] = React.useState(true);
+    const [showSettingsPage, setShowSettingsPage] = React.useState(false);
+    const [showAboutPage, setShowAboutPage] = React.useState(false);
+    const [journalText, setJournalText] = React.useState(
+        "Hi there! Use me to take any notes you'd like. My value will persist between page loads as long as you don't clear your cache. 😎"
     );
-    const [skipTreeWarning, setSkipTreeWarning] = useState(false);
-    const [showState, setShowState] = useState({
+    const [skipTreeWarning, setSkipTreeWarning] = React.useState(false);
+    const [showState, setShowState] = React.useState({
         date: true,
         artisanTimers: true,
         harvestTimers: true,
@@ -47,39 +48,38 @@ const Home = () => {
     const currentDate = readDate(day);
 
     // handling new user with no cache
-    const dataExists = JSON.parse(window.localStorage.getItem("day"));
+
+    const dataExists = window.localStorage.getItem("day") !== null;
 
     // Loads local storage on componentDidMount
-    useEffect(() => {
+    React.useEffect(() => {
         if (dataExists) {
-            setDay(JSON.parse(window.localStorage.getItem("day")));
-            setTimers(JSON.parse(window.localStorage.getItem("timers")));
-            setShowState(JSON.parse(window.localStorage.getItem("showState")));
-            setJournalText(JSON.parse(window.localStorage.getItem("journalText")));
-            setSkipTreeWarning(
-                JSON.parse(window.localStorage.getItem("skipTreeWarning"))
-            );
+            setDay(JSON.parse(window.localStorage.getItem("day") || '{}'));
+            setTimers(JSON.parse(window.localStorage.getItem("timers") || '{}'));
+            setShowState(JSON.parse(window.localStorage.getItem("showState") || '{}'));
+            setJournalText(JSON.parse(window.localStorage.getItem("journalText") || '{}'));
+            setSkipTreeWarning(JSON.parse(window.localStorage.getItem("skipTreeWarning") || '{}'));
         }
     }, []);
 
     // Basic save functionality
-    useEffect(() => {
-        window.localStorage.setItem("day", day);
+    React.useEffect(() => {
+        window.localStorage.setItem("day", String(day));
     }, [day]);
-    useEffect(() => {
+    React.useEffect(() => {
         window.localStorage.setItem("timers", JSON.stringify(timers));
     }, [timers]);
-    useEffect(() => {
+    React.useEffect(() => {
         window.localStorage.setItem("showState", JSON.stringify(showState));
     }, [showState]);
-    useEffect(() => {
+    React.useEffect(() => {
         window.localStorage.setItem("journalText", JSON.stringify(journalText));
     }, [journalText]);
-    useEffect(() => {
-        window.localStorage.setItem("skipTreeWarning", skipTreeWarning);
+    React.useEffect(() => {
+        window.localStorage.setItem("skipTreeWarning", String(skipTreeWarning));
     }, [skipTreeWarning]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const setResponsiveness = () => {
             if (window.innerWidth < 500) {
                 setMobile(true);
@@ -95,13 +95,13 @@ const Home = () => {
         };
     }, []);
 
-    const [menuOpen, setMenuOpen] = useState(null);
+    const [menuOpen, setMenuOpen] = React.useState(null);
     const open = Boolean(menuOpen);
-    const handleClick = (event) => {
-        setMenuOpen(event.currentTarget);
+    const handleClick = (e: any) => {
+        setMenuOpen(e.currentTarget);
     };
 
-    const handleCheck = (e) => {
+    const handleCheck = (e: any) => {
         setShowState({
             ...showState,
             [e.target.name]: e.target.checked,
@@ -225,6 +225,7 @@ const Home = () => {
                                 setDay={setDay}
                                 timers={timers}
                                 setTimers={setTimers}
+                                error={error}
                                 setError={setError}
                             />
                         )}
@@ -235,12 +236,10 @@ const Home = () => {
                 <>
                     <LogPage
                         showState={showState}
-                        currentDate={currentDate}
                         mobile={mobile}
                         handleCheck={handleCheck}
                         day={day}
                         error={error}
-                        setError={setError}
                         timers={timers}
                         setTimers={setTimers}
                         journalText={journalText}

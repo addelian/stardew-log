@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 import './App.css';
 import Home from "./components/Home";
