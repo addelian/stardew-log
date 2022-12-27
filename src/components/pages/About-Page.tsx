@@ -22,7 +22,7 @@ const AboutPage = () => {
             </Grid>
             <Grid item>
                 <Typography variant="body1">
-                    This app leverages <a href="https://reactjs.org/">React</a>{" "}
+                    This app leverages <a href="https://reactjs.org/">React.js</a>{" "}
                     and <a href="https://mui.com/">MUI</a>. It was built to
                     serve as a responsive and relatively un-intrusive companion
                     app for the casual farming / fishing / Haley-impressing
@@ -80,13 +80,11 @@ const AboutPage = () => {
                                 but I'm currently halfway through a season
                                 in-game and I am overwhelmed at the prospect of
                                 figuring out how to skip the Log ahead to match
-                                where my harvest / artisan products are at right
+                                where all my products are at right
                                 now. Any suggestions?
                             </Typography>
                             <Typography variant="body2">
-                                I encountered this problem when I first built
-                                the app out, and honestly, I don't have a great
-                                solution. My personal recommendation is to do
+                                My personal recommendation is to do
                                 one of two things: either start adding timers in
                                 as you re-plant / harvest items mid-season,
                                 which is annoying as you start it up, but will
@@ -104,29 +102,36 @@ const AboutPage = () => {
                                 <ol style={{ marginTop: 8 }}>
                                     <li>
                                         If you have fully matured fruit trees,{" "}
-                                        <strong>add fruit tree timer</strong>{" "}
+                                        <strong>add a fruit tree fixture timer</strong>{" "}
                                         (and kill the dialog if you haven't
                                         already).
                                     </li>
                                     <li>
-                                        If you have bee houses,{" "}
-                                        <em>and it is Summer 1 or Fall 1</em>,
-                                        smack them with a pickaxe and place them
-                                        back down, then{" "}
-                                        <strong>add bee house timer</strong>. I
-                                        acknowledge that this is less efficient
-                                        than just adding the timer whenever your
-                                        honey does proc, and you could
-                                        potentially lose up to three days of
-                                        honey harvest time, but this by far the
-                                        the simplest way to ensure timer
-                                        accuracy at the top of a season during
-                                        the first year that you begin to use
-                                        this log (and, to reiterate, certainly
-                                        not the most efficient). Please note
-                                        that if it is Spring 1, you can just
-                                        start up the timer here, since the bees
-                                        will have just begun to produce again.
+                                        If you have already picked a cave option with Demetrius,{" "}
+                                        <strong>add a "Mushroom Cave" or "Fruit Bats" fixture timer.</strong>
+                                    </li>
+                                    <li>
+                                        If you have bee houses and/or tappers
+                                        on any of your trees, you have a choice
+                                        at this point. The fastest way to get your timers
+                                        going and stop thinking about them would be to
+                                        smack every one of your tappers and bee houses,
+                                        then place them back down immediately and{" "}
+                                        <strong>add all tapper and bee house timers needed.</strong>{" "}
+                                        Please note that doing this means you are losing any progress made up
+                                        to this point on every tapper and bee house you have on your farm.
+                                        Alternatively, if you don't want to lose this progress, you'll
+                                        have to go with my initial approach of adding timers
+                                        one-by-one as the tappers and bee houses are ready
+                                        for harvest over the next several days. But if you're
+                                        anything like me, you've added tappers in piecemeal
+                                        for years and this might be a refreshing restart on
+                                        all your timers anyway. <strong> Please note: </strong> if you happen
+                                        to be doing these steps on Spring 1, you can simply
+                                        <strong> add a "Bee Houses" timer </strong> right away without
+                                        worrying about all of this mess, as the houses would have
+                                        just started producing honey at this point anyway
+                                        without any carry-over from the previous season.
                                     </li>
                                     <li>
                                         Grab whatever seeds you need, get them
@@ -280,36 +285,37 @@ const AboutPage = () => {
                     <ListItem>
                         <ListItemText>
                             <Typography variant="h6" sx={{ mb: 1 }}>
-                                Why do bee houses and fruit trees have their own
-                                buttons?
+                                What's a farm fixture? I'm not seeing
+                                that in any legitimate Stardew Valley
+                                media. Furthermore, why did you
+                                bother building a separate timer for
+                                them?
                             </Typography>
                             <Typography variant="body2">
-                                Honey and fruit trees in this game are a little
-                                funny. First, bee houses <em>kind of</em> act
-                                like some in-game plants, in that they take four
-                                days to mature and continue to produce after the
-                                fact, but they are not crops and do not require
-                                seeds, so it felt weird plugging them into the
-                                harvest timer as if they were crops. Second,
-                                mature fruit trees start growing fruit
-                                immediately, and I wanted their timer to reflect
-                                this for my own purposes. Technically, you can
-                                pick fruit trees every day, but it's far more
-                                efficient to visit them every three days when
-                                they are full (i.e. are holding three fruit
-                                apiece). Finally, and most importantly, both bee
-                                houses and fruit trees (assuming you have mature
-                                trees for each season) continue growing between
-                                seasons, so their logic didn't quite fit with
-                                the automatic wipe I have set up in between each
-                                season. I could have shoe-horned these timers
-                                into the dropdowns, but it just didn't feel
-                                right. Unlike most other items in the game, the
-                                relationship between the farm and these items is
-                                binary. You either have mature fruit trees or
-                                you don't, and the timer acts accordingly. You
-                                either have bee houses on your farm or you
-                                don't, and the timer acts accordingly.
+                                There is a subset of items on the farm that
+                                don't quite operate like crops, but still
+                                require regular attention and "harvesting,"
+                                or else they cease to function / produce goods.
+                                This subset includes fully matured fruit trees
+                                (outside of winter), bee houses (outside of
+                                winter), whichever choice you pick with Demetrius
+                                for the cave, and tappers on any oak/maple/pine
+                                trees you may have placed. Functionally,
+                                these timers (and in a lot of ways, the items in-game)
+                                are the same as regrowing crops, in that they
+                                are hands-off for most of a season as long as you
+                                collect their products as they proc.
+                                The biggest difference compared to regrowing crops, however,
+                                is that once you've got these on your farm, they are {" "}
+                                <em>permanently</em> hands-off. So it felt weird putting them in with the
+                                rest of the "harvest products" given that once you
+                                add these items to your farm, they are likely there
+                                for good. Hence, they're "fixtures" of the farm.
+                                Much in the same way, I didn't like the fixtures
+                                cluttering up the harvest timer lists when you
+                                wouldn't have to mess with them much past your first
+                                time building them anyway (with exceptions for the
+                                bee house and fruit tree timers).
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -320,8 +326,8 @@ const AboutPage = () => {
                                 for initial fruit tree growth?
                             </Typography>
                             <Typography variant="body2">
-                                Version 0.2 of this app had a much different
-                                fruit tree timer. There was an intercept dialog
+                                Earlier versions of this app had a much different
+                                fruit tree timer. There was a pop-up
                                 that asked if you were planting a tree, or just
                                 resetting the timer at the top of a season, and
                                 if you chose the former, it would start a 28-day
@@ -336,7 +342,7 @@ const AboutPage = () => {
                                 especially since most folks will only go through
                                 the process of building up a fruit orchard once.
                                 I felt that a happy medium would be to explain
-                                the fruit tree logic in the pop-up modal when
+                                the fruit tree logic in the pop-up when
                                 the timer is clicked, as well as remind users
                                 that, should they wish to track a new fruit tree
                                 for some reason, they could implement their own
