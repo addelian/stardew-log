@@ -134,7 +134,7 @@ const CurrentTimers: React.FC<CurrentTimersProps> = ({
                 productInTimer.firstTime === false &&
                 productInTimer.countdown === productInTimer.repeatLength
             ) {
-                return `: timer completed. Next up in ${productInTimer.countdown} days`;
+                return `: timer completed. Next up in ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"}`;
             }
             return `${productInTimer.countdown > 0
                 ? `: ${productInTimer.countdown} ${productInTimer.countdown > 1 ? "days" : "day"
