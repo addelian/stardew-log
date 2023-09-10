@@ -15,7 +15,6 @@ import AboutPage from "./pages/About-Page";
 import SettingsPage from "./pages/Settings-Page";
 import Counter from "./log-items/Counter";
 import FooterComponent from "./Footer-Component";
-import { readDate } from "../helpers/common";
 import { TimerType, ErrorType } from "../helpers/types";
 
 const Home = () => {
@@ -44,8 +43,6 @@ const Home = () => {
         journal: true,
         customTimers: false,
     });
-
-    const currentDate = readDate(day);
 
     // handling new user with no cache
 

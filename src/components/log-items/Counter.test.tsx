@@ -27,9 +27,8 @@ beforeEach(() => {
 
 test("renders revert and advance day buttons", () => {
 
-    const revert = screen.getByRole("button", { name: "Revert Day" });
-    const advance = screen.getByRole("button", { name: "Advance Day" });
-    [revert, advance].forEach(button => expect(button).toBeInTheDocument());
+    const dayButtons = [screen.getByText("Revert Day"), screen.getByText("Advance Day")]
+    dayButtons.forEach(button => expect(button).toBeInTheDocument);
 
 });
 

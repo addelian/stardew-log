@@ -4,7 +4,7 @@ import App from './App';
 
 
 describe("canary", () => {
-    it('should pass', () => {
+    it("should pass", () => {
         render(<App />);
     });
 });

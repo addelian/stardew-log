@@ -22,12 +22,12 @@ const FooterComponent = () => {
             <Grid item>
                 <Grid container spacing={1} justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="subtitle1">
+                        <Typography id="copyright" variant="subtitle1">
                             Stardew Valley © ConcernedApe LLC.
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="subtitle1">
+                        <Typography data-testid="quote" variant="subtitle1">
                             <em>{quote}</em>
                         </Typography>
                     </Grid>

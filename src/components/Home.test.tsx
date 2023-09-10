@@ -2,11 +2,12 @@ import * as React from "react";
 import { render, screen, fireEvent } from '@testing-library/react';
 import Home from "./Home";
 
-test('renders top navbar', () => {
+test("all parts of the top navbar are rendered", () => {
     render(<Home />);
 
     const navTitle = screen.getByText("Stardew Log");
     expect(navTitle).toBeInTheDocument();
+
     const menuButton = screen.getByLabelText("menu");
     fireEvent.click(menuButton);
     // nav menu rendered after clicking hamburger

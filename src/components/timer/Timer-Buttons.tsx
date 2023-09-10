@@ -268,6 +268,7 @@ const TimerButtons: React.FC<TimerButtonsProps> = ({
                     color="warning"
                     disabled={typeof selected === "string"}
                     onClick={() => clearTimer(selected)}
+                    data-testid={`${type}-clear-button`}
                 >
                     <FontAwesomeIcon icon={faTimes} />
                     &nbsp;Clear it
