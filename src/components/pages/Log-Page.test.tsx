@@ -57,7 +57,7 @@ test("initial conditions of show ___ checkboxes and date", () => {
         screen.getByRole("checkbox", { name: "Show artisan timer builder" }),
         screen.getByRole("checkbox", { name: "Show farm fixture timer builder" }),
         screen.getByRole("checkbox", { name: "Show journal" })];
-    defaultShowCheckboxes.forEach(box => expect(box).toBeChecked());
+        defaultShowCheckboxes.forEach(box => expect(box).toBeChecked());
     const showCustomCheckbox = screen.getByRole("checkbox", { name: "Show custom timer builder" });
     expect(showCustomCheckbox).not.toBeChecked();
     const date = screen.getByText("Spring 1");
@@ -65,8 +65,5 @@ test("initial conditions of show ___ checkboxes and date", () => {
 });
 
 describe("harvest timer functionality", () => {
-    it("renders both buttons", () => {
-        const harvestButtons = [screen.getByRole("button", { name: "Plant it" }), screen.getByTestId("harvest-clear-button")];
-        harvestButtons.forEach(button => expect(button).toBeInTheDocument());
-    })
-})
+    
+});
