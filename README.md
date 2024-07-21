@@ -1,4 +1,4 @@
-# [Stardew Log](https://addelian.github.io/stardew-log/)
+# Stardew Log
 
 ## Nic Addelia, 2021-2024
 
