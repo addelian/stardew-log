@@ -21,3 +21,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Next/Next-Export build output & local dev build dirs
+.next
+.next-dev
+out/
+
+# local envs and editor files
+.env
+.env.local
+.vscode/
