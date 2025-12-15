@@ -47,9 +47,9 @@ const Home = () => {
 
     const currentDate = readDate(day);
 
-    // handling new user with no cache
+    // handling new user with no cache (guard window for SSR)
 
-    const dataExists = window.localStorage.getItem("day") !== null;
+    const dataExists = typeof window !== 'undefined' && window.localStorage.getItem("day") !== null;
 
     // Loads local storage on componentDidMount
     React.useEffect(() => {

@@ -1,6 +1,6 @@
 # Stardew Log
 
-## Version 0.5, December 2024
+## Version 0.6, December 2025
 
 This app leverages React.js and MUI. It was built to serve as a responsive and relatively un-intrusive companion app for the casual farming / fishing / Haley-impressing simulator Stardew Valley.
 
@@ -58,6 +58,23 @@ You're right, and I'm terribly sorry. I figure that there are very few reasons t
 Stardew Log is, and will remain, a work in progress. I welcome and encourage any feedback you may have for me. Please reach out to me on GitHub at the above link should you have any suggestions or recommendations, or if you would just like to connect.
 Thanks for your time!
 
+_Stardew Valley © ConcernedApe LLC._
 
-*Stardew Valley © ConcernedApe LLC.*
+## Migration notes (Dec 2025)
 
+This repository was migrated from Create React App to Next.js to remove outdated CRA tooling and modernize the dev setup.
+
+Run locally:
+
+```powershell
+npm install --legacy-peer-deps
+npm run dev
+```
+
+Run tests (Vitest):
+
+```powershell
+npm run test
+# or watch during development:
+npm run test:watch
+```
