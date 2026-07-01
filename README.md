@@ -1,5 +1,9 @@
 # Stardew Log
 
+## Archived
+
+This iteration of Stardew Log has been archived and the site has been unpublished. Please visit the new version of this application, [https://farm.plots.club](dew_log), if you are interested in future developments.
+
 ## Version 0.5, December 2024
 
 This app leverages React.js and MUI. It was built to serve as a responsive and relatively un-intrusive companion app for the casual farming / fishing / Haley-impressing simulator Stardew Valley.
