@@ -2,7 +2,7 @@
 
 ## Archived
 
-This iteration of Stardew Log has been archived and the site has been unpublished. Please visit the new version of this application, [https://farm.plots.club](dew_log), if you are interested in future developments.
+This iteration of Stardew Log has been archived and the site has been unpublished. Please visit the new version of this application, [dew_log](https://farm.plots.club), if you are interested in future developments.
 
 ## Version 0.5, December 2024
 
